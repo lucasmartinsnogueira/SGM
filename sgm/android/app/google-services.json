@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "764619800343",
+    "project_id": "sgmtranscodil-aa0f7",
+    "storage_bucket": "sgmtranscodil-aa0f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764619800343:android:11b61a183a14b527a20152",
+        "android_client_info": {
+          "package_name": "com.example.sgm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764619800343-77g4nqibf2j8gvs5hr6piahg4m7r7jah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbz4xK_RlOs14yjh9uHeQIBPf2RQNQ4bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764619800343-77g4nqibf2j8gvs5hr6piahg4m7r7jah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
