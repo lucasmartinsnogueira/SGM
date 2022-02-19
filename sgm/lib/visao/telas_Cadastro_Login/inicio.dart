@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
-import 'package:sgm/visao/telasInicio_Login/loginCadastro.dart';
+import 'package:sgm/visao/telas_Cadastro_Login/login_cadastro.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({ Key? key }) : super(key: key);
@@ -81,7 +81,7 @@ class _InicioState extends State<Inicio> {
                     backgroundColor: amareloEscuro,
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
-                    side: const BorderSide(color: azul, width: 2)
+                    side: const BorderSide(color: azul, width: 3)
                     ),
                     elevation: 6,
                     

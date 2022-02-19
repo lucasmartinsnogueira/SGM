@@ -2,7 +2,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:sgm/visao/telasInicio_Login/inicio.dart';
+import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/visao/telas_Cadastro_Login/inicio.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primaryColor: azul,
         // Inserir tema da aplicação
       ),
       home: const Inicio(),
