@@ -57,11 +57,35 @@ class _LoginCadastroState extends State<LoginCadastro> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        child: Image.asset("assets/pricipal/icone_app.png", fit: BoxFit.cover,),
-                        ),
+                      Row(
+                        children: [
+                          Stack(
+                            children: [
+                           SizedBox(
+                      width: MediaQuery.of(context).size.width ,
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      child: Image.asset("assets/pricipal/icone_app.png", fit: BoxFit.fitHeight,),
+                      ),
+                           Padding(
+                             padding: const EdgeInsets.only(
+                               left: 10
+                             ),
+                             child: SizedBox(
+                               child: IconButton(
+                                      icon: const Icon(Icons.expand_more_rounded,
+                                      size: 45,
+                                      color: azul,),
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      }, 
+                                    ),
+                             ),
+                           ),
+                            ]
+                          )
+                        ],
+                      ),
+                     
                         Column(
                           children: [
                           Row(
