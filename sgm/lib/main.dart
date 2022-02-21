@@ -2,13 +2,22 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/inicio.dart';
+import 'package:sgm/widgets/auth_check.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => AuthService())
+    ],
+      child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +32,7 @@ class MyApp extends StatelessWidget {
         primaryColor: azul,
         // Inserir tema da aplicação
       ),
-      home: const Inicio(),
+      home: const AuthCheck(),
     );
   }
 }

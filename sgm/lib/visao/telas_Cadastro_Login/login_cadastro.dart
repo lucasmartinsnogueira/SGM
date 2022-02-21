@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/cadastro.dart';
+import 'package:sgm/visao/telas_Cadastro_Login/login.dart';
 
 class LoginCadastro extends StatefulWidget {
   const LoginCadastro({ Key? key }) : super(key: key);
@@ -73,10 +74,10 @@ class _LoginCadastroState extends State<LoginCadastro> {
                       setState(() {
                       clicouNomeMenu = true;
                       margemParaMenuComClique = MediaQuery.of(context).size.width * 0.125;
-                      _pageController.animateToPage(0, duration: const Duration(milliseconds: 600), curve: Curves.decelerate);
+                      _pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
                       });
                       },
-                      child: Text("Logar", style: TextStyle(
+                      child: Text("Entrar", style: TextStyle(
                       fontFamily: "Montserrat",
                       fontSize: MediaQuery.of(context).size.width * 0.048,
                       color: azul
@@ -93,7 +94,7 @@ class _LoginCadastroState extends State<LoginCadastro> {
                       setState(() {
                       clicouNomeMenu = true;
                       margemParaMenuComClique = MediaQuery.of(context).size.width * 0.625;
-                       _pageController.animateToPage(1, duration: const Duration(milliseconds: 600), curve: Curves.decelerate);
+                       _pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
                       });
                       },
                       child: Text("Cadastrar", style: TextStyle(
@@ -142,15 +143,21 @@ class _LoginCadastroState extends State<LoginCadastro> {
                     pageSnapping: false,
                     controller: _pageController,
                     onPageChanged: (index){
-                      
-                    },
-
-                    children: const [
-
-                     Text("Para"),
-                     Cadastro(),
-                      
                      
+                      debugPrint(index.toString());
+                      setState(() {
+                      clicouNomeMenu = true;
+                      if(index == 0){
+                         margemParaMenuComClique = MediaQuery.of(context).size.width * 0.125;
+                      }
+                      else if(index == 1){
+                         margemParaMenuComClique = MediaQuery.of(context).size.width * 0.625;
+                      }
+                      });
+                    },
+                    children: const [
+                     Login(),
+                     Cadastro(),
                     ],
                   ),
                 )
