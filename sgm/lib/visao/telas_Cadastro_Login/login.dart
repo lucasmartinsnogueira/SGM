@@ -1,3 +1,4 @@
+// Responsável pelo página de login
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
@@ -139,41 +140,46 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: 60,
-            child: TextButton(
-                        style: TextButton.styleFrom(
-                        backgroundColor: amareloEscuro,
-                        shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: const BorderSide(color: azul, width: 3)
-                        ),
-                        elevation: 6,
-                        
-                        ),
-                        onPressed: (){
-                           if(formKey.currentState!.validate()){
-                             setState(() {
-                               
-                             });
-                             login();
-                           }
-                        },
-                        child: 
-                        (loading == false)
-                        ? const Text("Entrar", style: TextStyle(
-                        fontFamily: "Montserrat",
-                        fontSize: 20,
-                        color: azul
-                        ),
-                        )
-                        : const CircularProgressIndicator(
-                          color: azul,
-                        )
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.02
+            ),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 60,
+              child: TextButton(
+                          style: TextButton.styleFrom(
+                          backgroundColor: amareloEscuro,
+                          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: azul, width: 3)
+                          ),
+                          elevation: 6,
+                          
+                          ),
+                          onPressed: (){
+                             if(formKey.currentState!.validate()){
+                               setState(() {
+                                 
+                               });
+                               login();
+                             }
+                          },
+                          child: 
+                          (loading == false)
+                          ? const Text("Entrar", style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: 20,
+                          color: azul
+                          ),
+                          )
+                          : const CircularProgressIndicator(
+                            color: azul,
+                          )
 
-            
-                      ),
+              
+                        ),
+            ),
           ),
         ],)
       ),

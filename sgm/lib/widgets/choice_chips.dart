@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/widgets/choice_chip_data.dart';

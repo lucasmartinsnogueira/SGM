@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/visao/homes/home_estoque.dart';
 import 'package:sgm/visao/homes/home_mecanico.dart';
+import 'package:sgm/visao/homes/home_supervisor.dart';
 
 // Criação do Usuário
 criacaoUser(String codUser, String categoria, String nome, String cpf, String email){
@@ -37,12 +38,19 @@ vefificarAtivacao(context) async {
         
   }
   else if(ativado == true && categoria == "Estoque"){
-    Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => const HomeEstoque()));
+     Navigator.pushReplacement(
+        context,
+        PageTransition(
+        child: const HomeEstoque(),
+        type: PageTransitionType.bottomToTop)
+        );
   }
   else if(ativado == true && categoria == "Supervisor"){
-    return 3;
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+        child: const HomeSupervisor(),
+        type: PageTransitionType.bottomToTop)
+        );
   }
-
 }

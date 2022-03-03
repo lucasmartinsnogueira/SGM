@@ -1,4 +1,4 @@
-// Tela de Login e Cadastro no aplicativo.
+// Tela de transição entre login e cadastro
 
 import 'package:flutter/material.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
