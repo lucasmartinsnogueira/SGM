@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/services/auth_services.dart';
-import 'package:sgm/visao/homes/home_page.dart';
+
+import 'package:sgm/visao/iniciais/home_page.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/inicio.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/login_cadastro.dart';
 

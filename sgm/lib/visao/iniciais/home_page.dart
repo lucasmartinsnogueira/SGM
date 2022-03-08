@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/banco_de_dados/firestore.dart';
 import 'package:sgm/services/auth_services.dart';
-import 'package:sgm/visao/homes/home_estoque.dart';
-import 'package:sgm/visao/homes/home_mecanico.dart';
-import 'package:sgm/visao/homes/home_supervisor.dart';
+
 import 'package:sgm/widgets/custom_alert_dialog.dart';
 
 class HomePage extends StatefulWidget {

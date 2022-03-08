@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 
-class AccountManagement extends StatefulWidget {
-  const AccountManagement({ Key? key }) : super(key: key);
+class HomeSupervisor extends StatefulWidget {
+  const HomeSupervisor({ Key? key }) : super(key: key);
 
   @override
-  _AccountManagementState createState() => _AccountManagementState();
+  State<HomeSupervisor> createState() => _HomeSupervisorState();
 }
 
-class _AccountManagementState extends State<AccountManagement> {
+class _HomeSupervisorState extends State<HomeSupervisor> {
   @override
   Widget build(BuildContext context) {
-    
-     return SafeArea(
+    return SafeArea(
       child: CustomScrollView(
        slivers: <Widget>[
         SliverAppBar(
@@ -23,7 +23,7 @@ class _AccountManagementState extends State<AccountManagement> {
           backgroundColor: azul,
           shadowColor: Colors.black,
           leading: IconButton(onPressed: (){
-            
+             Scaffold.of(context).openDrawer();
           }, icon: Icon(Icons.ac_unit)),
           actions: <Widget>[
             IconButton(onPressed: (){}, icon: Icon(Icons.ac_unit_rounded))
@@ -35,22 +35,6 @@ class _AccountManagementState extends State<AccountManagement> {
             child: FlexibleSpaceBar(
               title: Text('Supervisor'),
             ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: (){
-                  Scaffold.of(context).openDrawer();
-                },
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  color: Colors.pink,
-                ),
-              )
-            ],
           ),
         ),
         SliverFixedExtentList(
@@ -119,7 +103,6 @@ class _AccountManagementState extends State<AccountManagement> {
             Container(color: Colors.blue),
           ],
         ),
-        
         SliverGrid.extent(
           maxCrossAxisExtent: 200,
           mainAxisSpacing: 10.0,

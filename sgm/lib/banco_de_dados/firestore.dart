@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sgm/services/auth_services.dart';
-import 'package:sgm/visao/homes/home_estoque.dart';
-import 'package:sgm/visao/homes/home_mecanico.dart';
-import 'package:sgm/visao/homes/home_supervisor.dart';
+import 'package:sgm/visao/iniciais/home_estoque.dart';
+import 'package:sgm/visao/iniciais/home_mecanico.dart';
+import 'package:sgm/visao/iniciais/inicial_supervisor.dart';
+
 
 // Criação do Usuário
 criacaoUser(String codUser, String categoria, String nome, String cpf, String email){
@@ -49,7 +50,7 @@ vefificarAtivacao(context) async {
     Navigator.pushReplacement(
         context,
         PageTransition(
-        child: const HomeSupervisor(),
+        child: const InicialSupervisor(),
         type: PageTransitionType.bottomToTop)
         );
   }
