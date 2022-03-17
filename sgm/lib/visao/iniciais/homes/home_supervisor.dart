@@ -24,7 +24,7 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
           shadowColor: Colors.black,
           leading: IconButton(onPressed: (){
              Scaffold.of(context).openDrawer();
-          }, icon: Icon(Icons.ac_unit)),
+          }, icon: Icon(Icons.density_medium)),
           actions: <Widget>[
             IconButton(onPressed: (){}, icon: Icon(Icons.ac_unit_rounded))
           ],

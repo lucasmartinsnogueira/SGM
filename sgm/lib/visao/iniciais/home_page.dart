@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: FutureBuilder(
-            
             future: vefificarAtivacao(context),
             builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done){

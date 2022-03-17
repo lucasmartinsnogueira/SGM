@@ -60,9 +60,13 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   InkWell(
                     onTap:
                       widget.popOnCancel == false
-                          ? widget.onConfirmPressed!
+                          ? widget.onConfirmPressed
                           : () => Navigator.pop(context),
-                    child: const Icon(Icons.cancel_outlined, color: azul, size: 30,)
+                    child: 
+                    widget.popOnCancel == false
+                    ? const SizedBox()
+                    :
+                    const Icon(Icons.cancel_outlined, color: azul, size: 30,)
                   ),
                   Align(
                       alignment: Alignment.center,
