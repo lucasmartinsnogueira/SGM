@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +20,6 @@ class _AccountManagementState extends State<AccountManagement> {
 
   @override
   Widget build(BuildContext context) {
-    /*FirebaseFirestore.instance.collection("Usuarios").get().then((value){
-        for (var element in value.docs) {
-          debugPrint(element.data().toString());
-        }
-    }
-    );*/ // teste
    AuthService auth = Provider.of<AuthService>(context); 
 
     var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc(auth.usuario!.uid).snapshots();
@@ -127,7 +123,9 @@ class _AccountManagementState extends State<AccountManagement> {
                               subtitle: Text(snapshot.data!["nome"].toString()),
                               trailing: CircleAvatar(
                                 backgroundColor: azul,
-                                child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){},),
+                                child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){
+                                  modalNome(context, snapshot.data!["nome"].toString(), auth.usuario!.uid);
+                                },),
                               ),
                               ),
                           ),
@@ -286,4 +284,122 @@ class _AccountManagementState extends State<AccountManagement> {
     );
   }
 
+modalNome(BuildContext context, nomefirestore, uid) {
+  var form = GlobalKey<FormState>();
+  var nome = TextEditingController(text: nomefirestore);
+  showDialog(context: context, builder: (BuildContext context)
+  {
+    return AlertDialog(
+      
+      title: const Text("Alterar nome"),
+      shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    backgroundColor: amareloClaro,
+    actions: [
+    
+    Container(
+      decoration: BoxDecoration( 
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(
+          width: 3,
+          color: Colors.red
+        )
+      ),
+      child: 
+      IconButton(
+        tooltip: "Cancelar",
+        onPressed: (){
+          Navigator.pop(context);
+        }, icon: const Icon(Icons.clear, color: Colors.red,)),
+    ),
+    Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(
+          width: 3,
+          color: Colors.green
+        )
+      ),
+      child: 
+      IconButton(
+        tooltip: "Salvar",
+        onPressed: () async {
+          if (form.currentState!.validate()){
+            
+            await FirebaseFirestore.instance.collection("Usuarios").doc(uid).update({
+              "nome": nome.text
+            });
+            Navigator.pop(context);
+          }
+        }, icon: const Icon(Icons.check, color: Colors.green,)),
+    )
+    ],
+    content: SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: rosa.withOpacity(0.6),
+                  border: Border.all(
+                    width: 2,
+                    color: azul
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20)
+                  )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    bottom: 2
+                  ),
+                  child: Form(
+                    key: form,
+                    child: TextFormField(
+                      controller: nome,
+                      textCapitalization: TextCapitalization.words,
+                      keyboardType: TextInputType.name,
+                          cursorColor: azul,
+                            decoration: const InputDecoration(   
+                            fillColor: azul,
+                            focusColor: azul,
+                            hoverColor: azul,
+                            border: InputBorder.none, 
+                            icon: Icon(Icons.person,color: azul,),                         
+                            labelText: 'Nome Completo:',
+                            labelStyle: TextStyle(
+                              color: azul,
+                            )
+                            ),
+                      
+                      validator: (value){
+                        if(value == null || value.isEmpty) {
+                          return "*Campo obrigatório";
+                        }
+                        RegExp regExp = RegExp(r"[\w-._]+");
+                        Iterable matches = regExp.allMatches(value);
+                        int count = matches.length;
+                        if(count <= 1){
+                          return "*Insira seu nome completo";
+                        }
+                        else if(value.length == 3){
+                          return "*O texto não é um nome";
+                        }
+                        else if(value == nomefirestore){
+                          return"*Insira um nome diferente";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+    ),
+    );
+  });
+  
+}
 }
