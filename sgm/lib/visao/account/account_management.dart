@@ -12,6 +12,7 @@ import 'package:sgm/modelo/usuario.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/cadastro.dart';
 import 'package:sgm/widgets/custom_alert_dialog.dart';
+import 'package:sgm/widgets/image_picker.dart';
 
 class AccountManagement extends StatefulWidget {
   const AccountManagement({ Key? key }) : super(key: key);
@@ -27,304 +28,341 @@ class _AccountManagementState extends State<AccountManagement> {
    AuthService auth = Provider.of<AuthService>(context); 
 
     var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc(auth.usuario!.uid).snapshots();
-     return SafeArea(
-      child: CustomScrollView(
-       slivers: <Widget>[
-        SliverAppBar(
-          shape: const ContinuousRectangleBorder(
-          borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25))),
+     return 
+        Scaffold(
+        backgroundColor: amareloClaro,
+        appBar: AppBar(
+          elevation: 0,
           backgroundColor: azul,
-          shadowColor: Colors.black,
           leading: IconButton(onPressed: (){
-            Scaffold.of(context).openDrawer();
+             Scaffold.of(context).openDrawer();
           }, icon: const Icon(Icons.density_medium)),
           actions: <Widget>[
             IconButton(onPressed: (){}, icon: const Icon(Icons.ac_unit_rounded))
           ],
-          pinned: true,
-          floating: true,
-          expandedHeight: 120.0,
-          flexibleSpace: const Center(
-            child: FlexibleSpaceBar(
-              title: Text('Supervisor'),
-            ),
-          ),
         ),
-        SliverToBoxAdapter(
-             child: SingleChildScrollView(
-               child: SizedBox(
-                 width: MediaQuery.of(context).size.width,
-                 height: MediaQuery.of(context).size.height - 220,
-                 child: StreamBuilder(
-                   stream: snapshots,
-                   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {  
-                    if(snapshot.hasError){
-                      return Center(
-                        child: Text("Error ${snapshot.error}"),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting){
-                       return const Center(
-                         child: CircularProgressIndicator(),
-                       );
-                    }
-                    return Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), 
-                               ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.vpn_key_outlined),
-                              title: const Text("ID "),
-                              
-                              subtitle: Text(auth.usuario!.uid.toString()),
-                             
-                              ),
-                          ),
-                        ),
-                      ),
-                      
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), 
-                               ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.face_outlined),
-                              title: const Text("Nome "),
-                              subtitle: Text(snapshot.data!["nome"].toString()),
-                              trailing: CircleAvatar(
-                                backgroundColor: azul,
-                                child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){
-                                  modalNome(context, snapshot.data!["nome"].toString(), auth.usuario!.uid);
-                                },),
-                              ),
-                              ),
-                          ),
-                        ),
-                      ),
-                  
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), 
-                               ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.fingerprint_outlined),
-                              title: const Text("CPF "),
-                              subtitle: Text(snapshot.data!["cpf"].toString()),
-                              trailing: const CircleAvatar(
-                                backgroundColor: azul,
-                                child: Icon(Icons.radio_button_checked_outlined, color: Colors.green
+        body: SafeArea(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 95,
+              child: StreamBuilder(
+                stream: snapshots,
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {  
+                 if(snapshot.hasError){
+                   return Center(
+                     child: Text("Error ${snapshot.error}"),
+                   );
+                 }
+                 if (snapshot.connectionState == ConnectionState.waiting){
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                 }
+                 return SingleChildScrollView(
+                   child: Column(children: [
+                     Stack(
+                       clipBehavior: Clip.none,
+                       alignment: Alignment.center,
+                       children: [
+                         Container(
+                           width: MediaQuery.of(context).size.width,
+                           height: 70,
+                           color: azul, 
+                         ),
+                         Positioned(
+                           top: 1,
+                           child: Container(
+                             decoration: BoxDecoration(
+                               shape: BoxShape.circle,
+                               border: Border.all(
+                                 width: 8,
+                                 color: amareloClaro
                                )
-                              ),
-                              ),
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), 
+                             ),
+                             child: const CircleAvatar(
+                               backgroundColor: Colors.black,
+                               radius: 60,
+                               backgroundImage: NetworkImage(
+                                 "https://wl-incrivel.cf.tsp.li/resize/728x/jpg/a01/4e2/b650fd528ea1b7610750cd479b.jpg"
                                ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.category_outlined),
-                              title: const Text("Categoria "),
-                              subtitle: Text(snapshot.data!["categoria"].toString()),
-                              trailing: const CircleAvatar(
-                                backgroundColor: azul,
-                                child: Icon(Icons.psychology_outlined, color: Colors.green
-                               )
-                              ),
-                              ),
-                          ),
-                        ),
-                      ),
+                             ),
+                           ),
+                         ),
+                         Positioned(
+                           bottom: 35,
+                           child: Container(
+                             decoration: const BoxDecoration(
+                               shape: BoxShape.circle,
+                               color: azul
+                               
+                             ),
+                             child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: () { 
+                               ImagePickerClass newImagePicker = ImagePickerClass();
+                               newImagePicker.showImagePicker(context);
+                              },)))
+                       ],
                      
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), 
+                     ),
+                     Padding(
+                       padding: const EdgeInsets.only(
+                         top: 75,
+                         bottom: 8,
+                         left: 8,
+                         right: 8
+                       ),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), 
+                              ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.vpn_key_outlined),
+                             title: const Text("ID "),
+                             
+                             subtitle: Text(auth.usuario!.uid.toString()),
+                            
+                             ),
+                         ),
+                       ),
+                     ),
+                     
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), 
+                              ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.face_outlined),
+                             title: const Text("Nome "),
+                             subtitle: Text(snapshot.data!["nome"].toString()),
+                             trailing: CircleAvatar(
+                               backgroundColor: azul,
+                               child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){
+                                 modalNome(context, snapshot.data!["nome"].toString(), auth.usuario!.uid);
+                               },),
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                                   
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), 
+                              ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.fingerprint_outlined),
+                             title: const Text("CPF "),
+                             subtitle: Text(snapshot.data!["cpf"].toString()),
+                             trailing: const CircleAvatar(
+                               backgroundColor: azul,
+                               child: Icon(Icons.radio_button_checked_outlined, color: Colors.green
+                              )
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                 
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), 
+                              ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.category_outlined),
+                             title: const Text("Categoria "),
+                             subtitle: Text(snapshot.data!["categoria"].toString()),
+                             trailing: const CircleAvatar(
+                               backgroundColor: azul,
+                               child: Icon(Icons.psychology_outlined, color: Colors.green
+                              )
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                    
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), 
+                              ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.lock_open_outlined),
+                             title: const Text("Ativação "),
+                             
+                             subtitle: Text(
+                               (snapshot.data!["ativado"] == true)
+                               ?"Ativado"
+                               :"Inativo"
                                ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.lock_open_outlined),
-                              title: const Text("Ativação "),
-                              
-                              subtitle: Text(
-                                (snapshot.data!["ativado"] == true)
-                                ?"Ativado"
-                                :"Inativo"
-                                ),
-                              trailing: CircleAvatar(
-                                backgroundColor: azul,
-                                child: Icon(Icons.radio_button_checked, color: 
-                                (snapshot.data!["ativado"] == true)
-                                ?Colors.green
-                                :vermelho)
+                             trailing: CircleAvatar(
+                               backgroundColor: azul,
+                               child: Icon(Icons.radio_button_checked, color: 
+                               (snapshot.data!["ativado"] == true)
+                               ?Colors.green
+                               :vermelho)
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                     
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), // changes position of shadow
                               ),
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.mail_outline),
+                             title: const Text("E-mail "),
+                             
+                             subtitle: Text(snapshot.data!["email"].toString()),
+                             trailing: CircleAvatar(
+                               backgroundColor: azul,
+                               child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){
+                                 modalEmail(context, snapshot.data!["email"], auth.usuario!.uid);
+                               },),
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                     
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                         decoration: BoxDecoration(
+                           borderRadius: const BorderRadius.all(Radius.circular(10)),
+                           color: azul.withOpacity(0.7),
+                           boxShadow: [
+                             BoxShadow(
+                               color: Colors.grey.withOpacity(0.6),
+                               spreadRadius: 2,
+                               blurRadius: 4,
+                               offset: const Offset(0, 3), // changes position of shadow
                               ),
-                          ),
-                        ),
-                      ),
-                      
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), // changes position of shadow
-                               ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.mail_outline),
-                              title: const Text("E-mail "),
-                              
-                              subtitle: Text(snapshot.data!["email"].toString()),
-                              trailing: CircleAvatar(
-                                backgroundColor: azul,
-                                child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){
-                                  modalEmail(context, snapshot.data!["email"], auth.usuario!.uid);
-                                },),
-                              ),
-                              ),
-                          ),
-                        ),
-                      ),
-                      
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            color: azul.withOpacity(0.7),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3), // changes position of shadow
-                               ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              bottom: 5
-                            ),
-                            child: ListTile(
-                              leading: const Icon(Icons.password_outlined),
-                              title: const Text("Senha "),
-                              
-                              subtitle: const Text("******"),
-                              trailing: CircleAvatar(
-                                backgroundColor: azul,
-                                child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){modalSenha(context, snapshot.data!["email"], auth.usuario!.uid);},),
-                              ),
-                              ),
-                          ),
-                        ),
-                      ),
-             
-                    ]);
-                   }
-                ),
-               ),
-             )
+                           ],
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.only(
+                             top: 5,
+                             bottom: 5
+                           ),
+                           child: ListTile(
+                             leading: const Icon(Icons.password_outlined),
+                             title: const Text("Senha "),
+                             
+                             subtitle: const Text("******"),
+                             trailing: CircleAvatar(
+                               backgroundColor: azul,
+                               child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: (){modalSenha(context, snapshot.data!["email"], auth.usuario!.uid);},),
+                             ),
+                             ),
+                         ),
+                       ),
+                     ),
+                    const SizedBox(
+                      height: 15,
+                    )      
+                   ]),
+                 );
+                }
+             ),
+            )
         )
-      ],
+        );
 
-      ),
-    );
   }
 
 modalNome(BuildContext context, nomefirestore, uid) {

@@ -41,7 +41,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
      statusBarIconBrightness: Brightness.light
     ));
     return Scaffold(
-      drawer: Drawer(
+      drawer: const Drawer(
         backgroundColor: azul,
       ),
       key: scaffoldKey,
