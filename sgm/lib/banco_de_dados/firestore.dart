@@ -18,7 +18,8 @@ criacaoUser(String codUser, String categoria, String nome, String cpf, String em
     "nome" : nome,
     "cpf": cpf,
     "email": email,
-    "ativado": ativado
+    "ativado": ativado,
+    "imagem": null
   });
 }
 

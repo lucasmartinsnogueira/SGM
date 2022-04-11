@@ -1,18 +1,11 @@
-
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/Pacote_de_Ajuda/cores.dart';
-import 'package:sgm/modelo/usuario.dart';
 import 'package:sgm/services/auth_services.dart';
-import 'package:sgm/visao/telas_Cadastro_Login/cadastro.dart';
-import 'package:sgm/widgets/custom_alert_dialog.dart';
 import 'package:sgm/widgets/image_picker.dart';
+
 
 class AccountManagement extends StatefulWidget {
   const AccountManagement({ Key? key }) : super(key: key);
@@ -79,12 +72,17 @@ class _AccountManagementState extends State<AccountManagement> {
                                  color: amareloClaro
                                )
                              ),
-                             child: const CircleAvatar(
+                             child: CircleAvatar(
                                backgroundColor: Colors.black,
                                radius: 60,
-                               backgroundImage: NetworkImage(
+                               backgroundImage: 
+                                 (snapshot.data!["imagem"] == null)
+                               ? const NetworkImage(
+  
                                  "https://wl-incrivel.cf.tsp.li/resize/728x/jpg/a01/4e2/b650fd528ea1b7610750cd479b.jpg"
-                               ),
+                                 
+                               )
+                               :NetworkImage(snapshot.data!["imagem"].toString()),
                              ),
                            ),
                          ),
@@ -98,7 +96,7 @@ class _AccountManagementState extends State<AccountManagement> {
                              ),
                              child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: () { 
                                ImagePickerClass newImagePicker = ImagePickerClass();
-                               newImagePicker.showImagePicker(context);
+                               newImagePicker.showImagePicker(context, auth.usuario!.uid);
                               },)))
                        ],
                      
