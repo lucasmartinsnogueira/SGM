@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/shared/cores.dart';
+
 
 class DashboardSupervisor extends StatefulWidget {
   const DashboardSupervisor({ Key? key }) : super(key: key);

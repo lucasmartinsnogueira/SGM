@@ -1,11 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
-import 'package:sgm/main.dart';
-import 'package:sgm/services/auth_services.dart';
+import 'package:sgm/shared/cores.dart';
 import 'package:sgm/visao/account/account_management.dart';
 import 'package:sgm/visao/dashboards/dashboard_supervisor.dart';
 import 'package:sgm/visao/iniciais/homes/home_supervisor.dart';
@@ -13,14 +9,20 @@ import 'package:sgm/visao/iniciais/homes/home_supervisor.dart';
 
 class InicialSupervisor extends StatefulWidget {
   const InicialSupervisor({ Key? key }) : super(key: key);
+  
 
+  int oi(value){
+    return value;
+  }
   @override
   _InicialSupervisorState createState() => _InicialSupervisorState();
 }
 
 class _InicialSupervisorState extends State<InicialSupervisor> {
+  //InicialSupervisor ola = InicialSupervisor();
+  //ola.oi(value)
   int index = 1;
-
+  
   final items = <Widget>
     [
       const Icon(Icons.donut_large_outlined, size: 30, color: amareloClaro,),
@@ -35,6 +37,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
   ];
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
+  
   Widget build(BuildContext context) {
      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
      statusBarColor: azul,
@@ -63,8 +66,10 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
 
       )
     );
-
+    
   }
+  
 
 }
+
 

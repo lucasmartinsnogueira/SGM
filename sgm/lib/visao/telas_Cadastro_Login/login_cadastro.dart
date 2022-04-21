@@ -1,7 +1,7 @@
 // Tela de transição entre login e cadastro
 
 import 'package:flutter/material.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/shared/cores.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/cadastro.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/login.dart';
 

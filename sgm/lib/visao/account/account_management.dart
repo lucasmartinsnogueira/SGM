@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/services/auth_services.dart';
+import 'package:sgm/shared/cores.dart';
+import 'package:sgm/shared/profile_appbar.dart';
 import 'package:sgm/widgets/image_picker.dart';
 
 
@@ -30,8 +32,8 @@ class _AccountManagementState extends State<AccountManagement> {
           leading: IconButton(onPressed: (){
              Scaffold.of(context).openDrawer();
           }, icon: const Icon(Icons.density_medium)),
-          actions: <Widget>[
-            IconButton(onPressed: (){}, icon: const Icon(Icons.ac_unit_rounded))
+          actions: const <Widget>[
+            ProfileAppBart()
           ],
         ),
         body: SafeArea(
@@ -65,45 +67,66 @@ class _AccountManagementState extends State<AccountManagement> {
                          Positioned(
                            top: 1,
                            child: Container(
+                             width: 100,
+                             height: 100,
                              decoration: BoxDecoration(
                                shape: BoxShape.circle,
                                border: Border.all(
-                                 width: 8,
+                                 width: 5,
                                  color: amareloClaro
                                )
                              ),
-                             child: CircleAvatar(
-                               backgroundColor: Colors.black,
-                               radius: 60,
-                               backgroundImage: 
-                                 (snapshot.data!["imagem"] == null)
-                               ? const NetworkImage(
-  
-                                 "https://wl-incrivel.cf.tsp.li/resize/728x/jpg/a01/4e2/b650fd528ea1b7610750cd479b.jpg"
+                             
+                             child: 
+                                 (snapshot.data!["imagem"] != null)
+                                 ?ClipRRect(
+                                   
+                                   borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                   child: GestureDetector(
+                                     onTap: (){
+                                       ImagePickerClass newImagePicker = ImagePickerClass();
+                                       newImagePicker.showImagePicker(context, auth.usuario!.uid, snapshot.data!["imagem"]);
+                                     },
+                                     child: CachedNetworkImage(
+                                       fit: BoxFit.cover,
+                                       placeholder: (context, url) => const CircularProgressIndicator(
+                                         color: rosa,
+                                         backgroundColor: azul,
+                                         strokeWidth: 13,
+                                       ),
+                                       imageUrl: snapshot.data!["imagem"].toString()                   ),
+                                   ),
+                                 )
+                                 :  ClipRRect(
+                                   borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                   child: Image.asset("assets/usuarios/supervisor.png", 
+                                                                 
+                                                                 
+                                   ),
+                                 )
                                  
-                               )
-                               :NetworkImage(snapshot.data!["imagem"].toString()),
-                             ),
                            ),
                          ),
                          Positioned(
-                           bottom: 35,
+                           bottom: 40,
                            child: Container(
+                             width: 40,
                              decoration: const BoxDecoration(
                                shape: BoxShape.circle,
                                color: azul
                                
                              ),
-                             child: IconButton(icon: const Icon(Icons.edit, color: rosa,), onPressed: () { 
+                             child: IconButton(icon: const Icon(Icons.edit, color: rosa, size: 15,), onPressed: () { 
                                ImagePickerClass newImagePicker = ImagePickerClass();
-                               newImagePicker.showImagePicker(context, auth.usuario!.uid);
+                               newImagePicker.showImagePicker(context, auth.usuario!.uid, snapshot.data!["imagem"]);
+                               debugPrint(snapshot.data!["imagem"]);
                               },)))
                        ],
                      
                      ),
                      Padding(
                        padding: const EdgeInsets.only(
-                         top: 75,
+                         top: 45,
                          bottom: 8,
                          left: 8,
                          right: 8

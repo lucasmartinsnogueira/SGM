@@ -1,8 +1,8 @@
 // Responsável pelo página de login
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/services/auth_services.dart';
+import 'package:sgm/shared/cores.dart';
 
 class Login extends StatefulWidget {
   const Login({ Key? key }) : super(key: key);

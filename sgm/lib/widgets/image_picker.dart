@@ -1,40 +1,72 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
-import 'package:sgm/Pacote_de_Ajuda/firestore_api.dart';
-import 'package:sgm/services/auth_services.dart';
+import 'package:sgm/banco_de_dados/storagefunc.dart';
+import 'package:sgm/shared/cores.dart';
+import 'package:sgm/shared/firestore_api.dart';
 
 class ImagePickerClass{
   UploadTask? task;  
   XFile? image; 
-  void showImagePicker(context, uid){
+  void showImagePicker(context, uid, imagem){
      showBottomSheet(context: context,
+     backgroundColor: Colors.transparent,
         builder: (BuildContext context){ 
           return Container(
-            color: amareloClaro,
+            decoration: const BoxDecoration(
+              color: amareloClaro,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(40))
+            ),
             height: 150,
             child: Row(
+             
               children: [
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => pickImage(ImageSource.gallery, context, uid),
-                      child: const Text("Arquivo ", style: TextStyle(fontSize: 45),))
-                  ],
+                const Spacer(),
+                GestureDetector(
+                  onTap: () => pickImage(ImageSource.gallery, context, uid),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.perm_media, size: 40, color: azul,),
+                      Text("Arquivo", style: TextStyle(fontSize: 20, color: azul),)
+                    ],
+                  ),
                 ),
-                Column(children: [
-                    GestureDetector(
-                      onTap: ()=> pickImage(ImageSource.camera, context, uid),
-                      child: const Text("Câmera", style: TextStyle(fontSize: 45),))
-                  ],)
+                const Spacer(),
+                GestureDetector(
+                  onTap: ()=> pickImage(ImageSource.camera, context, uid),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.camera, size: 40, color: azul,),
+                      Text("Câmera", style: TextStyle(fontSize: 20, color: azul),)
+                    ],),
+                ),
+                const Spacer(),
+                (imagem != null)
+                ?GestureDetector(
+                  onTap: () async {
+                    await FirebaseFirestore.instance.collection("Usuarios").doc(uid).update({
+                    "imagem": null
+              });
+                 StorageFunc().delete(imagem);
+                 Navigator.pop(context);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.delete, size: 40, color: rosa,),
+                      Text("Deletar", style: TextStyle(fontSize: 20, color: rosa),)
+                    ],),
+                )
+                :const SizedBox(),
+                 (imagem != null)
+                 ?const Spacer()
+                 :const SizedBox()
+
               ],
             ),
           );
@@ -121,7 +153,11 @@ class ImagePickerClass{
         IconButton(
           tooltip: "Salvar",
           onPressed: () async {
-            firestoreImage(newimage, uid);
+            setState(() {
+              isloading = true;
+               });
+            await firestoreImage(newimage, uid);
+            Navigator.pop(context);
               
           }, icon: const Icon(Icons.check, color: Colors.green,)),
       )

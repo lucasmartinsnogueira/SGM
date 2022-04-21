@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/shared/cores.dart';
 import 'package:sgm/visao/telas_Cadastro_Login/login_cadastro.dart';
 
 class Inicio extends StatefulWidget {

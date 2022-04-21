@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/shared/cores.dart';
+import 'package:sgm/shared/profile_appbar.dart';
 
 class HomeSupervisor extends StatefulWidget {
   const HomeSupervisor({ Key? key }) : super(key: key);
@@ -25,8 +26,8 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
           leading: IconButton(onPressed: (){
              Scaffold.of(context).openDrawer();
           }, icon: Icon(Icons.density_medium)),
-          actions: <Widget>[
-            IconButton(onPressed: (){}, icon: Icon(Icons.ac_unit_rounded))
+          actions: const <Widget>[
+            ProfileAppBart()
           ],
           pinned: true,
           floating: true,

@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
+import 'package:sgm/shared/cores.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   final String? message;

@@ -3,8 +3,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sgm/Pacote_de_Ajuda/cores.dart';
 import 'package:sgm/services/auth_services.dart';
+import 'package:sgm/shared/cores.dart';
 import 'package:sgm/widgets/auth_check.dart';
 
 void main() async{
