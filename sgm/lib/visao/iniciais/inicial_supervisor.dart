@@ -19,8 +19,8 @@ class InicialSupervisor extends StatefulWidget {
 }
 
 class _InicialSupervisorState extends State<InicialSupervisor> {
-  //InicialSupervisor ola = InicialSupervisor();
-  //ola.oi(value)
+  InicialSupervisor ola = const InicialSupervisor();
+  
   int index = 1;
   
   final items = <Widget>

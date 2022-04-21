@@ -22,7 +22,7 @@ class _ProfileAppBartState extends State<ProfileAppBart> {
   @override
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context); 
-    var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc(auth.usuario!.uid).snapshots();
+    var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc((auth.usuario != null)? auth.usuario!.uid : null).snapshots();
     return StreamBuilder(
      stream: snapshots,
      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

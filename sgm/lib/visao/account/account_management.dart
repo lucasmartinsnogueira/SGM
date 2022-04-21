@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:sgm/main.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/cores.dart';
 import 'package:sgm/shared/profile_appbar.dart';
@@ -20,9 +22,11 @@ class _AccountManagementState extends State<AccountManagement> {
 
   @override
   Widget build(BuildContext context) {
+   
    AuthService auth = Provider.of<AuthService>(context); 
-
-    var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc(auth.usuario!.uid).snapshots();
+   
+    var snapshots = FirebaseFirestore.instance.collection("Usuarios").doc(
+      (auth.usuario != null)? auth.usuario!.uid : null).snapshots();
      return 
         Scaffold(
         backgroundColor: amareloClaro,
@@ -373,9 +377,27 @@ class _AccountManagementState extends State<AccountManagement> {
                          ),
                        ),
                      ),
-                    const SizedBox(
-                      height: 15,
-                    )      
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: TextButton(onPressed: () async {
+                        await context.read<AuthService>().logout();
+                        Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                        child: const MyApp(),
+                        type: PageTransitionType.topToBottom)
+                        );
+                        
+                              
+                      
+                      }, child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Sair da Conta ", style: TextStyle(color: rosa, fontSize: 22),),
+                          Icon(Icons.supervised_user_circle, color: rosa, size: 30,)
+                        ],
+                      )),
+                    )
                    ]),
                  );
                 }
