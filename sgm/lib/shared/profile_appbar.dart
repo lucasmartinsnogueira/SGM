@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/cores.dart';
@@ -41,49 +42,57 @@ class _ProfileAppBartState extends State<ProfileAppBart> {
           horizontal: 15,
           vertical: 8
         ),
-        child: Container(
-          width: 40,
-          height: 40,
-            decoration: BoxDecoration(
-              boxShadow:  [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.4),
-                  spreadRadius: 3,
-                  blurRadius: 3,
-                  offset: const Offset(0, 1), 
-              ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(snapshot.data!["nome"].toString().split(" ").first, style: GoogleFonts.barlowCondensed(color:amareloClaro, fontSize: 22)),
+            ),
+            Container(
+              width: 40,
+              height: 40,
+                decoration: BoxDecoration(
+                  boxShadow:  [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      spreadRadius: 3,
+                      blurRadius: 3,
+                      offset: const Offset(0, 1), 
+                  ),
+              ],
+                  shape: BoxShape.circle,
+                    border: Border.all(
+                    color: amareloClaro
+                  )
+                ),        
+                child: 
+                  (snapshot.data!["imagem"] != null)
+                  ?ClipRRect(                    
+                    borderRadius: const BorderRadius.all(Radius.circular(70)),
+                    child: GestureDetector(
+                      onTap: (){
+                        
+                        // colocar uma função que volta para a página de usuário
+                        },
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const CircularProgressIndicator(
+                        color: rosa,
+                        backgroundColor: azul,
+                        strokeWidth: 13,
+                      ),
+                        imageUrl: snapshot.data!["imagem"].toString()                   ),
+                      ),
+                  )
+                  : ClipRRect(
+                    
+                    borderRadius: const BorderRadius.all(Radius.circular(70)),
+                     child: Image.asset("assets/usuarios/supervisor.png",
+                     fit: BoxFit.cover, 
+                    ),
+                  )
+            ),
           ],
-              shape: BoxShape.circle,
-                border: Border.all(
-                color: amareloClaro
-              )
-            ),        
-            child: 
-              (snapshot.data!["imagem"] != null)
-              ?ClipRRect(                    
-                borderRadius: const BorderRadius.all(Radius.circular(70)),
-                child: GestureDetector(
-                  onTap: (){
-                    
-                    
-                    },
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const CircularProgressIndicator(
-                    color: rosa,
-                    backgroundColor: azul,
-                    strokeWidth: 13,
-                  ),
-                    imageUrl: snapshot.data!["imagem"].toString()                   ),
-                  ),
-              )
-              : ClipRRect(
-                
-                borderRadius: const BorderRadius.all(Radius.circular(70)),
-                 child: Image.asset("assets/usuarios/supervisor.png",
-                 fit: BoxFit.cover, 
-                ),
-              )
         ),
       );
      },
