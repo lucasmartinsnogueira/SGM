@@ -1,8 +1,9 @@
 // Tela de transição entre login e cadastro
 
 import 'package:flutter/material.dart';
-import 'package:sgm/modules/login_signup/cadastro.dart';
-import 'package:sgm/modules/login_signup/login.dart';
+import 'package:sgm/modules/login_signup/pages/cadastro.dart';
+import 'package:sgm/modules/login_signup/pages/login.dart';
+import 'package:sgm/modules/login_signup/pages/login.dart';
 import 'package:sgm/shared/help/colors.dart';
 
 
