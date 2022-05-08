@@ -1,0 +1,1 @@
+# Aqui ficará a parte do código responsável pelos gráficos dinâmicos.

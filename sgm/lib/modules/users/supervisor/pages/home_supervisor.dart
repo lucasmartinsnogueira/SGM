@@ -60,16 +60,33 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                     );
                  }
                  
-              return SizedBox(
+
+              return Container(
+                height: 700,
+                width: 300,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: snapshot.data!.docs.map((document){
+                      return Center(
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          child: Text(document["nome"]),
+                        ),
+                      );
+                  }).toList(),
+                ),
+              );
+              /*return SizedBox(
                 height: 700,
                 width: 100,
-                /* child: ListView.builder(
+                 child: ListView.builder(
                   itemCount: snapshots.length,
                   itemBuilder: (context, index){
                     return Text(snapshot.data.map);
-                  },*/
+                  },
                     
-                );
+                );*/
               
               
             }

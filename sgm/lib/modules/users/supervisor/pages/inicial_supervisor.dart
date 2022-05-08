@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sgm/modules/users/account/account_management.dart';
+import 'package:sgm/modules/users/supervisor/pages/account_management.dart';
 import 'package:sgm/modules/users/supervisor/pages/dashboard_supervisor.dart';
 import 'package:sgm/modules/users/supervisor/pages/home_supervisor.dart';
 import 'package:sgm/shared/help/colors.dart';

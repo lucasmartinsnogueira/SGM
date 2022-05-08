@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sgm/modules/login_signup/inicio.dart';
+import 'package:sgm/modules/login_signup/pages/inicio.dart';
 import 'package:sgm/modules/users/general_user/pages/home_page.dart';
 import 'package:sgm/services/auth_services.dart';
 

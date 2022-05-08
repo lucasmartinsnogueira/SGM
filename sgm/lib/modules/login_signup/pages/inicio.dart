@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:sgm/modules/login_signup/login_cadastro.dart';
+import 'package:sgm/modules/login_signup/pages/login_cadastro.dart';
 import 'package:sgm/shared/help/colors.dart';
 
 class Inicio extends StatefulWidget {
