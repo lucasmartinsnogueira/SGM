@@ -289,7 +289,7 @@ class _AccountManagementState extends State<AccountManagement> {
                            ),
                            child: ListTile(
                              leading: const Icon(Icons.lock_open_outlined),
-                             title: const Text("Ativação "),
+                             title: const Text("Status da conta "),
                              
                              subtitle: Text(
                                (snapshot.data!["ativado"] == true)

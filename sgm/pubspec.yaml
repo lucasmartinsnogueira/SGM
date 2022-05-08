@@ -84,6 +84,7 @@ flutter:
     - assets/pricipal/cadeado.png
     - assets/pricipal/tela_inicial.png
     - assets/usuarios/supervisor.png
+    - assets/usuarios/mecanico.png
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

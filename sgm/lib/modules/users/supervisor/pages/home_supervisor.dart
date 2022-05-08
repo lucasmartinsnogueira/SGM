@@ -1,6 +1,10 @@
 
+import 'dart:math';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
@@ -29,14 +33,14 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
           shadowColor: Colors.black,
           leading: IconButton(onPressed: (){
              Scaffold.of(context).openDrawer();
-          }, icon: Icon(Icons.density_medium)),
+          }, icon: const Icon(Icons.density_medium)),
           actions: const <Widget>[
             ProfileAppBart()
           ],
           pinned: true,
           floating: true,
           expandedHeight: 120.0,
-          flexibleSpace: Center(
+          flexibleSpace: const Center(
             child: FlexibleSpaceBar(
               title: Text('Supervisor'),
             ),
@@ -58,22 +62,116 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                  }
                  
 
-              return Container(
-                height: 700,
-                width: 300,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: GridView.count(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  crossAxisSpacing: 10,
+                  childAspectRatio: (1 / 1.5),
+                  crossAxisCount: 2,
                   children: snapshot.data!.docs.map((document){
-                      return Center(
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          
+                        ),
                         child: Container(
-                          width: 100,
-                          height: 100,
-                          child: Text(document["nome"]),
+                          width: 1000,
+                          height: 1000,
+                          decoration: BoxDecoration(
+                            color: pink,
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              
+                            ),
+                            ]
+                          ),
+                          child: Column(
+                            children: [
+                              Text(document["categoria"], style: GoogleFonts.alegreyaSc(fontSize: 20, fontStyle: FontStyle.italic),),
+                              Container(
+                                height: 22,
+                                width: MediaQuery.of(context).size.width,
+                              color: Colors.grey,
+                              child: Center(child: Text("Transcodil", style: GoogleFonts.alegreyaSc(),)),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.4),
+                                          spreadRadius: 3,
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 1), 
+                                        ),
+                                      ],
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                      
+                                      color: lightyellow
+                                    )
+                                  ),        
+                                    child: 
+                                    (document["imagem"] != null)
+                                      ?ClipRRect(                    
+                                      borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                      child: GestureDetector(
+                                        child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) => const CircularProgressIndicator(
+                                        color: pink,
+                                        backgroundColor: blue,
+                                        strokeWidth: 13,
+                                        ),
+                                        imageUrl: document["imagem"].toString()                   ),
+                                      ),
+                                    )
+                                : ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                  child: Image.asset("assets/usuarios/mecanico.png",
+                                  fit: BoxFit.cover,),
+                              )
+                            ),
+                                 Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text("Nome:", style: GoogleFonts.alegreyaSc(),),
+                                     Text(document["nome"].toString().split(" ").getRange(0, 2).toString().replaceAll("(", "").replaceAll(")", "").replaceAll(",", "") , style: GoogleFonts.alegreyaSc(color: darkyellow,)),
+                                     Text("CPF:", style: GoogleFonts.alegreyaSc()),
+                                     Text(document["cpf"], style: GoogleFonts.alegreyaSc(color: darkyellow))
+                                   ],
+                                 )
+                                ],
+                              ),
+                              Text("E-mail", style: GoogleFonts.alegreyaSc()),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 20,
+                              color: Colors.grey,
+                              child: Center(child: Text(document["email"], style: GoogleFonts.alegreyaSc(color: darkyellow, fontSize: 12))
+                        )
+                        
+                      )
+                  
+                            ],
+                          )
                         ),
                       );
                   }).toList(),
                 ),
               );
+              
               /*return SizedBox(
                 height: 700,
                 width: 100,
