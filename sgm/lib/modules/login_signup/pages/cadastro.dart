@@ -296,7 +296,9 @@ class _CadastroState extends State<Cadastro> {
                             
                             ),
                             onPressed: () {
-                              if(categoria == null){
+                              String cpfnovo = cpf.text;
+                              if(formKey.currentState!.validate()){
+                                if(categoria == null){
                                showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -308,9 +310,7 @@ class _CadastroState extends State<Cadastro> {
                                   },
                                 );
                               }
-                              if(formKey.currentState!.validate()){
-                                String cpfnovo = cpf.text;
-                                if(GetUtils.isCpf(cpfnovo)){
+                                 else if(GetUtils.isCpf(cpfnovo)){
                                   debugPrint("CPF válido");
                                   registrar();
                                 } else {

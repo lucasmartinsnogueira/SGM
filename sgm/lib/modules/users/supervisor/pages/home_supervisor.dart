@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +17,12 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
   @override
   Widget build(BuildContext context) {
 
-    AuthService auth = Provider.of<AuthService>(context); 
-
-    var snapshots = FirebaseFirestore.instance.collection("Usuarios").snapshots();
+    var snapshots = FirebaseFirestore.instance.collection("Usuarios").where("categoria", isEqualTo: "Mecânico").where("ativado", isEqualTo: true).orderBy("nome").snapshots();
     return SafeArea(
       child: CustomScrollView(
        slivers: <Widget>[
         SliverAppBar(
-          shape: ContinuousRectangleBorder(
+          shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25))),
           backgroundColor: blue,
