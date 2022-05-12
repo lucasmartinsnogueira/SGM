@@ -19,6 +19,7 @@ class InicialSupervisor extends StatefulWidget {
 }
 
 class _InicialSupervisorState extends State<InicialSupervisor> {
+  
   InicialSupervisor ola = const InicialSupervisor();
   
   int index = 1;
@@ -41,7 +42,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
   Widget build(BuildContext context) {
      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
      statusBarColor: blue,
-     statusBarIconBrightness: Brightness.light
+     statusBarIconBrightness: Brightness.dark
     ));
     return Scaffold(
       drawer: const Drawer(
@@ -50,6 +51,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
       key: scaffoldKey,
       backgroundColor: lightyellow,
       body: screens[index],
+        floatingActionButton: (index == 1) ? FloatingActionButton(onPressed: (){}, child: Icon(Icons.add_rounded, color: Colors.green[700], size: 40,), backgroundColor: blue, tooltip: "Adicionar OSs", ) : SizedBox(),
       bottomNavigationBar: CurvedNavigationBar(
       index: index,
       animationDuration: const Duration(milliseconds: 300),

@@ -1,12 +1,8 @@
-
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 
@@ -20,9 +16,14 @@ class HomeSupervisor extends StatefulWidget {
 class _HomeSupervisorState extends State<HomeSupervisor> {
   @override
   Widget build(BuildContext context) {
-
+     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: blue,
+      statusBarColor: blue,
+      statusBarBrightness: Brightness.dark
+    ));
     var snapshots = FirebaseFirestore.instance.collection("Usuarios").where("categoria", isEqualTo: "Mecânico").where("ativado", isEqualTo: true).orderBy("nome").snapshots();
     return SafeArea(
+      
       child: CustomScrollView(
        slivers: <Widget>[
         SliverAppBar(
@@ -60,15 +61,13 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                       child: CircularProgressIndicator(),
                     );
                  }
-                 
-
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: GridView.count(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   crossAxisSpacing: 10,
-                  childAspectRatio: (1 / 1.5),
+                  childAspectRatio: (1 / 1.4),
                   crossAxisCount: 2,
                   children: snapshot.data!.docs.map((document){
                       return Padding(
@@ -102,47 +101,50 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                               ),
                               Row(
                                 children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        boxShadow:  [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.4),
-                                          spreadRadius: 3,
-                                          blurRadius: 3,
-                                          offset: const Offset(0, 1), 
-                                        ),
-                                      ],
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: 60,
+                                      height: 60,
                                       
-                                      color: lightyellow
-                                    )
-                                  ),        
-                                    child: 
-                                    (document["imagem"] != null)
-                                      ?ClipRRect(                    
-                                      borderRadius: const BorderRadius.all(Radius.circular(70)),
-                                      child: GestureDetector(
-                                        child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) => const CircularProgressIndicator(
-                                        color: pink,
-                                        backgroundColor: blue,
-                                        strokeWidth: 13,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow:  [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.4),
+                                            spreadRadius: 3,
+                                            blurRadius: 3,
+                                            offset: const Offset(0, 1), 
+                                          ),
+                                        ],
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                        
+                                        color: lightyellow
+                                      )
+                                    ),        
+                                      child: 
+                                      (document["imagem"] != null)
+                                        ?ClipRRect(                    
+                                        borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                        child: GestureDetector(
+                                          child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) => const CircularProgressIndicator(
+                                          color: pink,
+                                          backgroundColor: blue,
+                                          strokeWidth: 13,
+                                          ),
+                                          imageUrl: document["imagem"].toString()                   ),
                                         ),
-                                        imageUrl: document["imagem"].toString()                   ),
-                                      ),
-                                    )
+                                      )
                                 : ClipRRect(
-                                  borderRadius: const BorderRadius.all(Radius.circular(70)),
-                                  child: Image.asset("assets/usuarios/mecanico.png",
-                                  fit: BoxFit.cover,),
+                                    borderRadius: const BorderRadius.all(Radius.circular(70)),
+                                    child: Image.asset("assets/usuarios/mecanico.png",
+                                    fit: BoxFit.cover,),
                               )
                             ),
+                                  ),
                                  Column(
                                    crossAxisAlignment: CrossAxisAlignment.start,
                                    children: [
@@ -162,8 +164,18 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                               child: Center(child: Text(document["email"], style: GoogleFonts.alegreyaSc(color: darkyellow, fontSize: 12))
                         )
                         
-                      )
-                  
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            right: 10
+                          ),
+                          child: SizedBox(
+                            height: 50,
+                            child: FloatingActionButton(onPressed: (){}, backgroundColor: blue,child: Icon(Icons.add_rounded, color: Colors.green[700], size: 40,), tooltip: "Adicionar OSs", )),
+                        ))
                             ],
                           )
                         ),
@@ -171,18 +183,6 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                   }).toList(),
                 ),
               );
-              
-              /*return SizedBox(
-                height: 700,
-                width: 100,
-                 child: ListView.builder(
-                  itemCount: snapshots.length,
-                  itemBuilder: (context, index){
-                    return Text(snapshot.data.map);
-                  },
-                    
-                );*/
-              
               
             }
           ),
