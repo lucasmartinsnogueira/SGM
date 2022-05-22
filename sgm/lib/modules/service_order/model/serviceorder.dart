@@ -1,7 +1,6 @@
-class ServiceOrder{
-  
+class ServiceOrder {
   String? title;
-  //mecanicos
+  List<Map<String, dynamic>> mechanicals = [];
   int? cavalo;
   int? carreta;
   String? description;
@@ -9,7 +8,15 @@ class ServiceOrder{
   bool? stock;
   bool? igm;
   DateTime? data;
- 
- ServiceOrder(String title, int cavalo, int carreta, String description, bool done, bool stock, bool igm, DateTime data);
-}
 
+  ServiceOrder(
+      String title,
+      List<Map<String, dynamic>> mechanicals,
+      int cavalo,
+      int carreta,
+      String description,
+      bool done,
+      bool stock,
+      bool igm,
+      DateTime data);
+}
