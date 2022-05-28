@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:sgm/modules/login_signup/pages/cadastro.dart';
 import 'package:sgm/modules/login_signup/pages/login.dart';
-import 'package:sgm/modules/login_signup/pages/login.dart';
 import 'package:sgm/shared/help/colors.dart';
 
 
@@ -25,7 +24,6 @@ class _LoginCadastroState extends State<LoginCadastro> {
   double margemParaMenuSemClique = MediaQuery.of(context).size.width * 0.125;
   PageController _pageController = PageController();
   
-   
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color(0XFFF2F2F2),

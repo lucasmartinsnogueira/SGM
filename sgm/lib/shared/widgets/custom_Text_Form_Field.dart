@@ -9,13 +9,14 @@ class CustomTextFormField extends StatefulWidget {
   final String? cancelMsg;
   final Widget? container;
 
-  const CustomTextFormField({Key? key, 
+  const CustomTextFormField({
+    Key? key,
     this.message,
     this.popOnCancel = false,
     this.title,
     this.onConfirmPressed,
     this.confirmMsg,
-    this.cancelMsg, 
+    this.cancelMsg,
     this.container,
   }) : super(key: key);
 
@@ -26,6 +27,16 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField();
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      maxLines: 2,
+        decoration: InputDecoration(
+          
+            hintText: "01",
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              borderSide: BorderSide(),
+            )));
   }
 }
