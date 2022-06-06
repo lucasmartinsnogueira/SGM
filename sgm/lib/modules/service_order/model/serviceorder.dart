@@ -8,6 +8,9 @@ class ServiceOrder {
   bool? stock;
   bool? igm;
   DateTime? data;
+  //String imagem
+  //bool itens
+  //String docSupervisor
 
   ServiceOrder(
       String title,

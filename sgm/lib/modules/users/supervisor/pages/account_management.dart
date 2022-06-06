@@ -87,8 +87,8 @@ class _AccountManagementState extends State<AccountManagement> {
                                               ImagePickerClass();
                                           newImagePicker.showImagePicker(
                                               context,
-                                              auth.usuario!.uid,
-                                              snapshot.data!["imagem"]);
+                                              uid: auth.usuario!.uid,
+                                              imagem: snapshot.data!["imagem"]);
                                         },
                                         child: CachedNetworkImage(
                                             fit: BoxFit.cover,
@@ -125,10 +125,9 @@ class _AccountManagementState extends State<AccountManagement> {
                                   onPressed: () {
                                     ImagePickerClass newImagePicker =
                                         ImagePickerClass();
-                                    newImagePicker.showImagePicker(
-                                        context,
-                                        auth.usuario!.uid,
-                                        snapshot.data!["imagem"]);
+                                    newImagePicker.showImagePicker(context,
+                                        uid: auth.usuario!.uid,
+                                        imagem: snapshot.data!["imagem"]);
                                     debugPrint(snapshot.data!["imagem"]);
                                   },
                                 )))
