@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:sgm/modules/service_order/model/serviceorder.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/widgets/custom_Text_Form_Field.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
@@ -38,8 +41,13 @@ class _FormOSsState extends State<FormOSs> {
   TextEditingController horse = TextEditingController();
   TextEditingController description = TextEditingController();
 
+  //Documento OS
+  String? docOS;
+
   @override
   Widget build(BuildContext context) {
+    //Usuário
+    AuthService auth = Provider.of<AuthService>(context);
     return SingleChildScrollView(
       child: StatefulBuilder(builder: (context, setState) {
         return Padding(
@@ -217,15 +225,17 @@ class _FormOSsState extends State<FormOSs> {
                         )),
                     CustomTextFormField(
                         activated: boolOne,
+                        enable: boolOne,
                         label: "02",
                         maxlines: 1,
                         keyboardType: TextInputType.number,
                         controller: cart,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "*Se ativado, o campo é obrigatório";
+                          if (boolOne == true) {
+                            if (value == null || value.isEmpty) {
+                              return "*Se ativado, o campo é obrigatório";
+                            }
                           }
-
                           return null;
                         }),
                     Padding(
@@ -246,15 +256,17 @@ class _FormOSsState extends State<FormOSs> {
                     ),
                     CustomTextFormField(
                         activated: boolTwo,
+                        enable: boolTwo,
                         label: "75",
                         maxlines: 1,
                         keyboardType: TextInputType.number,
                         controller: horse,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "*Se ativado, o campo é obrigatório";
+                          if (boolTwo == true) {
+                            if (value == null || value.isEmpty) {
+                              return "*Se ativado, o campo é obrigatório";
+                            }
                           }
-
                           return null;
                         }),
                     Padding(
@@ -296,8 +308,29 @@ class _FormOSsState extends State<FormOSs> {
                                             BorderRadius.circular(18.0),
                                         side: const BorderSide(
                                             color: blue, width: 3)))),
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {}
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                List<Map<String, dynamic>> teste = [];
+
+                                ServiceOrder newServiceOrder = ServiceOrder(
+                                    title.text,
+                                    teste,
+                                    int.parse(horse.text),
+                                    int.parse(cart.text),
+                                    description.text,
+                                    false,
+                                    false,
+                                    false,
+                                    "",
+                                    "imagem",
+                                    auth.usuario!.uid,
+                                    DateTime.now());
+
+                                docOS = await newServiceOrder
+                                    .registerOS(newServiceOrder);
+                                //await firestoreImageAlert(imageOS);
+                                debugPrint("documento:" + docOS.toString());
+                              }
                             },
                             child: Row(
                               children: [
@@ -450,7 +483,7 @@ class _FormOSsState extends State<FormOSs> {
   Future firestoreImageAlert(file) async {
     if (file == null) return;
 
-    final destination = "ImageOSs/1";
+    const destination = "ImageOSs/i";
 
     task = FirestoreApi.uploadFile(destination, file!);
     if (task == null) return null;
@@ -511,7 +544,7 @@ class _FormOSsState extends State<FormOSs> {
                         imageOS = newimage;
 
                         setState(() {});
-                        //await firestoreImageAlert(newimage);
+
                         Navigator.pop(context);
                         this.setState(() {});
                       },

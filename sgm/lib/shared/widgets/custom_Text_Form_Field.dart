@@ -3,6 +3,7 @@ import 'package:sgm/shared/help/colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final bool? activated;
+  final bool? enable;
   final String? label;
   final int? maxlines;
   final TextInputType? keyboardType;
@@ -12,6 +13,7 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField(
       {Key? key,
       this.activated = false,
+      this.enable = true,
       this.label,
       this.maxlines,
       this.keyboardType,
@@ -28,6 +30,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextFormField(
+          enabled: widget.enable,
           controller: widget.controller,
           validator: widget.validator,
           cursorColor: pink,
