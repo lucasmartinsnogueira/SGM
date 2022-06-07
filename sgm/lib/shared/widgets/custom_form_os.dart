@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,6 +44,9 @@ class _FormOSsState extends State<FormOSs> {
 
   //Documento OS
   String? docOS;
+
+  //Alterar estado do envio de dados
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -310,13 +314,20 @@ class _FormOSsState extends State<FormOSs> {
                                             color: blue, width: 3)))),
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
+                                this.setState(() {
+                                  isLoading = true;
+                                });
                                 List<Map<String, dynamic>> teste = [];
 
                                 ServiceOrder newServiceOrder = ServiceOrder(
                                     title.text,
                                     teste,
-                                    int.parse(horse.text),
-                                    int.parse(cart.text),
+                                    (horse.text == "")
+                                        ? null
+                                        : int.parse(horse.text),
+                                    (cart.text == "")
+                                        ? null
+                                        : int.parse(cart.text),
                                     description.text,
                                     false,
                                     false,
@@ -328,9 +339,12 @@ class _FormOSsState extends State<FormOSs> {
 
                                 docOS = await newServiceOrder
                                     .registerOS(newServiceOrder);
-                                //await firestoreImageAlert(imageOS);
-                                debugPrint("documento:" + docOS.toString());
+                                await firestoreImageAlert(imageOS, docOS);
+                               
                               }
+                              this.setState(() {
+                                isLoading = false;
+                              });
                             },
                             child: Row(
                               children: [
@@ -342,12 +356,19 @@ class _FormOSsState extends State<FormOSs> {
                                       fontWeight: FontWeight.w600,
                                       color: blue),
                                 )),
-                                const Expanded(
-                                    child: Icon(
-                                  Icons.send_rounded,
-                                  size: 30,
-                                  color: blue,
-                                ))
+                                (isLoading == false)
+                                    ? const Expanded(
+                                        child: Icon(
+                                        Icons.send_rounded,
+                                        size: 30,
+                                        color: blue,
+                                      ))
+                                    : const SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: CircularProgressIndicator(
+                                            backgroundColor: darkyellow,
+                                            color: blue))
                               ],
                             )),
                       ),
@@ -480,18 +501,18 @@ class _FormOSsState extends State<FormOSs> {
     }
   }
 
-  Future firestoreImageAlert(file) async {
+  Future firestoreImageAlert(file, storagePath) async {
     if (file == null) return;
 
-    const destination = "ImageOSs/i";
+    String destination = "ImageOSs/$storagePath";
 
     task = FirestoreApi.uploadFile(destination, file!);
     if (task == null) return null;
     final snapshot = await task!.whenComplete(() {});
     final url = await snapshot.ref.getDownloadURL();
-    //await FirebaseFirestore.instance.collection("Usuarios").doc(uid).update({
-    //  "imagem": url
-    //});
+    await FirebaseFirestore.instance.collection("OSs").doc(storagePath).update({
+      "imagem": url
+    });
   }
 
   uploadImageAlert(context, image) {
