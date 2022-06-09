@@ -23,8 +23,14 @@ class FormOSs extends StatefulWidget {
 
 class _FormOSsState extends State<FormOSs> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  //mecânicos
   String dropdownValue = 'One';
   int filterChipCount = 0;
+  List<String> mecDoc = [];
+  Map<String, dynamic> firestoreMecDoc = {};
+
+  //SwichList
   bool boolZero = false;
   bool boolOne = false;
   bool boolTwo = false;
@@ -287,6 +293,7 @@ class _FormOSsState extends State<FormOSs> {
                         label: "Descreva a atividade...",
                         maxlines: 3,
                         keyboardType: TextInputType.text,
+                        controller: description,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "*Campo obrigatório";
@@ -317,11 +324,14 @@ class _FormOSsState extends State<FormOSs> {
                                 this.setState(() {
                                   isLoading = true;
                                 });
-                                List<Map<String, dynamic>> teste = [];
 
+                                for (int i = 0; i < mecDoc.length; i++) {
+                                  firestoreMecDoc
+                                      .addAll({"mecanico${i + 1}": mecDoc[i]});
+                                }
                                 ServiceOrder newServiceOrder = ServiceOrder(
                                     title.text,
-                                    teste,
+                                    firestoreMecDoc,
                                     (horse.text == "")
                                         ? null
                                         : int.parse(horse.text),
@@ -329,6 +339,7 @@ class _FormOSsState extends State<FormOSs> {
                                         ? null
                                         : int.parse(cart.text),
                                     description.text,
+                                    false,
                                     false,
                                     false,
                                     false,
@@ -340,7 +351,10 @@ class _FormOSsState extends State<FormOSs> {
                                 docOS = await newServiceOrder
                                     .registerOS(newServiceOrder);
                                 await firestoreImageAlert(imageOS, docOS);
-                               
+                                for (int i = 0; i < mecDoc.length; i++) {
+                                  await newServiceOrder.registerDocEachMec(
+                                      docOS!, mecDoc[i]);
+                                }
                               }
                               this.setState(() {
                                 isLoading = false;
@@ -403,9 +417,14 @@ class _FormOSsState extends State<FormOSs> {
               onSelected: (isSelected) => setState(() {
                     if (isSelected == false) {
                       filterChipCount = filterChipCount + 1;
+                      mecDoc.remove(filterChipData["id"]);
                     } else if (isSelected == true) {
                       filterChipCount = filterChipCount - 1;
+
+                      mecDoc.add(filterChipData["id"]);
                     }
+                    debugPrint("Lista Mapa :" + mecDoc.toString());
+
                     if (filterChipCount <= 4) {
                       if (filterChipData["selected"] == true) {
                         filterChipData["selected"] = false;
@@ -510,9 +529,10 @@ class _FormOSsState extends State<FormOSs> {
     if (task == null) return null;
     final snapshot = await task!.whenComplete(() {});
     final url = await snapshot.ref.getDownloadURL();
-    await FirebaseFirestore.instance.collection("OSs").doc(storagePath).update({
-      "imagem": url
-    });
+    await FirebaseFirestore.instance
+        .collection("OSs")
+        .doc(storagePath)
+        .update({"imagem": url});
   }
 
   uploadImageAlert(context, image) {
