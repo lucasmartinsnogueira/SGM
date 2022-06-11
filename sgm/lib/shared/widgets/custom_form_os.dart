@@ -320,45 +320,74 @@ class _FormOSsState extends State<FormOSs> {
                                         side: const BorderSide(
                                             color: blue, width: 3)))),
                             onPressed: () async {
-                              if (formKey.currentState!.validate()) {
+                              if (mecDoc.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CustomAlertDialog(
+                                      title: "Nenhum mecânico",
+                                      message:
+                                          "É obrigatório atribuir pelo menos um mecânico a OS",
+                                      popOnCancel: true,
+                                    );
+                                  },
+                                );
+                              } else {
+                                if (formKey.currentState!.validate()) {
+                                  this.setState(() {
+                                    isLoading = true;
+                                  });
+
+                                  for (int i = 0; i < mecDoc.length; i++) {
+                                    firestoreMecDoc.addAll(
+                                        {"mecanico${i + 1}": mecDoc[i]});
+                                  }
+                                  ServiceOrder newServiceOrder = ServiceOrder(
+                                      title.text,
+                                      firestoreMecDoc,
+                                      (horse.text == "")
+                                          ? null
+                                          : int.parse(horse.text),
+                                      (cart.text == "")
+                                          ? null
+                                          : int.parse(cart.text),
+                                      description.text,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      "",
+                                      "imagem",
+                                      auth.usuario!.uid,
+                                      DateTime.now());
+                                  try {
+                                    docOS = await newServiceOrder
+                                        .registerOS(newServiceOrder);
+                                    await firestoreImageAlert(imageOS, docOS);
+                                    for (int i = 0; i < mecDoc.length; i++) {
+                                      await newServiceOrder.registerDocEachMec(
+                                          docOS!, mecDoc[i]);
+                                    }
+                                    setState(() {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "OS Cadastrada com sucesso!")));
+                                    });
+                                    Navigator.pop(context);
+                                  } on FirebaseException catch (e) {
+                                    setState(() {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text("ERRO!: " +
+                                                  e.message.toString())));
+                                    });
+                                  }
+                                }
                                 this.setState(() {
-                                  isLoading = true;
+                                  isLoading = false;
                                 });
-
-                                for (int i = 0; i < mecDoc.length; i++) {
-                                  firestoreMecDoc
-                                      .addAll({"mecanico${i + 1}": mecDoc[i]});
-                                }
-                                ServiceOrder newServiceOrder = ServiceOrder(
-                                    title.text,
-                                    firestoreMecDoc,
-                                    (horse.text == "")
-                                        ? null
-                                        : int.parse(horse.text),
-                                    (cart.text == "")
-                                        ? null
-                                        : int.parse(cart.text),
-                                    description.text,
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    "",
-                                    "imagem",
-                                    auth.usuario!.uid,
-                                    DateTime.now());
-
-                                docOS = await newServiceOrder
-                                    .registerOS(newServiceOrder);
-                                await firestoreImageAlert(imageOS, docOS);
-                                for (int i = 0; i < mecDoc.length; i++) {
-                                  await newServiceOrder.registerDocEachMec(
-                                      docOS!, mecDoc[i]);
-                                }
                               }
-                              this.setState(() {
-                                isLoading = false;
-                              });
                             },
                             child: Row(
                               children: [
