@@ -5,14 +5,14 @@ import 'package:sgm/core/app.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 
-class HomeMecanico extends StatefulWidget {
-  const HomeMecanico({ Key? key }) : super(key: key);
+class HomeMechanical extends StatefulWidget {
+  const HomeMechanical({ Key? key }) : super(key: key);
 
   @override
-  _HomeMecanicoState createState() => _HomeMecanicoState();
+  _HomeMechanicalState createState() => _HomeMechanicalState();
 }
 
-class _HomeMecanicoState extends State<HomeMecanico> {
+class _HomeMechanicalState extends State<HomeMechanical> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -44,7 +44,7 @@ class _HomeMecanicoState extends State<HomeMecanico> {
                     top: 300
                   ),
                   child: Text(
-                    "Home Estoque, clique aqui para sair", 
+                    "Home Mecânico, clique aqui para sair", 
                     textAlign: TextAlign.center,
                     style: TextStyle(
                     color: blue, 

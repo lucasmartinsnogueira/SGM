@@ -84,8 +84,9 @@ flutter:
     - assets/pricipal/icone_app.png
     - assets/pricipal/cadeado.png
     - assets/pricipal/tela_inicial.png
-    - assets/usuarios/supervisor.png
-    - assets/usuarios/mecanico.png
+    - assets/users/supervisor.png
+    - assets/users/stock.png
+    - assets/users/mechanic.png
     - assets/supervisor/manageOSs.png
   
 

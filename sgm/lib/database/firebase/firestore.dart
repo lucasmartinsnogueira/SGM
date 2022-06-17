@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:sgm/modules/users/mechanical/pages/home_mecanico.dart';
-import 'package:sgm/modules/users/stock/pages/home_estoque.dart';
+import 'package:sgm/modules/users/mechanical/pages/home_mechanical.dart';
+import 'package:sgm/modules/users/mechanical/pages/start_mechanical.dart';
+import 'package:sgm/modules/users/stock/pages/home_stock.dart';
+import 'package:sgm/modules/users/stock/pages/start_stock.dart';
 import 'package:sgm/modules/users/supervisor/pages/inicial_supervisor.dart';
 import 'package:sgm/services/auth_services.dart';
 
@@ -34,7 +36,7 @@ vefificarAtivacao(context) async {
       Navigator.pushReplacement(
         context,
         PageTransition(
-        child: const HomeMecanico(),
+        child: const StartMechanical(),
         type: PageTransitionType.bottomToTop)
         );
         
@@ -43,7 +45,7 @@ vefificarAtivacao(context) async {
      Navigator.pushReplacement(
         context,
         PageTransition(
-        child: const HomeEstoque(),
+        child: const StartStock(),
         type: PageTransitionType.bottomToTop)
         );
   }

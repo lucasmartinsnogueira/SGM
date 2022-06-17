@@ -11,7 +11,15 @@ import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/image_picker.dart';
 
 class AccountManagement extends StatefulWidget {
-  const AccountManagement({Key? key}) : super(key: key);
+  final Color primaryColor;
+  final Color nameColor;
+  final Color? editColor;
+  const AccountManagement(
+      {Key? key,
+      this.primaryColor = blue,
+      this.nameColor = lightyellow,
+      this.editColor})
+      : super(key: key);
 
   @override
   _AccountManagementState createState() => _AccountManagementState();
@@ -30,13 +38,20 @@ class _AccountManagementState extends State<AccountManagement> {
         backgroundColor: lightyellow,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: blue,
+          backgroundColor: widget.primaryColor,
           leading: IconButton(
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
-              icon: const Icon(Icons.density_medium)),
-          actions: const <Widget>[ProfileAppBart()],
+              icon: Icon(
+                Icons.density_medium,
+                color: widget.nameColor,
+              )),
+          actions: <Widget>[
+            ProfileAppBar(
+              nameColor: widget.nameColor,
+            )
+          ],
         ),
         body: SafeArea(
             child: SizedBox(
@@ -66,7 +81,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 70,
-                          color: blue,
+                          color: widget.primaryColor,
                         ),
                         Positioned(
                           top: 1,
@@ -105,21 +120,38 @@ class _AccountManagementState extends State<AccountManagement> {
                                   : ClipRRect(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(70)),
-                                      child: Image.asset(
-                                        "assets/usuarios/supervisor.png",
-                                      ),
+                                      child: 
+                                       (snapshot.data!["categoria"] ==
+                                            "Supervisor")
+                                            ?
+                                      Image.asset(
+                                        "assets/users/supervisor.png",
+                                      )
+                                      :(snapshot.data!["categoria"] ==
+                                            "Estoque")
+                                        ?  Image.asset(
+                                          
+                                        "assets/users/stock.png",
+                                      )
+                                      :
+                                      Image.asset(
+                                        "assets/users/mechanic.png",
+                                      )
+                                        
+                                      
                                     )),
                         ),
                         Positioned(
                             bottom: 40,
                             child: Container(
                                 width: 40,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle, color: blue),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: widget.primaryColor),
                                 child: IconButton(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.edit,
-                                    color: pink,
+                                    color: widget.editColor,
                                     size: 15,
                                   ),
                                   onPressed: () {
@@ -140,7 +172,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -166,7 +198,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -183,11 +215,11 @@ class _AccountManagementState extends State<AccountManagement> {
                             title: const Text("Nome "),
                             subtitle: Text(snapshot.data!["nome"].toString()),
                             trailing: CircleAvatar(
-                              backgroundColor: blue,
+                              backgroundColor: widget.primaryColor,
                               child: IconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.edit,
-                                  color: pink,
+                                  color: widget.editColor,
                                 ),
                                 onPressed: () {
                                   modalNome(
@@ -207,7 +239,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -223,9 +255,10 @@ class _AccountManagementState extends State<AccountManagement> {
                             leading: const Icon(Icons.fingerprint_outlined),
                             title: const Text("CPF "),
                             subtitle: Text(snapshot.data!["cpf"].toString()),
-                            trailing: const CircleAvatar(
-                                backgroundColor: blue,
-                                child: Icon(Icons.radio_button_checked_outlined,
+                            trailing: CircleAvatar(
+                                backgroundColor: widget.primaryColor,
+                                child: const Icon(
+                                    Icons.radio_button_checked_outlined,
                                     color: Colors.green)),
                           ),
                         ),
@@ -237,7 +270,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -254,9 +287,16 @@ class _AccountManagementState extends State<AccountManagement> {
                             title: const Text("Categoria "),
                             subtitle:
                                 Text(snapshot.data!["categoria"].toString()),
-                            trailing: const CircleAvatar(
-                                backgroundColor: blue,
-                                child: Icon(Icons.psychology_outlined,
+                            trailing: CircleAvatar(
+                                backgroundColor: widget.primaryColor,
+                                child: Icon(
+                                    (snapshot.data!["categoria"] ==
+                                            "Supervisor")
+                                        ? Icons.psychology_outlined
+                                        : (snapshot.data!["categoria"] ==
+                                                "Estoque")
+                                            ? Icons.inventory
+                                            : Icons.engineering_rounded,
                                     color: Colors.green)),
                           ),
                         ),
@@ -268,7 +308,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -287,7 +327,7 @@ class _AccountManagementState extends State<AccountManagement> {
                                 ? "Ativado"
                                 : "Inativo"),
                             trailing: CircleAvatar(
-                                backgroundColor: blue,
+                                backgroundColor: widget.primaryColor,
                                 child: Icon(Icons.radio_button_checked,
                                     color: (snapshot.data!["ativado"] == true)
                                         ? Colors.green
@@ -302,7 +342,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -320,11 +360,11 @@ class _AccountManagementState extends State<AccountManagement> {
                             title: const Text("E-mail "),
                             subtitle: Text(snapshot.data!["email"].toString()),
                             trailing: CircleAvatar(
-                              backgroundColor: blue,
+                              backgroundColor: widget.primaryColor,
                               child: IconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.edit,
-                                  color: pink,
+                                  color: widget.editColor,
                                 ),
                                 onPressed: () {
                                   modalEmail(context, snapshot.data!["email"],
@@ -342,7 +382,7 @@ class _AccountManagementState extends State<AccountManagement> {
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          color: blue.withOpacity(0.7),
+                          color: widget.primaryColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.6),
@@ -360,11 +400,11 @@ class _AccountManagementState extends State<AccountManagement> {
                             title: const Text("Senha "),
                             subtitle: const Text("******"),
                             trailing: CircleAvatar(
-                              backgroundColor: blue,
+                              backgroundColor: widget.primaryColor,
                               child: IconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.edit,
-                                  color: pink,
+                                  color: widget.editColor,
                                 ),
                                 onPressed: () {
                                   modalSenha(context, snapshot.data!["email"],

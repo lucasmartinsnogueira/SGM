@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sgm/database/firebase/firestore_api.dart';
 import 'package:sgm/database/firebase/storagefunc.dart';
 import 'package:sgm/shared/help/colors.dart';
-import 'package:sgm/shared/widgets/custom_form_os.dart';
 
 class ImagePickerClass {
   UploadTask? task;

@@ -1,51 +1,52 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sgm/modules/users/mechanical/pages/home_mechanical.dart';
+import 'package:sgm/modules/users/stock/pages/home_stock.dart';
 import 'package:sgm/shared/widgets/account_management.dart';
-import 'package:sgm/modules/users/supervisor/pages/dashboard_supervisor.dart';
-import 'package:sgm/modules/users/supervisor/pages/home_supervisor.dart';
 import 'package:sgm/shared/help/colors.dart';
 
-class InicialSupervisor extends StatefulWidget {
-  const InicialSupervisor({Key? key}) : super(key: key);
+class StartMechanical extends StatefulWidget {
+  const StartMechanical({Key? key}) : super(key: key);
 
   @override
-  _InicialSupervisorState createState() => _InicialSupervisorState();
+  State<StartMechanical> createState() => _StartMechanicalState();
 }
 
-class _InicialSupervisorState extends State<InicialSupervisor> {
-  InicialSupervisor ola = const InicialSupervisor();
-
+class _StartMechanicalState extends State<StartMechanical> {
   int index = 1;
 
   final items = <Widget>[
     const Icon(
       Icons.donut_large_outlined,
       size: 30,
-      color: lightyellow,
     ),
     const Icon(
-      Icons.psychology_outlined,
+      Icons.engineering_outlined,
       size: 30,
-      color: lightyellow,
     ),
-    const Icon(Icons.account_circle_outlined, size: 30, color: lightyellow)
+    const Icon(
+      Icons.account_circle_outlined,
+      size: 30,
+    )
   ];
 
   final screens = [
-    const DashboardSupervisor(),
-    const HomeSupervisor(),
-    const AccountManagement(
-      primaryColor: blue,
-      nameColor: lightyellow,
-      editColor: pink,
+    const HomeMechanical(),
+    const HomeMechanical(),
+    AccountManagement(
+      primaryColor: pink,
+      nameColor: Colors.black.withOpacity(0.7),
+      editColor: const Color.fromARGB(255, 87, 8, 8),
     )
   ];
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: blue, statusBarIconBrightness: Brightness.light));
+        statusBarColor: pink,
+        systemNavigationBarColor: pink,
+        statusBarIconBrightness: Brightness.dark));
     return Scaffold(
         drawer: const Drawer(
           backgroundColor: blue,
@@ -57,7 +58,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
           index: index,
           animationDuration: const Duration(milliseconds: 300),
           height: 65,
-          color: blue,
+          color: pink,
           backgroundColor: Colors.transparent,
           items: items,
           onTap: (index) {

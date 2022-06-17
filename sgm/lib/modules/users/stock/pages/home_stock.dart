@@ -5,14 +5,14 @@ import 'package:sgm/core/app.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 
-class HomeEstoque extends StatefulWidget {
-  const HomeEstoque({ Key? key }) : super(key: key);
+class HomeStock extends StatefulWidget {
+  const HomeStock({ Key? key }) : super(key: key);
 
   @override
-  _HomeEstoqueState createState() => _HomeEstoqueState();
+  _HomeStockState createState() => _HomeStockState();
 }
 
-class _HomeEstoqueState extends State<HomeEstoque> {
+class _HomeStockState extends State<HomeStock> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override

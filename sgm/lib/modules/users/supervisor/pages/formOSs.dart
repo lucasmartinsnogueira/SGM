@@ -11,7 +11,7 @@ import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/widgets/custom_Text_Form_Field.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
-import '../../database/firebase/firestore_api.dart';
+import '../../../../database/firebase/firestore_api.dart';
 
 class FormOSs extends StatefulWidget {
   final List<Map<String, dynamic>>? mapDoc;

@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sgm/modules/users/supervisor/pages/components/tools_supervisor.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
-import 'package:sgm/shared/widgets/custom_form_os.dart';
+import 'package:sgm/modules/users/supervisor/pages/formOSs.dart';
 
 import '../../../../shared/widgets/custom_alert_dialog.dart';
 
@@ -45,7 +45,7 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                   Scaffold.of(context).openDrawer();
                 },
                 icon: const Icon(Icons.density_medium)),
-            actions: const <Widget>[ProfileAppBart()],
+            actions: const <Widget>[ProfileAppBar()],
             pinned: true,
             floating: true,
             expandedHeight: 120.0,
@@ -224,7 +224,7 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                                                                           70)),
                                                               child:
                                                                   Image.asset(
-                                                                "assets/usuarios/mecanico.png",
+                                                                "assets/users/mechanic.png",
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),
