@@ -16,6 +16,11 @@ class HomeStock extends StatefulWidget {
 class _HomeStockState extends State<HomeStock> {
   final _controller = HomeStockController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var snapshots = FirebaseFirestore.instance
+        .collection("OSs")
+        .where("estoquista", isEqualTo: false)
+        .orderBy("data", descending: true)
+        .snapshots();
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
@@ -58,7 +63,7 @@ class _HomeStockState extends State<HomeStock> {
             ),
             SliverToBoxAdapter(
               child: StreamBuilder(
-                  stream: _controller.snapshots,
+                  stream: snapshots,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
@@ -120,6 +125,26 @@ class _HomeStockState extends State<HomeStock> {
                                 color: blue),
                           ),
                         ),
+                        (snapshot.data != null)
+                        ?SizedBox(
+                          height: 700,
+                          width:  500,
+                          child: GridView.count(
+                             crossAxisSpacing: 10,
+                            childAspectRatio: (1 / 1.4),
+                            crossAxisCount: 2,
+                            children: snapshot.data!.docs.map((document) {
+                              return 
+                              Padding(padding: const EdgeInsets.all(40),
+                              child: Container(width: 44, height: 44, color: Colors.red,),);
+                            }
+                              ).toList()
+                          ),
+                        )
+                        : const Center(
+                          child:
+                          Text("Não há OS em espera.")
+                        )
                         ],
                       )
                     );
