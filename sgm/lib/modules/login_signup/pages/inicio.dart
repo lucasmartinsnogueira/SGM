@@ -114,7 +114,7 @@ class _InicioState extends State<Inicio> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        'Todos direitos reservados © 2022 Codil Alimentos Ltda.',
+                        'Todos direitos reservados © 2022 SGM Corporation',
                         style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 12,

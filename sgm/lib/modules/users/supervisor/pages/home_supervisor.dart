@@ -7,7 +7,6 @@ import 'package:sgm/modules/users/supervisor/pages/components/tools_supervisor.d
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/modules/users/supervisor/pages/formOSs.dart';
-
 import '../../../../shared/widgets/custom_alert_dialog.dart';
 
 class HomeSupervisor extends StatefulWidget {

@@ -1,15 +1,31 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:sgm/modules/users/stock/pages/gerenciaStock.dart';
 
 class HomeStockController extends ChangeNotifier {
-  dynamic snapshots;
-  getOSatributes() {
-    snapshots = FirebaseFirestore.instance
+  Future<String> getString(docSupervisor) async {
+    String? nameSupervisor;
+    await FirebaseFirestore.instance
         .collection("Usuarios")
-        .where("categoria", isEqualTo: "Mecânico")
-        .where("ativado", isEqualTo: true)
-        .orderBy("nome")
-        .snapshots();
-    return snapshots;
+        .doc(docSupervisor)
+        .get()
+        .then((datasnapshot) {
+      nameSupervisor = datasnapshot.data()!["nome"];
+    });
+
+    return nameSupervisor ?? "Carregando";
+  }
+
+  void Function() gerenciaEstoque(context) {
+    return () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const GerenciaStock()));
+    };
+  }
+
+  void Function() navigateBack(context) {
+    return () {
+      Navigator.pop(context);
+    };
   }
 }
