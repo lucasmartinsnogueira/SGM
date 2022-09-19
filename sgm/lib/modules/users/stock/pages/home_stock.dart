@@ -138,14 +138,16 @@ class _HomeStockState extends State<HomeStock> {
                                     children:
                                         snapshot.data!.docs.map((document) {
                                       return Oswaitwidget(
-                                        carreta: 13,
-                                        cavalo: 74,
+                                        carreta: document["carreta"],
+                                        cavalo: document["cavalo"],
                                         data: document["data"],
-                                        descricao: "fggf",
+                                        descricao: document["descricao"],
                                         docSupervisor: document["docSupervisor"],
                                         imagem: document["imagem"],
                                         listMecanicos: document["mecanicos"],
                                         titulo: document["titulo"],
+                                        itens: document["itens"],
+                                        docRef: document.reference.id,
                                       );
                                     }).toList()),
                               )

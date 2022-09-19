@@ -13,13 +13,14 @@ class CustomAlertDialog extends StatefulWidget {
   final String? cancelMsg;
   final Widget? container;
 
-  const CustomAlertDialog({Key? key, 
+  const CustomAlertDialog({
+    Key? key,
     this.message,
     this.popOnCancel = false,
     this.title,
     this.onConfirmPressed,
     this.confirmMsg,
-    this.cancelMsg, 
+    this.cancelMsg,
     this.container,
   }) : super(key: key);
 
@@ -33,11 +34,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
     Size size = MediaQuery.of(context).size;
     double _borda = 20;
     TextStyle _estilo = const TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 20,
-                    color: blue,
-                    fontWeight: FontWeight.w500
-                    );
+        fontFamily: "Montserrat",
+        fontSize: 20,
+        color: blue,
+        fontWeight: FontWeight.w500);
 
     return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
@@ -58,36 +58,36 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap:
-                      widget.popOnCancel == false
+                      onTap: widget.popOnCancel == false
                           ? widget.onConfirmPressed
                           : () => Navigator.pop(context),
-                    child: 
-                    widget.popOnCancel == false
-                    ? const SizedBox()
-                    :
-                    const Icon(Icons.cancel_outlined, color: blue, size: 30,)
-                  ),
+                      child: widget.popOnCancel == false
+                          ? const SizedBox()
+                          : const Icon(
+                              Icons.cancel_outlined,
+                              color: blue,
+                              size: 30,
+                            )),
                   Align(
                       alignment: Alignment.center,
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                              top:10
-                            ),
+                            padding: const EdgeInsets.only(top: 10),
                             child: Text(widget.title!, style: _estilo),
                           ),
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.02),
-                          Center(child: Text(widget.message!, style: const TextStyle(
+                          Center(
+                              child: Text(
+                            widget.message!,
+                            style: const TextStyle(
                                 fontFamily: "Montserrat",
                                 fontSize: 18,
                                 color: blue,
-                                fontWeight: FontWeight.w400
-                          ),
-                               textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
                           )),
                         ],
                       )),
@@ -103,15 +103,17 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                                   child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
-                                      
+                                        border: Border.all(
+                                          width: 2,
+                                          color: blue
+                                          
+                                        )
                                       ),
                                       child: TextButton(
                                           child: Text(widget.confirmMsg!,
-                                              style: const TextStyle(
-                                                  color: blue)),
-                                          onPressed: widget.onConfirmPressed
-                                            
-                                          ))))
+                                              style:
+                                                  const TextStyle(color: blue)),
+                                          onPressed: widget.onConfirmPressed))))
                           : const SizedBox(width: 0),
                       //cancelar
                       widget.cancelMsg != null
@@ -120,35 +122,32 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
-                                 
                                 ),
                                 child: TextButton(
                                     child: Text(widget.cancelMsg!,
-                                        style: const TextStyle(
-                                            color: blue)),
+                                        style: const TextStyle(color: blue)),
                                     onPressed: () => Navigator.pop(context)),
                               ),
                             ))
                           : const SizedBox(width: 0),
 
-                          widget.container != null
-                          ? const Expanded(child: Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25
-                            ),
-                            child: Center(
-                                child: ClipRRect(
-                                
-                                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  child: LinearProgressIndicator(
-                                    backgroundColor: blue,
-                                    color: blue,
-                                    minHeight: 13,
-                                    
-                                    
+                      widget.container != null
+                          ? const Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 25, right: 25),
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    child: LinearProgressIndicator(
+                                      backgroundColor: blue,
+                                      color: blue,
+                                      minHeight: 13,
+                                    ),
                                   ),
                                 ),
-                            ),
-                          ),)
+                              ),
+                            )
                           : Container()
                     ]),
                   )

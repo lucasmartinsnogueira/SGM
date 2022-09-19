@@ -1,6 +1,7 @@
+import 'package:sgm/modules/users/stock/pages/gerenciastock.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sgm/modules/users/stock/pages/gerenciaStock.dart';
+
 
 class HomeStockController extends ChangeNotifier {
   Future<String> getString(docSupervisor) async {
@@ -16,10 +17,24 @@ class HomeStockController extends ChangeNotifier {
     return nameSupervisor ?? "Carregando";
   }
 
-  void Function() gerenciaEstoque(context) {
+  void Function() gerenciaEstoque(context, titulo, descricao, carreta, cavalo,
+      imagem, supervisor, mecanicos, data, itens, docRef) {
     return () {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const GerenciaStock()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => GerenciaStock(
+                    titulo: titulo,
+                    descricao: descricao,
+                    carreta: carreta,
+                    cavalo: cavalo,
+                    docSupervisor: supervisor,
+                    listMecanicos: mecanicos,
+                    data: data,
+                    imagem: imagem,
+                    itens: itens,
+                    docRef: docRef,
+                  )));
     };
   }
 

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sgm/modules/users/stock/controllers/home_stock_Controller.dart';
+import 'package:sgm/modules/users/stock/controllers/home_stock_controller.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
@@ -14,8 +14,9 @@ class Oswaitwidget extends StatefulWidget {
   final String docSupervisor;
   final String imagem;
   final Map<String, dynamic> listMecanicos;
-
   final String titulo;
+  final String itens;
+  final String docRef;
 
   const Oswaitwidget(
       {required this.carreta,
@@ -26,6 +27,8 @@ class Oswaitwidget extends StatefulWidget {
       required this.imagem,
       required this.listMecanicos,
       required this.titulo,
+      required this.itens,
+      required this.docRef,
       Key? key})
       : super(key: key);
 
@@ -36,8 +39,8 @@ class Oswaitwidget extends StatefulWidget {
 class _OswaitwidgetState extends State<Oswaitwidget> {
   @override
   Widget build(BuildContext context) {
+    print("documento ref: " + widget.docRef);
     final _controller = HomeStockController();
-
     String? nameSupervisor;
     getSupervisorName() async {
       nameSupervisor = await _controller.getString(widget.docSupervisor);
@@ -136,7 +139,19 @@ class _OswaitwidgetState extends State<Oswaitwidget> {
                             style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: pink),
                                 primary: pink),
-                            onPressed: _controller.gerenciaEstoque(context),
+                            onPressed: _controller.gerenciaEstoque(
+                                context,
+                                widget.titulo,
+                                widget.descricao,
+                                widget.carreta,
+                                widget.cavalo,
+                                widget.imagem,
+                                widget.docSupervisor,
+                                widget.listMecanicos,
+                                widget.data,
+                                widget.itens,
+                                widget.docRef
+                                ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: const [
