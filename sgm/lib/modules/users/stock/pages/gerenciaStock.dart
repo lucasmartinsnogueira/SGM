@@ -427,9 +427,8 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                         "estoquista": _inStock
                                       });
                                       Navigator.pop(context);
-                                       _controller.navigateBack(context);
+                                      _controller.navigateBack(context);
                                     }
-                                   
                                   })
                             ],
                           ),

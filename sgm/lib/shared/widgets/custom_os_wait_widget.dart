@@ -111,10 +111,15 @@ class _OswaitwidgetState extends State<Oswaitwidget> {
                         child: ClipRRect(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(7)),
-                            child: FadeInImage.assetNetwork(
+                            child: (widget.imagem != "imagem")
+                            ?
+                            FadeInImage.assetNetwork(
                                 placeholder: "assets/pricipal/loading.gif",
                                 image: widget.imagem,
-                                fit: BoxFit.cover)),
+                                fit: BoxFit.cover)
+                                : Image.asset("assets/pricipal/noImage.png", fit: BoxFit.cover,)
+                                )
+                              
                       ),
                       const SizedBox(
                         height: 7,

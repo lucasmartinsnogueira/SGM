@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sgm/modules/users/stock/pages/components/view_OS_Stock.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
 import 'package:sgm/shared/widgets/custom_os_wait_widget.dart';
+
 
 
 class HomeStock extends StatefulWidget {
@@ -56,7 +58,7 @@ class _HomeStockState extends State<HomeStock> {
               flexibleSpace: const Center(
                 child: FlexibleSpaceBar(
                   title: Text(
-                    'Mecânico',
+                    'Estoque',
                     style: TextStyle(color: blue),
                   ),
                 ),
@@ -99,24 +101,24 @@ class _HomeStockState extends State<HomeStock> {
                             scrollDirection: Axis.horizontal,
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const CustomAlertDialog(
-                                          title: "Em desenvolvimento",
-                                          message:
-                                              "Gerenciamento de OSs está em desenvolvimento",
-                                          popOnCancel: true,
-                                        );
-                                      },
+                                onTap: () {
+                                  showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CustomAlertDialog(
+                                      title: "Em desenvolvimento",
+                                      message:
+                                          "Gerenciamento de OSs está em desenvolvimento",
+                                      popOnCancel: true,
                                     );
                                   },
-                                  child:
-                                      const Text("Gerenciamento de atividades"))
+                                );
+                                },
+                                child: const ViewOstock())
                             ],
                           ),
                         ),
+                       
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
@@ -129,10 +131,11 @@ class _HomeStockState extends State<HomeStock> {
                         ),
                         (snapshot.data != null)
                             ? SizedBox(
-                                height: 600,
-                                width: 600,
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
                                 child: GridView.count(
-                                    crossAxisSpacing: 10,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    crossAxisSpacing: 5,
                                     childAspectRatio: (1 / 1.5),
                                     crossAxisCount: 2,
                                     children:

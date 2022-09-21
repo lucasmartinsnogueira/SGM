@@ -89,6 +89,8 @@ flutter:
     - assets/users/mechanic.png
     - assets/supervisor/manageOSs.png
     - assets/pricipal/loading.gif
+    - assets/users/viewOS_Stock.png
+    - assets/pricipal/noImage.png
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

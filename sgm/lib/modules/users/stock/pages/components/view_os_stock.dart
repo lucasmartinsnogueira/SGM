@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sgm/shared/help/colors.dart';
+import 'package:flutter/material.dart';
 
-class ManageOSsWidget extends StatefulWidget {
-  const ManageOSsWidget({Key? key}) : super(key: key);
+class ViewOstock extends StatefulWidget {
+  const ViewOstock({Key? key}) : super(key: key);
 
   @override
-  State<ManageOSsWidget> createState() => _ManageOSsWidgetState();
+  State<ViewOstock> createState() => _ViewOstockState();
 }
 
-class _ManageOSsWidgetState extends State<ManageOSsWidget> {
+class _ViewOstockState extends State<ViewOstock> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,7 +34,7 @@ class _ManageOSsWidgetState extends State<ManageOSsWidget> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Gerenciar \nOS",
+                  "Visualizar \nOS",
                   style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
@@ -45,7 +45,7 @@ class _ManageOSsWidgetState extends State<ManageOSsWidget> {
             Center(
               child: SizedBox(
                 height: 90,
-                child: Image.asset("assets/supervisor/manageOSs.png",
+                child: Image.asset("assets/users/viewOS_Stock.png",
                     fit: BoxFit.fill),
               ),
             ),
