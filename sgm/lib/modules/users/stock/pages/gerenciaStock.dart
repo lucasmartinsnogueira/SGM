@@ -107,29 +107,33 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                 ),
                               ),
                               Container(
-                                width: 170,
-                                height: 170,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(7)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.6),
-                                      spreadRadius: 0.7,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 3),
-                                    )
-                                  ],
-                                ),
-                                child: ClipRRect(
+                                  width: 170,
+                                  height: 170,
+                                  decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(7)),
-                                    child: FadeInImage.assetNetwork(
-                                        placeholder:
-                                            "assets/pricipal/loading.gif",
-                                        image: widget.imagem,
-                                        fit: BoxFit.cover)),
-                              ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.6),
+                                        spreadRadius: 0.7,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      )
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(7)),
+                                      child: (widget.imagem != "imagem")
+                                          ? FadeInImage.assetNetwork(
+                                              placeholder:
+                                                  "assets/pricipal/loading.gif",
+                                              image: widget.imagem,
+                                              fit: BoxFit.cover)
+                                          : Image.asset(
+                                              "assets/pricipal/noImage.png",
+                                              fit: BoxFit.cover,
+                                            ))),
                               Form(
                                 key: formKey,
                                 child: SizedBox(
@@ -428,6 +432,12 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                       });
                                       Navigator.pop(context);
                                       _controller.navigateBack(context);
+                                      Navigator.pop(context);
+                                      _controller.navigateBack(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "OS atualizada com sucesso!")));
                                     }
                                   })
                             ],

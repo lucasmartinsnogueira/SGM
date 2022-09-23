@@ -372,7 +372,7 @@ class _FormOSsState extends State<FormOSs> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
                                               content: Text(
-                                                  "OS Cadastrada com sucesso!")));
+                                                  "OS cadastrada com sucesso!")));
                                     });
                                     Navigator.pop(context);
                                   } on FirebaseException catch (e) {

@@ -39,7 +39,7 @@ class Oswaitwidget extends StatefulWidget {
 class _OswaitwidgetState extends State<Oswaitwidget> {
   @override
   Widget build(BuildContext context) {
-    print("documento ref: " + widget.docRef);
+ 
     final _controller = HomeStockController();
     String? nameSupervisor;
     getSupervisorName() async {
