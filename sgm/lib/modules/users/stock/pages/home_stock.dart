@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sgm/modules/users/stock/pages/components/view_OS_Stock.dart';
+import 'package:sgm/modules/users/stock/pages/viewOSstock.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
-import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
+import 'package:sgm/shared/widgets/custom_drawer.dart';
 import 'package:sgm/shared/widgets/custom_os_wait_widget.dart';
 
 class HomeStock extends StatefulWidget {
@@ -23,7 +26,12 @@ class _HomeStockState extends State<HomeStock> {
       .snapshots();
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
     return (Scaffold(
+      drawer: const CustomDrawer(
+        color: darkyellow,
+        secondaryColor: blue,
+      ),
       key: scaffoldKey,
       backgroundColor: lightyellow,
       body: SafeArea(
@@ -38,7 +46,10 @@ class _HomeStockState extends State<HomeStock> {
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: blue,
+                    backgroundColor: pink,
+                  ),
                 );
               }
               return CustomScrollView(
@@ -51,13 +62,16 @@ class _HomeStockState extends State<HomeStock> {
                     backgroundColor: darkyellow,
                     shadowColor: Colors.black,
                     leading: IconButton(
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        icon: const Icon(
-                          Icons.density_medium,
-                          color: blue,
-                        )),
+                      onPressed: () =>
+                        Scaffold.of(context).openDrawer(),
+                      
+                      icon: IconButton(
+                          icon: const Icon(
+                            Icons.density_medium_rounded,
+                            color: blue,
+                          ),
+                          onPressed: () => Scaffold.of(context).openDrawer()),
+                    ),
                     actions: const <Widget>[
                       ProfileAppBar(
                         nameColor: blue,
@@ -98,16 +112,12 @@ class _HomeStockState extends State<HomeStock> {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const CustomAlertDialog(
-                                          title: "Em desenvolvimento",
-                                          message:
-                                              "Gerenciamento de OSs está em desenvolvimento",
-                                          popOnCancel: true,
-                                        );
-                                      },
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewOSstockPage(
+                                                uidStock: auth.usuario!.uid,
+                                              )),
                                     );
                                   },
                                   child: const ViewOstock())
@@ -148,14 +158,14 @@ class _HomeStockState extends State<HomeStock> {
                             );
                           }).toList())
                       : const SliverToBoxAdapter(
-                          child: Center(child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 50
-                            ),
-                            child: Text("Não há OS sem validação.", style: TextStyle(
-                              fontSize: 20
-                            ),),
-                          ))),
+                          child: Center(
+                              child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 50),
+                          child: Text(
+                            "Não há OS sem validação.",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ))),
                   const SliverToBoxAdapter(
                     child: SizedBox(
                       height: 15,

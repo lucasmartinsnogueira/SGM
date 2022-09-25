@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,6 +49,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
     final _controller = GerenciaStockController();
     List<String?> dataSupervisor = [];
     List<String?> dataMechanics = [];
@@ -428,7 +431,8 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                           .update({
                                         "igm": _igm,
                                         "esperaEst": _inWait,
-                                        "estoquista": _inStock
+                                        "estoquista": _inStock,
+                                        "docEstoquista": auth.usuario!.uid
                                       });
                                       Navigator.pop(context);
                                       _controller.navigateBack(context);

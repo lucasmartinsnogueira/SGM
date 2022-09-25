@@ -47,6 +47,7 @@ dependencies:
   cached_network_image: ^3.2.0
   google_fonts: ^2.3.2
   numberpicker: ^2.1.1
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,9 @@ flutter:
     - assets/pricipal/loading.gif
     - assets/users/viewOS_Stock.png
     - assets/pricipal/noImage.png
+    - assets/autors/lucas.jpg
+    - assets/autors/luisa.jpg
+    - assets/autors/sarah.jpg
   
 
   # An image asset can refer to one or more resolution-specific "variants", see
