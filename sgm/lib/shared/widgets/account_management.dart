@@ -8,6 +8,7 @@ import 'package:sgm/core/app.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
+import 'package:sgm/shared/widgets/custom_drawer.dart';
 import 'package:sgm/shared/widgets/image_picker.dart';
 
 class AccountManagement extends StatefulWidget {
@@ -35,13 +36,17 @@ class _AccountManagementState extends State<AccountManagement> {
         .doc((auth.usuario != null) ? auth.usuario!.uid : null)
         .snapshots();
     return Scaffold(
+      drawer: CustomDrawer(
+        color: widget.primaryColor,
+        secondaryColor: (widget.primaryColor == darkyellow) ? blue : Colors.white
+      ),
         backgroundColor: lightyellow,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: widget.primaryColor,
           leading: IconButton(
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                
               },
               icon: Icon(
                 Icons.density_medium,

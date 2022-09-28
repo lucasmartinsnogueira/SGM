@@ -62,15 +62,11 @@ class _HomeStockState extends State<HomeStock> {
                     backgroundColor: darkyellow,
                     shadowColor: Colors.black,
                     leading: IconButton(
-                      onPressed: () =>
-                        Scaffold.of(context).openDrawer(),
-                      
-                      icon: IconButton(
-                          icon: const Icon(
-                            Icons.density_medium_rounded,
-                            color: blue,
-                          ),
-                          onPressed: () => Scaffold.of(context).openDrawer()),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                      icon: const Icon(
+                        Icons.density_medium_rounded,
+                        color: blue,
+                      ),
                     ),
                     actions: const <Widget>[
                       ProfileAppBar(

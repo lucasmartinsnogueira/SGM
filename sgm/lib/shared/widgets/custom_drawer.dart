@@ -56,11 +56,38 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Icons.link_rounded,
                   color: widget.secondaryColor,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  final Uri url = Uri.parse(
+                      'https://www.youtube.com/channel/UCYQYFujQbqLUaCAChmvXRYQ');
+                  if (!await launchUrl(url,
+                      mode: LaunchMode.externalApplication)) {
+                    throw 'Could not launch $url';
+                  }
+                },
                 leading: Icon(Icons.video_collection_outlined,
                     color: widget.secondaryColor),
                 title: Text(
                   "Tutoriais",
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, color: blue),
+                ),
+              ),
+              ListTile(
+                trailing: Icon(
+                  Icons.link_rounded,
+                  color: widget.secondaryColor,
+                ),
+                onTap: () async {
+                  final Uri url = Uri.parse(
+                      'https://1drv.ms/u/s!Av1A6uI4PmodhpEaKYD3-kuKoK8Cew?e=2tWUmB');
+                  if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+                    throw 'Could not launch $url';
+                  }
+                },
+                leading: Icon(Icons.description_outlined,
+                    color: widget.secondaryColor),
+                title: Text(
+                  "Documentos",
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600, color: blue),
                 ),
@@ -78,20 +105,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     throw 'Could not launch $url';
                   }
                 },
-                leading: Icon(Icons.description_outlined,
-                    color: widget.secondaryColor),
-                title: Text(
-                  "Documentos",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
-                ),
-              ),
-              ListTile(
-                trailing: Icon(
-                  Icons.link_rounded,
-                  color: widget.secondaryColor,
-                ),
-                onTap: () {},
                 leading:
                     Icon(Icons.terminal_outlined, color: widget.secondaryColor),
                 title: Text(
@@ -118,7 +131,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Icons.link_rounded,
                   color: widget.secondaryColor,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  final Uri params = Uri(
+                    scheme: 'mailto',
+                    path: 'lucasmartinsnogueira13579@gmail.com',
+                    query:
+                        'subject=Reportar&body=Olá, eu sou o Lucas um dos desenvolvedores da plataforma SGM. ',
+                  );
+                  String url = params.toString();
+                  if (!await launchUrl(params,
+                      mode: LaunchMode.externalApplication)) {
+                    throw 'Could not launch $url';
+                  }
+                },
                 leading: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: ClipRRect(
@@ -144,7 +169,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Icons.link_rounded,
                   color: widget.secondaryColor,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  final Uri params = Uri(
+                    scheme: 'mailto',
+                    path: 'sousasantosluisa92@gmail.com',
+                    query:
+                        'subject=Reportar&body=Olá, eu sou a Luísa uma das desenvolvedoras da plataforma SGM. ',
+                  );
+                  String url = params.toString();
+                  if (!await launchUrl(params,
+                      mode: LaunchMode.externalApplication)) {
+                    throw 'Could not launch $url';
+                  }
+                },
                 leading: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: ClipRRect(
@@ -170,13 +207,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Icons.link_rounded,
                   color: widget.secondaryColor,
                 ),
-                onTap: () {},
+                onTap: () async {
+                  final Uri params = Uri(
+                    scheme: 'mailto',
+                    path: 'sarahazevedop@live.com',
+                    query:
+                        'subject=Reportar&body=Olá, eu sou a Sarah uma das desenvolvedoras da plataforma SGM. ',
+                  );
+                  String url = params.toString();
+                  if (!await launchUrl(params,
+                      mode: LaunchMode.externalApplication)) {
+                    throw 'Could not launch $url';
+                  }
+                },
                 leading: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                     child: Image.asset(
-                      "assets/autors/sarah.jpg",
+                      "assets/autors/sarah.jpeg",
                       fit: BoxFit.cover,
                     ),
                   ),
