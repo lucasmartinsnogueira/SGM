@@ -95,6 +95,7 @@ flutter:
     - assets/autors/lucas.jpg
     - assets/autors/luisa.jpg
     - assets/autors/sarah.jpeg
+    - assets/users/historic_work.png
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

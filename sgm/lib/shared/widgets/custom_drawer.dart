@@ -69,7 +69,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Tutoriais",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
               ),
               ListTile(
@@ -89,7 +89,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Documentos",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
               ),
               ListTile(
@@ -110,11 +110,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Sofware",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
                 subtitle: Text(
                   "Baixar versão desktop\nAcessar código fonte",
-                  style: GoogleFonts.poppins(fontSize: 12, color: blue),
+                  style: GoogleFonts.poppins(fontSize: 12, color: widget.secondaryColor),
                 ),
                 isThreeLine: true,
               ),
@@ -123,7 +123,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 child: Text(
                   "Autores",
                   style: GoogleFonts.poppins(
-                      fontSize: 25, fontWeight: FontWeight.w600, color: blue),
+                      fontSize: 25, fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
               ),
               ListTile(
@@ -157,11 +157,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Lucas",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
                 subtitle: Text(
                   "Martins Nogueira",
-                  style: GoogleFonts.poppins(fontSize: 12, color: blue),
+                  style: GoogleFonts.poppins(fontSize: 12, color: widget.secondaryColor),
                 ),
               ),
               ListTile(
@@ -195,11 +195,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Luísa",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
                 subtitle: Text(
                   "Sousa Santos",
-                  style: GoogleFonts.poppins(fontSize: 12, color: blue),
+                  style: GoogleFonts.poppins(fontSize: 12, color: widget.secondaryColor),
                 ),
               ),
               ListTile(
@@ -233,11 +233,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text(
                   "Sarah",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, color: blue),
+                      fontWeight: FontWeight.w600, color: widget.secondaryColor),
                 ),
                 subtitle: Text(
                   "Azevedo Pereira",
-                  style: GoogleFonts.poppins(fontSize: 12, color: blue),
+                  style: GoogleFonts.poppins(fontSize: 12, color: widget.secondaryColor),
                 ),
               ),
               const SizedBox(
@@ -249,15 +249,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: Text(
                     "SGM V1.0",
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, color: blue),
+                        fontWeight: FontWeight.w600, color: widget.secondaryColor),
                   ),
                 ),
               ),
-              const Center(
+              Center(
                 child: Text(
                   'Todos direitos reservados © 2022 SGM Corporation',
                   style: TextStyle(
-                      fontFamily: 'Poppins', fontSize: 10, color: blue),
+                      fontFamily: 'Poppins', fontSize: 10, color: widget.secondaryColor),
                 ),
               ),
             ],

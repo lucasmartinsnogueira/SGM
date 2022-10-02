@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sgm/modules/users/stock/pages/home_stock.dart';
 import 'package:sgm/shared/widgets/account_management.dart';
 import 'package:sgm/shared/help/colors.dart';
+import 'package:sgm/shared/widgets/custom_drawer.dart';
 
 class StartStock extends StatefulWidget {
   const StartStock({Key? key}) : super(key: key);
@@ -33,9 +34,9 @@ class _StartStockState extends State<StartStock> {
   final screens = [
     const HomeStock(),
     const HomeStock(),
-    AccountManagement(
+    const AccountManagement(
       primaryColor: darkyellow,
-      nameColor: Colors.black.withOpacity(0.7),
+      nameColor: blue,
       editColor: pink,
     )
   ];
@@ -47,8 +48,9 @@ class _StartStockState extends State<StartStock> {
         systemNavigationBarColor: darkyellow,
         statusBarIconBrightness: Brightness.dark));
     return Scaffold(
-        drawer: const Drawer(
-          backgroundColor: blue,
+        drawer: const CustomDrawer(
+          color: darkyellow,
+        secondaryColor:  blue 
         ),
         key: scaffoldKey,
         backgroundColor: lightyellow,
