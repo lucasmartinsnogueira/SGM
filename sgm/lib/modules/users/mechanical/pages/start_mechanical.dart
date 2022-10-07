@@ -34,10 +34,10 @@ class _StartMechanicalState extends State<StartMechanical> {
   final screens = [
     const HomeMechanical(),
     const HomeMechanical(),
-    AccountManagement(
+    const AccountManagement(
       primaryColor: pink,
       nameColor: Colors.black,
-      editColor: const Color.fromARGB(255, 87, 8, 8),
+      editColor: Color.fromARGB(255, 87, 8, 8),
     )
   ];
   final scaffoldKey = GlobalKey<ScaffoldState>();

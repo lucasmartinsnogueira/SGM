@@ -5,7 +5,7 @@ import 'package:sgm/modules/users/mechanical/pages/components/historic_work.dart
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/custom_drawer.dart';
-
+import 'package:sgm/shared/widgets/custom_os_wait_widget.dart';
 
 class HomeMechanical extends StatefulWidget {
   const HomeMechanical({Key? key}) : super(key: key);
@@ -15,21 +15,29 @@ class HomeMechanical extends StatefulWidget {
 }
 
 class _HomeMechanicalState extends State<HomeMechanical> {
-  var paleativo;
+  var snapshots = FirebaseFirestore.instance
+      .collection("OSs")
+      .where("estoquista", isEqualTo: true)
+      .where("mecanicos", arrayContains: "vfWK8XuspBUQgwvJ5f2WY4YAKn93") // TENTAR UTILIZAR O WHERE IN
+      .orderBy("data", descending: false)
+      .snapshots();
+      var snapshotsteste = FirebaseFirestore.instance
+      .collection("OSs")
+      .where("estoquista", isEqualTo: true)
+      .where("mecanicos", isEqualTo: "kfdk")
+      .orderBy("data", descending: false)
+      .snapshots();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-      drawer: const CustomDrawer(
-        color: pink,
-        secondaryColor: Colors.black
-      ),
+      drawer: const CustomDrawer(color: pink, secondaryColor: Colors.black),
       key: scaffoldKey,
       backgroundColor: lightyellow,
       body: SafeArea(
         child: StreamBuilder(
-            stream: paleativo,
+            stream: snapshots,
             builder: (BuildContext context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasError) {
@@ -101,7 +109,7 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                   /* Navigator.push(
+                                    /* Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ViewOSstockPage(
@@ -127,26 +135,27 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                       ],
                     )),
                   ),
-                  /* (snapshot.data!.docs.isNotEmpty)
-                      ? SliverGrid.count(
-                          crossAxisSpacing: 5,
-                          childAspectRatio: (1 / 1.5),
-                          crossAxisCount: 2,
-                          children: snapshot.data!.docs.map((document) {
-                            return Oswaitwidget(
-                              carreta: document["carreta"],
-                              cavalo: document["cavalo"],
-                              data: document["data"],
-                              descricao: document["descricao"],
-                              docSupervisor: document["docSupervisor"],
-                              imagem: document["imagem"],
-                              listMecanicos: document["mecanicos"],
-                              titulo: document["titulo"],
-                              itens: document["itens"],
-                              docRef: document.reference.id,
-                            );
-                          }).toList())
-                      : const SliverToBoxAdapter(
+                  //(snapshot.data!.docs.isNotEmpty)
+
+                  SliverGrid.count(
+                      crossAxisSpacing: 5,
+                      childAspectRatio: (1 / 1.5),
+                      crossAxisCount: 2,
+                      children: snapshot.data!.docs.map((document) {
+                        return Oswaitwidget(
+                          carreta: document["carreta"],
+                          cavalo: document["cavalo"],
+                          data: document["data"],
+                          descricao: document["descricao"],
+                          docSupervisor: document["docSupervisor"],
+                          imagem: document["imagem"],
+                          listMecanicos: document["mecanicos"],
+                          titulo: document["titulo"],
+                          itens: document["itens"],
+                          docRef: document.reference.id,
+                        );
+                      }).toList()),
+                  /*: const SliverToBoxAdapter(
                           child: Center(
                               child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 50),
