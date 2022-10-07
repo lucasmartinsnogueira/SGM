@@ -6,12 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:sgm/modules/service_order/model/serviceorder.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/widgets/custom_Text_Form_Field.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
 import '../../../../database/firebase/firestore_api.dart';
+import '../../../service_order/models/serviceorder.dart';
 
 class FormOSs extends StatefulWidget {
   final List<Map<String, dynamic>>? mapDoc;

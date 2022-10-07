@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sgm/modules/service_order/model/service_order_model.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/widgets/CustomOSViewWidget.dart';
+
+import '../../../service_order/models/service_order_model.dart';
 
 
 class ViewOSstockPage extends StatefulWidget {
