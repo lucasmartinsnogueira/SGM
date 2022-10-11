@@ -58,6 +58,7 @@ class ServiceOrder {
         .doc(uidMec)
         .set({
       "status": false,
+      "mec": uidMec
     });
   }
 }

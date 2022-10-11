@@ -17,6 +17,7 @@ class ServiceOrderModel {
   Map<String, dynamic>? mecanicos;
   String? titulo;
   String? id;
+  bool? status;
 
   ServiceOrderModel({
     this.carreta,
@@ -34,6 +35,7 @@ class ServiceOrderModel {
     this.mecanicos,
     this.titulo,
     this.id,
+    this.status,
   });
 
   ServiceOrderModel copyWith(
@@ -51,7 +53,8 @@ class ServiceOrderModel {
       String? itens,
       Map<String, dynamic>? mecanicos,
       String? titulo,
-      String? id}) {
+      String? id,
+      bool? status}) {
     return ServiceOrderModel(
         carreta: carreta ?? this.carreta,
         cavalo: cavalo ?? this.cavalo,
@@ -67,7 +70,8 @@ class ServiceOrderModel {
         itens: itens ?? this.itens,
         mecanicos: mecanicos ?? this.mecanicos,
         titulo: titulo ?? this.titulo,
-        id: id ?? this.id);
+        id: id ?? this.id,
+        status: status ?? this.status);
   }
 
   Map<String, dynamic> toMap() {
@@ -86,7 +90,8 @@ class ServiceOrderModel {
       'itens': itens,
       'mecanicos': mecanicos,
       'titulo': titulo,
-      'id': id
+      'id': id,
+      'status': status
     };
   }
 
@@ -111,6 +116,7 @@ class ServiceOrderModel {
           : null,
       titulo: map['titulo'] != null ? map['titulo'] as String : null,
       id: map['id'] != null ? map['id'] as String : null,
+      status: map['status'] != null ? map['status'] as bool : null,
     );
   }
 
@@ -121,7 +127,7 @@ class ServiceOrderModel {
 
   @override
   String toString() =>
-      'UsuarioModel(carreta: $carreta, cavalo: $cavalo, data: $data, descricao: $descricao, docEstoquista: $docEstoquista, docSupervisor: $docSupervisor, esperaEst: $esperaEst, estoquista: $estoquista, feita: $feita, igm: $igm, imagem: $imagem, itens: $itens, mecanicos: $mecanicos, titulo: $titulo )';
+      'UsuarioModel(carreta: $carreta, cavalo: $cavalo, data: $data, descricao: $descricao, docEstoquista: $docEstoquista, docSupervisor: $docSupervisor, esperaEst: $esperaEst, estoquista: $estoquista, feita: $feita, igm: $igm, imagem: $imagem, itens: $itens, mecanicos: $mecanicos, titulo: $titulo, status: $status )';
 
   @override
   bool operator ==(covariant ServiceOrderModel other) {
@@ -140,7 +146,8 @@ class ServiceOrderModel {
         other.imagem == imagem &&
         other.itens == itens &&
         other.mecanicos == mecanicos &&
-        other.titulo == titulo;
+        other.titulo == titulo &&
+        other.status == status;
   }
 
   @override
@@ -158,7 +165,8 @@ class ServiceOrderModel {
       imagem.hashCode ^
       itens.hashCode ^
       mecanicos.hashCode ^
-      titulo.hashCode;
+      titulo.hashCode ^
+      status.hashCode;
 
   bool isValid() {
     if (carreta == null) {

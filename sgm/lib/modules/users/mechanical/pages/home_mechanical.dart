@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:sgm/modules/service_order/models/service_order_model.dart';
 import 'package:sgm/modules/users/mechanical/pages/components/historic_work.dart';
+import 'package:sgm/modules/users/mechanical/pages/components/open_os.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/custom_drawer.dart';
-import 'package:sgm/shared/widgets/custom_os_wait_widget.dart';
 
 class HomeMechanical extends StatefulWidget {
   const HomeMechanical({Key? key}) : super(key: key);
@@ -15,29 +18,46 @@ class HomeMechanical extends StatefulWidget {
 }
 
 class _HomeMechanicalState extends State<HomeMechanical> {
-  var snapshots = FirebaseFirestore.instance
-      .collection("OSs")
-      .where("estoquista", isEqualTo: true)
-      .where("mecanicos", arrayContains: "vfWK8XuspBUQgwvJ5f2WY4YAKn93") // TENTAR UTILIZAR O WHERE IN
-      .orderBy("data", descending: false)
-      .snapshots();
-      var snapshotsteste = FirebaseFirestore.instance
-      .collection("OSs")
-      .where("estoquista", isEqualTo: true)
-      .where("mecanicos", isEqualTo: "kfdk")
-      .orderBy("data", descending: false)
-      .snapshots();
+  Future<dynamic> getTrabalhos(docid, userUid) async {
+    dynamic dataTrabalho;
+    await FirebaseFirestore.instance
+        .collection("OSs")
+        .doc(docid)
+        .collection("trabalhos")
+        .doc(userUid)
+        .get()
+        .then((datasnapshot) {
+      dataTrabalho = datasnapshot.data()!["status"];
+    });
+
+    return dataTrabalho;
+  }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
+
+    var snapshots1 = FirebaseFirestore.instance
+        .collection("OSs")
+        .where("estoquista", isEqualTo: true)
+        .where("mecanicos",
+            whereIn: ([
+              {"mecanico1": auth.usuario!.uid},
+              {"mecanico2": auth.usuario!.uid},
+              {"mecanico3": auth.usuario!.uid},
+              {"mecanico4": auth.usuario!.uid}
+            ]))
+        .orderBy("data", descending: false)
+        .snapshots();
+
     return (Scaffold(
       drawer: const CustomDrawer(color: pink, secondaryColor: Colors.black),
       key: scaffoldKey,
       backgroundColor: lightyellow,
       body: SafeArea(
         child: StreamBuilder(
-            stream: snapshots,
+            stream: snapshots1,
             builder: (BuildContext context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasError) {
@@ -135,35 +155,64 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                       ],
                     )),
                   ),
-                  //(snapshot.data!.docs.isNotEmpty)
-
-                  SliverGrid.count(
-                      crossAxisSpacing: 5,
-                      childAspectRatio: (1 / 1.5),
-                      crossAxisCount: 2,
-                      children: snapshot.data!.docs.map((document) {
-                        return Oswaitwidget(
-                          carreta: document["carreta"],
-                          cavalo: document["cavalo"],
-                          data: document["data"],
-                          descricao: document["descricao"],
-                          docSupervisor: document["docSupervisor"],
-                          imagem: document["imagem"],
-                          listMecanicos: document["mecanicos"],
-                          titulo: document["titulo"],
-                          itens: document["itens"],
-                          docRef: document.reference.id,
-                        );
-                      }).toList()),
-                  /*: const SliverToBoxAdapter(
+                  (snapshot.data!.docs.isNotEmpty)
+                      ? SliverGrid.count(
+                          crossAxisSpacing: 5,
+                          childAspectRatio: (1 / 1.5),
+                          crossAxisCount: 2,
+                          children: snapshot.data!.docs.map((document1) {
+                            return FutureBuilder(
+                                future: getTrabalhos(
+                                    document1.id, auth.usuario!.uid),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshotTrabalhos) {
+                                  if (snapshot.hasData) {
+                                    ServiceOrderModel newOS =
+                                        ServiceOrderModel();
+                                    newOS.carreta = document1["carreta"];
+                                    newOS.cavalo = document1["cavalo"];
+                                    newOS.data = document1["data"];
+                                    newOS.descricao = document1["descricao"];
+                                    newOS.docEstoquista =
+                                        document1["docEstoquista"];
+                                    newOS.docEstoquista =
+                                        document1["descricao"];
+                                    newOS.docSupervisor =
+                                        document1["docSupervisor"];
+                                    newOS.esperaEst = document1["esperaEst"];
+                                    newOS.estoquista = document1["estoquista"];
+                                    newOS.igm = document1["igm"];
+                                    newOS.imagem = document1["imagem"];
+                                    newOS.itens = document1["itens"];
+                                    newOS.titulo = document1["titulo"];
+                                    newOS.mecanicos = document1["mecanicos"];
+                                    newOS.id = document1.id;
+                                    newOS.status = snapshotTrabalhos.data;
+                                    return OpenOS(newOS: newOS);
+                                  } else if (snapshot.hasError) {
+                                    return const Center(
+                                      child: Text(
+                                          "Houve algum erro, entre em contato com a equipe SGM."),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: CircularProgressIndicator(
+                                        color: blue,
+                                        backgroundColor: pink,
+                                      ),
+                                    );
+                                  }
+                                });
+                          }).toList())
+                      : const SliverToBoxAdapter(
                           child: Center(
                               child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 50),
                           child: Text(
-                            "Não há OS sem validação.",
+                            "Não há OS abertas no momento",
                             style: TextStyle(fontSize: 20),
                           ),
-                        ))),*/
+                        ))),
                   const SliverToBoxAdapter(
                     child: SizedBox(
                       height: 15,
