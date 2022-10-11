@@ -109,8 +109,8 @@ class _OpenOSState extends State<OpenOS> {
                             horizontal: 25, vertical: 5),
                         child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: pink),
-                                primary: pink),
+                                side: const BorderSide(color: blue),
+                                primary: blue),
                             onPressed: () {
                               Navigator.push(
                                   context,

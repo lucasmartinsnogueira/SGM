@@ -152,6 +152,25 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                                 color: blue),
                           ),
                         ),
+                        Row(
+                          children: const [
+                            Legenda(
+                              color: pink,
+                              text: "OS não iniciada",
+                            ),
+                            Legenda(
+                              color: darkyellow,
+                              text: "OS iniciada",
+                            ),
+                          ],
+                        ),
+                        const Legenda(
+                          color: Color.fromARGB(176, 95, 207, 101),
+                          text: "OS aguardando grupo",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        )
                       ],
                     )),
                   ),
@@ -223,5 +242,53 @@ class _HomeMechanicalState extends State<HomeMechanical> {
             }),
       ),
     ));
+  }
+}
+
+class Legenda extends StatelessWidget {
+  final String text;
+  final Color color;
+  const Legenda({
+    required this.color,
+    required this.text,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 25,
+                height: 25,
+                decoration: BoxDecoration(
+                    color: color,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.6),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: const Offset(0, 2),
+                      )
+                    ],
+                    shape: BoxShape.circle),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  text,
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, color: blue),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -3,11 +3,9 @@ import 'package:sgm/modules/service_order/models/service_order_model.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sgm/modules/users/stock/controllers/gerenciastock_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:sgm/shared/widgets/customButtom.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
 
 class WorkOS extends StatefulWidget {
@@ -19,12 +17,8 @@ class WorkOS extends StatefulWidget {
 }
 
 class _GerenciaStockState extends State<WorkOS> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextStyle styleform = GoogleFonts.poppins(
       fontSize: 20, fontWeight: FontWeight.w600, color: blue);
-  bool _igm = false;
-  bool _inStock = false;
-  bool _inWait = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +35,6 @@ class _GerenciaStockState extends State<WorkOS> {
 
     return SafeArea(
         child: Scaffold(
-          
             backgroundColor: lightyellow,
             appBar: AppBar(
               title: const Text(
@@ -117,233 +110,147 @@ class _GerenciaStockState extends State<WorkOS> {
                                               "assets/pricipal/noImage.png",
                                               fit: BoxFit.cover,
                                             ))),
-                              Form(
-                                key: formKey,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Título:", style: styleform),
-                                        TextFrame(
-                                          textdata: widget.newOS.titulo!,
-                                        ),
-                                        Text(
-                                          "Descrição:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(textdata: widget.newOS.descricao!),
-                                        Text(
-                                          "Carreta:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                            textdata:
-                                                widget.newOS.carreta.toString()),
-                                        Text(
-                                          "Cavalo:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                            textdata: widget.newOS.cavalo.toString()),
-                                        Text(
-                                          "Emitida pelo supervisor:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                            textdata: "Nome: " +
-                                                dataSupervisor[0]! +
-                                                "\n" +
-                                                dataSupervisor[1]! +
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, left: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Título:", style: styleform),
+                                      TextFrame(
+                                        textdata: widget.newOS.titulo!,
+                                      ),
+                                      Text(
+                                        "Descrição:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata: widget.newOS.descricao!),
+                                      Text(
+                                        "Carreta:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata:
+                                              widget.newOS.carreta.toString()),
+                                      Text(
+                                        "Cavalo:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata:
+                                              widget.newOS.cavalo.toString()),
+                                      Text(
+                                        "Emitida pelo supervisor:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata: "Nome: " +
+                                              dataSupervisor[0]! +
+                                              "\n" +
+                                              dataSupervisor[1]! +
+                                              "\nCPF: " +
+                                              dataSupervisor[2]!),
+                                      Text(
+                                        "Mecânicos:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                        textdata: (dataMechanics.length == 3)
+                                            ? "Mecânico 1\nNome: " +
+                                                dataMechanics[0]! +
+                                                "\nE-mail: " +
+                                                dataMechanics[1]! +
                                                 "\nCPF: " +
-                                                dataSupervisor[2]!),
-                                        Text(
-                                          "Mecânicos:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                          textdata: (dataMechanics.length == 3)
-                                              ? "Mecânico 1\nNome: " +
-                                                  dataMechanics[0]! +
-                                                  "\nE-mail: " +
-                                                  dataMechanics[1]! +
-                                                  "\nCPF: " +
-                                                  dataMechanics[2]!
-                                              : (dataMechanics.length == 6)
-                                                  ? "Mecânico 1\nNome: " +
-                                                      dataMechanics[0]! +
-                                                      "\nE-mail: " +
-                                                      dataMechanics[1]! +
-                                                      "\nCPF: " +
-                                                      dataMechanics[2]! +
-                                                      "\nMecânico 2\nNome: " +
-                                                      dataMechanics[3]! +
-                                                      "\nE-mail: " +
-                                                      dataMechanics[4]! +
-                                                      "\nCPF: " +
-                                                      dataMechanics[5]!
-                                                  : (dataMechanics.length == 9)
-                                                      ? "Mecânico 1\nNome: " +
-                                                          dataMechanics[0]! +
-                                                          "\nE-mail: " +
-                                                          dataMechanics[1]! +
-                                                          "\nCPF: " +
-                                                          dataMechanics[2]! +
-                                                          "Mecânico 2\nNome: " +
-                                                          dataMechanics[3]! +
-                                                          "\nE-mail: " +
-                                                          dataMechanics[4]! +
-                                                          "\nCPF: " +
-                                                          dataMechanics[5]! +
-                                                          "\nMecânico 3\nNome: " +
-                                                          dataMechanics[6]! +
-                                                          "\nE-mail: " +
-                                                          dataMechanics[7]! +
-                                                          "\nCPF: " +
-                                                          dataMechanics[8]!
-                                                      : ((dataMechanics
-                                                                  .length ==
-                                                              9)
-                                                          ? "Mecânico 1\nNome: " +
-                                                              dataMechanics[
-                                                                  0]! +
-                                                              "\nE-mail: " +
-                                                              dataMechanics[
-                                                                  1]! +
-                                                              "\nCPF: " +
-                                                              dataMechanics[
-                                                                  2]! +
-                                                              "Mecânico 2\nNome: " +
-                                                              dataMechanics[
-                                                                  3]! +
-                                                              "\nE-mail: " +
-                                                              dataMechanics[
-                                                                  4]! +
-                                                              "\nCPF: " +
-                                                              dataMechanics[
-                                                                  5]! +
-                                                              "\nMecânico 3\nNome: " +
-                                                              dataMechanics[
-                                                                  6]! +
-                                                              "\nE-mail: " +
-                                                              dataMechanics[
-                                                                  7]! +
-                                                              "\nCPF: " +
-                                                              dataMechanics[
-                                                                  8]! +
-                                                              "\nMecânico 4\nNome: " +
-                                                              dataMechanics[
-                                                                  9]! +
-                                                              "\nE-mail: " +
-                                                              dataMechanics[
-                                                                  10]! +
-                                                              "\nCPF: " +
-                                                              dataMechanics[11]!
-                                                          : "Ocorre um erro"),
-                                        ),
-                                        Text(
-                                          "Data:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                            textdata: DateFormat(
-                                                    "'Dia:' dd/MM/yyyy"
-                                                    "'\nHorário:' HH:mm")
-                                                .format(widget.newOS.data!.toDate())),
-                                        Text(
-                                          "itens necessários:",
-                                          style: styleform,
-                                        ),
-                                        TextFrame(
-                                            textdata: (widget.newOS.itens != "")
-                                                ? widget.newOS.itens!
-                                                : "Não foi cadastrado itens."),
-                                        
-                                        const SizedBox(
-                                          height: 110,
-                                        )
-                                      ],
-                                    ),
+                                                dataMechanics[2]!
+                                            : (dataMechanics.length == 6)
+                                                ? "Mecânico 1\nNome: " +
+                                                    dataMechanics[0]! +
+                                                    "\nE-mail: " +
+                                                    dataMechanics[1]! +
+                                                    "\nCPF: " +
+                                                    dataMechanics[2]! +
+                                                    "\nMecânico 2\nNome: " +
+                                                    dataMechanics[3]! +
+                                                    "\nE-mail: " +
+                                                    dataMechanics[4]! +
+                                                    "\nCPF: " +
+                                                    dataMechanics[5]!
+                                                : (dataMechanics.length == 9)
+                                                    ? "Mecânico 1\nNome: " +
+                                                        dataMechanics[0]! +
+                                                        "\nE-mail: " +
+                                                        dataMechanics[1]! +
+                                                        "\nCPF: " +
+                                                        dataMechanics[2]! +
+                                                        "Mecânico 2\nNome: " +
+                                                        dataMechanics[3]! +
+                                                        "\nE-mail: " +
+                                                        dataMechanics[4]! +
+                                                        "\nCPF: " +
+                                                        dataMechanics[5]! +
+                                                        "\nMecânico 3\nNome: " +
+                                                        dataMechanics[6]! +
+                                                        "\nE-mail: " +
+                                                        dataMechanics[7]! +
+                                                        "\nCPF: " +
+                                                        dataMechanics[8]!
+                                                    : ((dataMechanics.length ==
+                                                            9)
+                                                        ? "Mecânico 1\nNome: " +
+                                                            dataMechanics[0]! +
+                                                            "\nE-mail: " +
+                                                            dataMechanics[1]! +
+                                                            "\nCPF: " +
+                                                            dataMechanics[2]! +
+                                                            "Mecânico 2\nNome: " +
+                                                            dataMechanics[3]! +
+                                                            "\nE-mail: " +
+                                                            dataMechanics[4]! +
+                                                            "\nCPF: " +
+                                                            dataMechanics[5]! +
+                                                            "\nMecânico 3\nNome: " +
+                                                            dataMechanics[6]! +
+                                                            "\nE-mail: " +
+                                                            dataMechanics[7]! +
+                                                            "\nCPF: " +
+                                                            dataMechanics[8]! +
+                                                            "\nMecânico 4\nNome: " +
+                                                            dataMechanics[9]! +
+                                                            "\nE-mail: " +
+                                                            dataMechanics[10]! +
+                                                            "\nCPF: " +
+                                                            dataMechanics[11]!
+                                                        : "Ocorre um erro"),
+                                      ),
+                                      Text(
+                                        "Data:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata: DateFormat(
+                                                  "'Dia:' dd/MM/yyyy"
+                                                  "'\nHorário:' HH:mm")
+                                              .format(
+                                                  widget.newOS.data!.toDate())),
+                                      Text(
+                                        "itens necessários:",
+                                        style: styleform,
+                                      ),
+                                      TextFrame(
+                                          textdata: (widget.newOS.itens != "")
+                                              ? widget.newOS.itens!
+                                              : "Não foi cadastrado itens."),
+                                      const SizedBox(
+                                        height: 110,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                             /* CustomButtom(
-                                  text: "Atualizar OS",
-                                  function: () async {
-                                    if (_inWait == true) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return const CustomAlertDialog(
-                                              title: "Erro na solitação",
-                                              message:
-                                                  "Ainda não é possível colocar uma OS em espera",
-                                              popOnCancel: true,
-                                            );
-                                          });
-                                    } else if (_igm != true ||
-                                        _inStock != true) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return const CustomAlertDialog(
-                                              title: "Erro na solitação",
-                                              message:
-                                                  "Para atualizar uma OS é preciso cadastrá-la no IGM e possuir os materiais em estoque",
-                                              popOnCancel: true,
-                                            );
-                                          });
-                                    } else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                                title: const Center(
-                                                    child: Text(
-                                                        "Atualizando OS...")),
-                                                backgroundColor: lightyellow,
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    15))),
-                                                content: Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle),
-                                                  height: 15,
-                                                  child:
-                                                      const LinearProgressIndicator(
-                                                    color: blue,
-                                                    backgroundColor: pink,
-                                                  ),
-                                                ));
-                                          });
-                                      await FirebaseFirestore.instance
-                                          .collection("OSs")
-                                          .doc(widget.nre)
-                                          .update({
-                                        "igm": _igm,
-                                        "esperaEst": _inWait,
-                                        "estoquista": _inStock,
-                                        "docEstoquista": auth.usuario!.uid
-                                      });
-                                      Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "OS atualizada com sucesso!")));
-                                    }
-                                  })*/
                             ],
                           ),
                         );
@@ -364,21 +271,22 @@ class _GerenciaStockState extends State<WorkOS> {
                         );
                       }
                     })),
-                    bottomSheet: Container(height: 100,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.8),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      )
-                    ],
-                      color: pink, ),
-                      child: Text("Aqui ficará o contadr"),)
-                    )
-                    );
+            bottomSheet: Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.8),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  )
+                ],
+                color: pink,
+              ),
+              child: const Text("Aqui ficará o contadr"),
+            )));
   }
 }
 
