@@ -59,7 +59,7 @@ class ServiceOrder {
         .set({
       "status": false,
       "mec": uidMec,  
-      // "tempo": 0 #esse tempo vai dar.
+      "tempo": 0 
     });
   }
 }

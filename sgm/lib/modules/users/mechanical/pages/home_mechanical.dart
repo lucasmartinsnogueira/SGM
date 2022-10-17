@@ -18,24 +18,29 @@ class HomeMechanical extends StatefulWidget {
 }
 
 class _HomeMechanicalState extends State<HomeMechanical> {
-  Future<dynamic> getTrabalhos(docid, userUid) async {
-    dynamic dataTrabalho;
-    await FirebaseFirestore.instance
-        .collection("OSs")
-        .doc(docid)
-        .collection("trabalhos")
-        .doc(userUid)
-        .get()
-        .then((datasnapshot) {
-      dataTrabalho = datasnapshot.data()!["status"];
-    });
 
-    return dataTrabalho;
-  }
+  int globalCount = 0;
+   List<dynamic> dataTrabalho = [];
+    Future<List<dynamic>> getTrabalhos(docid, userUid) async {
+      await FirebaseFirestore.instance
+          .collection("OSs")
+          .doc(docid)
+          .collection("trabalhos")
+          .doc(userUid)
+          .get()
+          .then((datasnapshot) {
+        dataTrabalho.add(datasnapshot.data()!["status"]);
+        dataTrabalho.add(datasnapshot.data()!["tempo"]);
+      });
+
+      return dataTrabalho;
+    }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+   
+
     AuthService auth = Provider.of<AuthService>(context);
 
     var snapshots1 = FirebaseFirestore.instance
@@ -185,7 +190,8 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                                     document1.id, auth.usuario!.uid),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<dynamic> snapshotTrabalhos) {
-                                  if (snapshot.hasData) {
+                                  if (snapshotTrabalhos.connectionState ==
+                                      ConnectionState.done) {
                                     ServiceOrderModel newOS =
                                         ServiceOrderModel();
                                     newOS.carreta = document1["carreta"];
@@ -206,7 +212,11 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                                     newOS.titulo = document1["titulo"];
                                     newOS.mecanicos = document1["mecanicos"];
                                     newOS.id = document1.id;
-                                    newOS.status = snapshotTrabalhos.data;
+                                    newOS.status = dataTrabalho[globalCount];
+                                    globalCount += 1;
+                                    newOS.tempoEspec =
+                                        dataTrabalho[globalCount];
+                                    globalCount += 1;
                                     return OpenOS(newOS: newOS);
                                   } else if (snapshot.hasError) {
                                     return const Center(

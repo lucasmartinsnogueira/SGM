@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:sgm/modules/service_order/models/service_order_model.dart';
+import 'package:sgm/modules/users/mechanical/pages/components/counter.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +23,6 @@ class _GerenciaStockState extends State<WorkOS> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService auth = Provider.of<AuthService>(context);
     final _controller = GerenciaStockController();
     List<String?> dataSupervisor = [];
     List<String?> dataMechanics = [];
@@ -244,9 +244,7 @@ class _GerenciaStockState extends State<WorkOS> {
                                           textdata: (widget.newOS.itens != "")
                                               ? widget.newOS.itens!
                                               : "Não foi cadastrado itens."),
-                                      const SizedBox(
-                                        height: 110,
-                                      )
+                                      const SizedBox(height: 220)
                                     ],
                                   ),
                                 ),
@@ -271,21 +269,8 @@ class _GerenciaStockState extends State<WorkOS> {
                         );
                       }
                     })),
-            bottomSheet: Container(
-              height: 100,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.8),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3),
-                  )
-                ],
-                color: pink,
-              ),
-              child: const Text("Aqui ficará o contadr"),
+            bottomSheet: Counter(
+              time: widget.newOS.tempoEspec!,
             )));
   }
 }

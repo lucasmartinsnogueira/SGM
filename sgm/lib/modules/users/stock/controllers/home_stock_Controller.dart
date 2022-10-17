@@ -2,7 +2,6 @@ import 'package:sgm/modules/users/stock/pages/gerenciastock.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class HomeStockController extends ChangeNotifier {
   Future<String> getString(docSupervisor) async {
     String? nameSupervisor;
@@ -11,7 +10,11 @@ class HomeStockController extends ChangeNotifier {
         .doc(docSupervisor)
         .get()
         .then((datasnapshot) {
-      nameSupervisor = datasnapshot.data()!["nome"];
+      if (datasnapshot.data() != null) {
+        nameSupervisor = datasnapshot.data()!["nome"];
+      } else {
+        nameSupervisor = "Erro";
+      }
     });
 
     return nameSupervisor ?? "Carregando";
