@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sgm/modules/service_order/models/service_order_model.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 
 class Counter extends StatefulWidget {
-  final int time;
-  const Counter({required this.time, Key? key}) : super(key: key);
+  final ServiceOrderModel newOS;
+  const Counter({required this.newOS, Key? key}) : super(key: key);
 
   @override
   State<Counter> createState() => _CounterState();
 }
 
 class _CounterState extends State<Counter> {
-  late Duration duration = Duration(seconds: widget.time);
+  late Duration duration = Duration(seconds: widget.newOS.tempoEspec!);
   bool isCountDown = true;
   Timer? timer;
   @override
@@ -48,6 +53,7 @@ class _CounterState extends State<Counter> {
 
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
     return Container(
       height: 200,
       width: MediaQuery.of(context).size.width,
@@ -70,13 +76,13 @@ class _CounterState extends State<Counter> {
           const SizedBox(
             height: 10,
           ),
-          buildButtons(),
+          buildButtons(auth.usuario!.uid),
         ],
       ),
     );
   }
 
-  Widget buildButtons() {
+  Widget buildButtons(uid) {
     final isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = duration.inSeconds == 0;
 
@@ -85,9 +91,39 @@ class _CounterState extends State<Counter> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  tooltip: isRunning ? "Pausar": "Continuar",
+                  tooltip: isRunning ? "Pausar" : "Continuar",
                   onPressed: () {
                     if (isRunning) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            title: const Text("Salvando..."),
+                            backgroundColor: lightyellow,
+                            content: const SizedBox(
+                              height: 25,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(35)),
+                                child: LinearProgressIndicator(
+                                  color: blue,
+                                  backgroundColor: pink,
+                                ),
+                              ),
+                            ),
+                          );
+
+                          /* FirebaseFirestore.instance
+                          .collection("OSs")
+                          .doc(widget.newOS.id)
+                          .collection("trabalhos")
+                          .doc(uid)
+                          .update({"tempo": duration.inSeconds});*/
+                        },
+                      );
                       stopTimer(resets: false);
                     } else {
                       startTimer(resets: false);
@@ -107,7 +143,6 @@ class _CounterState extends State<Counter> {
               const SizedBox(
                 width: 15,
               ),
-              
               const SizedBox(
                 width: 35,
               ),
@@ -130,7 +165,7 @@ class _CounterState extends State<Counter> {
             ),
             style: OutlinedButton.styleFrom(
               shadowColor: blue,
-              primary: blue,
+              foregroundColor: blue,
               side: const BorderSide(width: 2, color: blue),
               shape: const StadiumBorder(),
             ),
