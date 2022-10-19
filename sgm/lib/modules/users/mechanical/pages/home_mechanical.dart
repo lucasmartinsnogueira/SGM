@@ -52,7 +52,8 @@ class _HomeMechanicalState extends State<HomeMechanical> {
               {"mecanico2": auth.usuario!.uid},
               {"mecanico3": auth.usuario!.uid},
               {"mecanico4": auth.usuario!.uid}
-            ]))
+            ])).
+            where("feita", isEqualTo: false)
         .orderBy("data", descending: false)
         .snapshots();
 
@@ -238,13 +239,13 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                               child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 50),
                           child: Text(
-                            "Não há OS abertas no momento",
+                            "Não há OS abertas no momento.",
                             style: TextStyle(fontSize: 20),
                           ),
                         ))),
                   const SliverToBoxAdapter(
                     child: SizedBox(
-                      height: 15,
+                      height: 25,
                     ),
                   )
                 ],

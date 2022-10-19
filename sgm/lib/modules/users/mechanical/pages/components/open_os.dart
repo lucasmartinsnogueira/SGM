@@ -18,6 +18,13 @@ class OpenOS extends StatefulWidget {
 class _OpenOSState extends State<OpenOS> {
   @override
   Widget build(BuildContext context) {
+    Color colorWidget = pink;
+
+    if (widget.newOS.tempoEspec != 0) {
+      colorWidget = darkyellow;
+    } else if (widget.newOS.status == true) {
+      colorWidget = const Color.fromARGB(176, 95, 207, 101);
+    }
     final _controller = HomeStockController();
     String? nameSupervisor;
     getSupervisorName() async {
@@ -44,7 +51,7 @@ class _OpenOSState extends State<OpenOS> {
               padding: const EdgeInsets.all(8.0),
               child: PhysicalModel(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  color: darkyellow,
+                  color: colorWidget,
                   elevation: 15,
                   child: Column(
                     children: [
@@ -110,12 +117,14 @@ class _OpenOSState extends State<OpenOS> {
                         child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: blue),
-                                primary: blue),
+                                foregroundColor: blue),
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WorkOS(newOS: widget.newOS,)));
+                                      builder: (context) => WorkOS(
+                                            newOS: widget.newOS,
+                                          )));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
