@@ -1,42 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sgm/modules/users/mechanical/pages/components/historicOS.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/widgets/CustomOSViewWidget.dart';
 
 import '../../../service_order/models/service_order_model.dart';
 
 
-class ViewOSstockPage extends StatefulWidget {
-  final String uidStock;
-  const ViewOSstockPage({required this.uidStock, Key? key}) : super(key: key);
+class HistoricMecPage extends StatefulWidget {
+  final String uidMec;
+  const HistoricMecPage({required this.uidMec, Key? key}) : super(key: key);
 
   @override
-  State<ViewOSstockPage> createState() => _ViewOSstockState();
+  State<HistoricMecPage> createState() => _HistoricMecState();
 }
 
-class _ViewOSstockState extends State<ViewOSstockPage> {
+class _HistoricMecState extends State<HistoricMecPage> {
  
   @override
   Widget build(BuildContext context) {
      var snapshots = FirebaseFirestore.instance
         .collection("OSs")
-        .where("estoquista", isEqualTo: true).where("docEstoquista", isEqualTo: widget.uidStock)
-        .orderBy("data", descending: true)
+        .where("estoquista", isEqualTo: true)
+        .where("mecanicos",
+            whereIn: ([
+              {"mecanico1": widget.uidMec},
+              {"mecanico2": widget.uidMec},
+              {"mecanico3": widget.uidMec},
+              {"mecanico4": widget.uidMec}
+            ])).
+            where("feita", isEqualTo: true)
+        .orderBy("data", descending: false)
         .snapshots();
     
     return Scaffold(
         backgroundColor: lightyellow,
         appBar: AppBar(
           title: const Text(
-            "Visualização de OS",
+            "Histórico de Serviço",
             style: TextStyle(color: blue),
           ),
           leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_rounded),
               color: blue,
               onPressed: () => Navigator.pop(context)),
-          backgroundColor: darkyellow,
+          backgroundColor: pink,
         ),
         body: StreamBuilder(
             stream: snapshots,
@@ -64,7 +73,7 @@ class _ViewOSstockState extends State<ViewOSstockPage> {
                       padding:
                           const EdgeInsets.only(top: 20, left: 10, bottom: 20),
                       child: Text(
-                        "OS aprovadas",
+                        "OS realizadas",
                         style: GoogleFonts.poppins(
                             fontSize: 27,
                             fontWeight: FontWeight.w600,
@@ -102,7 +111,8 @@ class _ViewOSstockState extends State<ViewOSstockPage> {
                                   vertical: 10,
                                   horizontal: 8
                                 ),
-                                child: CustomOSViewWidget(
+                     
+                                child: HistoricOS(
                                   serviceOrder: newService,
                                 ),
                               );

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/modules/service_order/models/service_order_model.dart';
@@ -10,7 +9,8 @@ import 'package:sgm/shared/help/colors.dart';
 
 class Counter extends StatefulWidget {
   final ServiceOrderModel newOS;
-  const Counter({required this.newOS, Key? key}) : super(key: key);
+  final String? uid;
+  const Counter({required this.newOS, this.uid, Key? key}) : super(key: key);
 
   @override
   State<Counter> createState() => _CounterState();
@@ -38,20 +38,36 @@ class _CounterState extends State<Counter> {
     setState(() => duration = const Duration());
   }
 
-  void addTime() {
+  Future<void> addTime() async {
     const addSeconds = 1;
 
-    setState(() {
+    if (mounted) {
+      setState(() {
+        final seconds = duration.inSeconds + addSeconds;
+        duration = Duration(seconds: seconds);
+      });
+    } else {
       final seconds = duration.inSeconds + addSeconds;
       duration = Duration(seconds: seconds);
-    });
+      await FirebaseFirestore.instance
+          .collection("OSs")
+          .doc(widget.newOS.id)
+          .collection("trabalhos")
+          .doc(widget.uid)
+          .update({"tempo": duration.inSeconds});
+      stopTimer(resets: false);
+    }
   }
 
   void stopTimer({bool resets = true}) {
     if (resets) {
       reset();
     }
-    setState(() => timer?.cancel());
+    if (mounted) {
+      setState(() => timer?.cancel());
+    } else {
+      timer?.cancel();
+    }
   }
 
   @override
@@ -194,24 +210,22 @@ class _CounterState extends State<Counter> {
                                                         color: blue,
                                                         width: 3)))),
                                         onPressed: () async {
-                                          
                                           if (endding == false) {
                                             setState(() {
                                               endding = true;
                                             });
                                             endding = true;
-                                            
-                                              await FirebaseFirestore.instance
-                                                  .collection("OSs")
-                                                  .doc(widget.newOS.id)
-                                                  .update({"feita": true});
-                                              await FirebaseFirestore.instance
-                                                  .collection("OSs")
-                                                  .doc(widget.newOS.id)
-                                                  .collection("trabalhos")
-                                                  .doc(uid)
-                                                  .update({"status": true});
-                                            
+
+                                            await FirebaseFirestore.instance
+                                                .collection("OSs")
+                                                .doc(widget.newOS.id)
+                                                .update({"feita": true});
+                                            await FirebaseFirestore.instance
+                                                .collection("OSs")
+                                                .doc(widget.newOS.id)
+                                                .collection("trabalhos")
+                                                .doc(uid)
+                                                .update({"status": true});
 
                                             Navigator.pop(context);
                                             Navigator.pop(context);

@@ -1,5 +1,7 @@
+import 'package:provider/provider.dart';
 import 'package:sgm/modules/service_order/models/service_order_model.dart';
 import 'package:sgm/modules/users/mechanical/pages/components/counter.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:sgm/modules/users/stock/controllers/gerenciastock_controller.dart';
@@ -21,6 +23,7 @@ class _GerenciaStockState extends State<WorkOS> {
 
   @override
   Widget build(BuildContext context) {
+     AuthService auth = Provider.of<AuthService>(context);
     final _controller = GerenciaStockController();
     List<String?> dataSupervisor = [];
     List<String?> dataMechanics = [];
@@ -42,7 +45,9 @@ class _GerenciaStockState extends State<WorkOS> {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios_rounded),
                 color: Colors.black,
-                onPressed: _controller.navigateBack(context),
+                onPressed: (){
+                  Navigator.pop(context);
+                }
               ),
               backgroundColor: pink,
             ),
@@ -268,6 +273,7 @@ class _GerenciaStockState extends State<WorkOS> {
                       }
                     })),
             bottomSheet: Counter(
+              uid: auth.usuario!.uid,
               newOS: widget.newOS,
             )));
   }

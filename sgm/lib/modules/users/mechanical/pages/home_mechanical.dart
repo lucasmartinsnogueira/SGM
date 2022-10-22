@@ -5,42 +5,42 @@ import 'package:provider/provider.dart';
 import 'package:sgm/modules/service_order/models/service_order_model.dart';
 import 'package:sgm/modules/users/mechanical/pages/components/historic_work.dart';
 import 'package:sgm/modules/users/mechanical/pages/components/open_os.dart';
+import 'package:sgm/modules/users/mechanical/pages/historic.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/custom_drawer.dart';
 
 class HomeMechanical extends StatefulWidget {
-  const HomeMechanical({Key? key}) : super(key: key);
+  
+  const HomeMechanical({ Key? key}) : super(key: key);
 
   @override
   _HomeMechanicalState createState() => _HomeMechanicalState();
 }
 
 class _HomeMechanicalState extends State<HomeMechanical> {
-
+  
   int globalCount = 0;
-   List<dynamic> dataTrabalho = [];
-    Future<List<dynamic>> getTrabalhos(docid, userUid) async {
-      await FirebaseFirestore.instance
-          .collection("OSs")
-          .doc(docid)
-          .collection("trabalhos")
-          .doc(userUid)
-          .get()
-          .then((datasnapshot) {
-        dataTrabalho.add(datasnapshot.data()!["status"]);
-        dataTrabalho.add(datasnapshot.data()!["tempo"]);
-      });
+  List<dynamic> dataTrabalho = [];
+  Future<List<dynamic>> getTrabalhos(docid, userUid) async {
+    await FirebaseFirestore.instance
+        .collection("OSs")
+        .doc(docid)
+        .collection("trabalhos")
+        .doc(userUid)
+        .get()
+        .then((datasnapshot) {
+      dataTrabalho.add(datasnapshot.data()!["status"]);
+      dataTrabalho.add(datasnapshot.data()!["tempo"]);
+    });
 
-      return dataTrabalho;
-    }
+    return dataTrabalho;
+  }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-   
-
     AuthService auth = Provider.of<AuthService>(context);
 
     var snapshots1 = FirebaseFirestore.instance
@@ -52,10 +52,11 @@ class _HomeMechanicalState extends State<HomeMechanical> {
               {"mecanico2": auth.usuario!.uid},
               {"mecanico3": auth.usuario!.uid},
               {"mecanico4": auth.usuario!.uid}
-            ])).
-            where("feita", isEqualTo: false)
+            ]))
+        .where("feita", isEqualTo: false)
         .orderBy("data", descending: false)
         .snapshots();
+
 
     return (Scaffold(
       drawer: const CustomDrawer(color: pink, secondaryColor: Colors.black),
@@ -135,13 +136,13 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                    /* Navigator.push(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ViewOSstockPage(
-                                                uidStock: auth.usuario!.uid,
+                                          builder: (context) => HistoricMecPage(
+                                                uidMec: auth.usuario!.uid,
                                               )),
-                                    );*/
+                                    );
                                   },
                                   child: const HistoricWork())
                             ],
@@ -218,7 +219,7 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                                     newOS.tempoEspec =
                                         dataTrabalho[globalCount];
                                     globalCount += 1;
-                                    return OpenOS(newOS: newOS);
+                                    return OpenOS(newOS: newOS,);
                                   } else if (snapshot.hasError) {
                                     return const Center(
                                       child: Text(

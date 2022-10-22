@@ -46,7 +46,7 @@ class _StartMechanicalState extends State<StartMechanical> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: pink,
         systemNavigationBarColor: pink,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.light));
     return Scaffold(
         drawer: const CustomDrawer(color: pink, secondaryColor: Colors.black),
         key: scaffoldKey,
