@@ -91,20 +91,20 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                             scrollDirection: Axis.horizontal,
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const CustomAlertDialog(
-                                      title: "Em desenvolvimento",
-                                      message:
-                                          "Gerenciamento de OSs está em desenvolvimento",
-                                      popOnCancel: true,
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const CustomAlertDialog(
+                                          title: "Em desenvolvimento",
+                                          message:
+                                              "Gerenciamento de OSs está em desenvolvimento",
+                                          popOnCancel: true,
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                                },
-                                child: const ManageOSsWidget())
+                                  child: const ManageOSsWidget())
                             ],
                           ),
                         ),
