@@ -21,7 +21,7 @@ class HomeStockController extends ChangeNotifier {
   }
 
   void Function() gerenciaEstoque(context, titulo, descricao, carreta, cavalo,
-      imagem, supervisor, mecanicos, data, itens, docRef) {
+      imagem, supervisor, mecanicos, data, itens, docRef, esperaEst) {
     return () {
       Navigator.push(
           context,
@@ -37,6 +37,7 @@ class HomeStockController extends ChangeNotifier {
                     imagem: imagem,
                     itens: itens,
                     docRef: docRef,
+                    esperaEst: esperaEst,
                   )));
     };
   }

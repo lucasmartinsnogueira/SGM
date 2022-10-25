@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:intl/intl.dart';
-
 import '../../modules/service_order/models/service_order_model.dart';
 
 class CustomOSViewWidget extends StatefulWidget {
@@ -65,9 +64,13 @@ class _CustomOSViewWidgetState extends State<CustomOSViewWidget> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Descrição: " + widget.serviceOrder.descricao!,
-                      style: GoogleFonts.alegreyaSc(color: blue),
+                    SizedBox(
+                      width: 250,
+                      child: Text(
+                        "Descrição: " + widget.serviceOrder.descricao!,
+                        style: GoogleFonts.alegreyaSc(color: blue),
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
                     RichText(
                         text: TextSpan(

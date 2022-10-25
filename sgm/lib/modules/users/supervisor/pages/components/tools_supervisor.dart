@@ -34,11 +34,11 @@ class _ManageOSsWidgetState extends State<ManageOSsWidget> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Gerenciar \nOS",
+                  "Visualizar \nOS",
                   style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white),
+                      color: lightyellow),
                 ),
               ),
             ),

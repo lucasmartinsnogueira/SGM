@@ -17,6 +17,7 @@ class Oswaitwidget extends StatefulWidget {
   final String titulo;
   final String itens;
   final String docRef;
+  final bool espeEst;
 
   const Oswaitwidget(
       {required this.carreta,
@@ -29,6 +30,7 @@ class Oswaitwidget extends StatefulWidget {
       required this.titulo,
       required this.itens,
       required this.docRef,
+      required this.espeEst,
       Key? key})
       : super(key: key);
 
@@ -143,7 +145,7 @@ class _OswaitwidgetState extends State<Oswaitwidget> {
                         child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: pink),
-                                primary: pink),
+                                foregroundColor: pink),
                             onPressed: _controller.gerenciaEstoque(
                                 context,
                                 widget.titulo,
@@ -155,7 +157,8 @@ class _OswaitwidgetState extends State<Oswaitwidget> {
                                 widget.listMecanicos,
                                 widget.data,
                                 widget.itens,
-                                widget.docRef
+                                widget.docRef,
+                                widget.espeEst
                                 ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

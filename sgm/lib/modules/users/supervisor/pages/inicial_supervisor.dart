@@ -5,6 +5,7 @@ import 'package:sgm/shared/widgets/account_management.dart';
 import 'package:sgm/modules/users/supervisor/pages/dashboard_supervisor.dart';
 import 'package:sgm/modules/users/supervisor/pages/home_supervisor.dart';
 import 'package:sgm/shared/help/colors.dart';
+import 'package:sgm/shared/widgets/custom_drawer.dart';
 
 class InicialSupervisor extends StatefulWidget {
   const InicialSupervisor({Key? key}) : super(key: key);
@@ -47,9 +48,7 @@ class _InicialSupervisorState extends State<InicialSupervisor> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: blue, statusBarIconBrightness: Brightness.light));
     return Scaffold(
-        drawer: const Drawer(
-          backgroundColor: blue,
-        ),
+        drawer: const CustomDrawer(color: blue, secondaryColor: lightyellow),
         key: scaffoldKey,
         backgroundColor: lightyellow,
         body: screens[index],

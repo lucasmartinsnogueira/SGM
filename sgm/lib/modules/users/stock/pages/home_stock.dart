@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sgm/modules/users/stock/pages/components/view_OS_Stock.dart';
@@ -151,6 +152,7 @@ class _HomeStockState extends State<HomeStock> {
                               titulo: document["titulo"],
                               itens: document["itens"],
                               docRef: document.reference.id,
+                              espeEst: document["esperaEst"]
                             );
                           }).toList())
                       : const SliverToBoxAdapter(

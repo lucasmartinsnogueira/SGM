@@ -6,7 +6,8 @@ import '../../../../service_order/models/service_order_model.dart';
 
 class HistoricOS extends StatefulWidget {
   final ServiceOrderModel serviceOrder;
-  const HistoricOS({required this.serviceOrder, Key? key})
+  final int time;
+  const HistoricOS({required this.serviceOrder, required this.time, Key? key})
       : super(key: key);
 
   @override
@@ -14,8 +15,22 @@ class HistoricOS extends StatefulWidget {
 }
 
 class _HistoricOSState extends State<HistoricOS> {
+  String addZero(int value) {
+    return value < 10 ? "0$value" : "$value";
+  }
+
   @override
   Widget build(BuildContext context) {
+    Duration tempo = Duration(seconds: widget.time);
+
+    int hour = tempo.inHours;
+    int remainderMinutes = tempo.inMinutes.remainder(60);
+    int remainderSeconds = tempo.inSeconds.remainder(60);
+
+    String sHour = hour.toString();
+    String sRemainderMinutes = remainderMinutes.toString();
+    String sRemainderSeconds = remainderSeconds.toString();
+
     return Container(
         height: 180,
         decoration: BoxDecoration(
@@ -64,9 +79,13 @@ class _HistoricOSState extends State<HistoricOS> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Descrição: " + widget.serviceOrder.descricao!,
-                      style: GoogleFonts.alegreyaSc(color: blue),
+                    SizedBox(
+                      width: 250,
+                      child: Text(
+                        "Descrição: " + widget.serviceOrder.descricao!,
+                        style: GoogleFonts.alegreyaSc(color: blue),
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
                     RichText(
                         text: TextSpan(
@@ -80,7 +99,13 @@ class _HistoricOSState extends State<HistoricOS> {
                             text: DateFormat("'Horário:' HH:mm")
                                 .format(widget.serviceOrder.data!.toDate()),
                           )
-                        ]))
+                        ])),
+                    Text(
+                      "Tempo na OS: "
+                      '${sHour.padLeft(2, '0')}:${sRemainderMinutes.padLeft(2, '0')}:${sRemainderSeconds.padLeft(2, '0')}',
+                      style: GoogleFonts.alegreyaSc(
+                          color: darkyellow, fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
               )

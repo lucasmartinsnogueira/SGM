@@ -34,6 +34,7 @@ class _FormOSsState extends State<FormOSs> {
   bool boolZero = false;
   bool boolOne = false;
   bool boolTwo = false;
+  bool boolThree = false;
 
   //Imagem método
   UploadTask? task;
@@ -47,6 +48,7 @@ class _FormOSsState extends State<FormOSs> {
   TextEditingController cart = TextEditingController();
   TextEditingController horse = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController itens = TextEditingController();
 
   //Documento OS
   String? docOS;
@@ -304,6 +306,38 @@ class _FormOSsState extends State<FormOSs> {
                           return null;
                         }),
                     Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: SwitchListTile(
+                        activeColor: pink,
+                        value: boolThree,
+                        title: Text(
+                          "Itens necessários",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                          ),
+                        ),
+                        onChanged: (bool value) {
+                          setState(() => boolThree = value);
+                        },
+                      ),
+                    ),
+                    CustomTextFormField(
+                        activated: boolThree,
+                        enable: boolThree,
+                        label: "Cuica, molas, cabo, pneu...",
+                        maxlines: 3,
+                        keyboardType: TextInputType.text,
+                        controller: itens,
+                        validator: (value) {
+                          if (boolThree == true) {
+                            if (value == null || value.isEmpty) {
+                              return "*Se ativado, o campo é obrigatório";
+                            }
+                          }
+                          return null;
+                        }),
+                        
+                    Padding(
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -356,7 +390,7 @@ class _FormOSsState extends State<FormOSs> {
                                       false,
                                       false,
                                       false,
-                                      "",
+                                      itens.text,
                                       "imagem",
                                       auth.usuario!.uid,
                                       DateTime.now());

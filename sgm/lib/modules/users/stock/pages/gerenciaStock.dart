@@ -20,6 +20,7 @@ class GerenciaStock extends StatefulWidget {
   final String titulo;
   final String itens;
   final String docRef;
+  final bool esperaEst;
 
   const GerenciaStock(
       {required this.carreta,
@@ -32,6 +33,7 @@ class GerenciaStock extends StatefulWidget {
       required this.titulo,
       required this.itens,
       required this.docRef,
+      required this.esperaEst,
       Key? key})
       : super(key: key);
 
@@ -51,6 +53,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context);
     final _controller = GerenciaStockController();
+    _inWait = widget.esperaEst;
     List<String?> dataSupervisor = [];
     List<String?> dataMechanics = [];
     getCloudData() async {
@@ -374,17 +377,50 @@ class _GerenciaStockState extends State<GerenciaStock> {
                               CustomButtom(
                                   text: "Atualizar OS",
                                   function: () async {
-                                    if (_inWait == true) {
+                                    if (_inWait == true &&
+                                        _inStock == false &&
+                                        _igm == false) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
-                                            return const CustomAlertDialog(
-                                              title: "Erro na solitação",
-                                              message:
-                                                  "Ainda não é possível colocar uma OS em espera",
-                                              popOnCancel: true,
-                                            );
+                                            return AlertDialog(
+                                                title: const Center(
+                                                    child: Text(
+                                                        "Atualizando OS...")),
+                                                backgroundColor: lightyellow,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    15))),
+                                                content: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle),
+                                                  height: 15,
+                                                  child:
+                                                      const LinearProgressIndicator(
+                                                    color: blue,
+                                                    backgroundColor: pink,
+                                                  ),
+                                                ));
                                           });
+                                      await FirebaseFirestore.instance
+                                          .collection("OSs")
+                                          .doc(widget.docRef)
+                                          .update({
+                                        "esperaEst": _inWait,
+                                      });
+                                      Navigator.pop(context);
+                                      _controller.navigateBack(context);
+                                      Navigator.pop(context);
+                                      _controller.navigateBack(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "OS atualizada com sucesso!")));
                                     } else if (_igm != true ||
                                         _inStock != true) {
                                       showDialog(
@@ -397,7 +433,23 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                               popOnCancel: true,
                                             );
                                           });
-                                    } else {
+                                          
+                                    } else if (_igm == true &&
+                                        _inStock == true && _inWait == true) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return const CustomAlertDialog(
+                                              title: "Erro na solitação",
+                                              message:
+                                                  "Não é possível atualizar uma OS com todas as opções selecionadas",
+                                              popOnCancel: true,
+                                            );
+                                          });
+                                          
+                                    } 
+                                    
+                                    else {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {

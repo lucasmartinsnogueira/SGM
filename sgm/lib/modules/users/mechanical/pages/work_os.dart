@@ -23,7 +23,7 @@ class _GerenciaStockState extends State<WorkOS> {
 
   @override
   Widget build(BuildContext context) {
-     AuthService auth = Provider.of<AuthService>(context);
+    AuthService auth = Provider.of<AuthService>(context);
     final _controller = GerenciaStockController();
     List<String?> dataSupervisor = [];
     List<String?> dataMechanics = [];
@@ -43,12 +43,11 @@ class _GerenciaStockState extends State<WorkOS> {
                 style: TextStyle(color: Colors.black),
               ),
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_rounded),
-                color: Colors.black,
-                onPressed: (){
-                  Navigator.pop(context);
-                }
-              ),
+                  icon: const Icon(Icons.arrow_back_ios_rounded),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
               backgroundColor: pink,
             ),
             body: SingleChildScrollView(

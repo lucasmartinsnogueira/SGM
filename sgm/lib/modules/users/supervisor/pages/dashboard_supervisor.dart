@@ -56,11 +56,13 @@ class _DashboardSupervisorState extends State<DashboardSupervisor> {
         .collection('OSs')
         .where("estoquista", isEqualTo: true)
         .where("feita", isEqualTo: false)
+        .where("data", isGreaterThan: date)
         .get();
     List<DocumentSnapshot> _myAprovCount = _myDocAprov.docs;
     QuerySnapshot _myDocFin = await FirebaseFirestore.instance
         .collection('OSs')
         .where("feita", isEqualTo: true)
+        .where("data", isGreaterThan: date)
         .get();
     List<DocumentSnapshot> _myFinCount = _myDocFin.docs;
     data2 = [
@@ -85,6 +87,14 @@ class _DashboardSupervisorState extends State<DashboardSupervisor> {
             style: GoogleFonts.poppins(
                 fontSize: 23, fontWeight: FontWeight.w600, color: lightyellow),
           ),
+          leading: IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: const Icon(
+                Icons.density_medium,
+                color: lightyellow,
+              )),
           actions: const <Widget>[
             ProfileAppBar(
               nameColor: lightyellow,

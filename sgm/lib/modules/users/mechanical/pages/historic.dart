@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sgm/modules/users/mechanical/pages/components/historicOS.dart';
+import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
-import 'package:sgm/shared/widgets/CustomOSViewWidget.dart';
-
 import '../../../service_order/models/service_order_model.dart';
 
 
@@ -17,9 +17,27 @@ class HistoricMecPage extends StatefulWidget {
 }
 
 class _HistoricMecState extends State<HistoricMecPage> {
+
+  int globalCount = -1;
+  List<dynamic> dataTrabalho = [];
+  Future<List<dynamic>> getTrabalhos(docid, userUid) async {
+    await FirebaseFirestore.instance
+        .collection("OSs")
+        .doc(docid)
+        .collection("trabalhos")
+        .doc(userUid)
+        .get()
+        .then((datasnapshot) {
+      
+      dataTrabalho.add(datasnapshot.data()!["tempo"]);
+    });
+
+    return dataTrabalho;
+  }
  
   @override
   Widget build(BuildContext context) {
+    AuthService auth = Provider.of<AuthService>(context);
      var snapshots = FirebaseFirestore.instance
         .collection("OSs")
         .where("estoquista", isEqualTo: true)
@@ -38,7 +56,7 @@ class _HistoricMecState extends State<HistoricMecPage> {
         backgroundColor: lightyellow,
         appBar: AppBar(
           title: const Text(
-            "Histórico de Serviço",
+            "Histórico de Trabalho",
             style: TextStyle(color: blue),
           ),
           leading: IconButton(
@@ -87,23 +105,23 @@ class _HistoricMecState extends State<HistoricMecPage> {
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height/1.262,
                             child: ListView(
-                                children: snapshot.data!.docs.map((document) {
+                                children: snapshot.data!.docs.map((document1) {
                               ServiceOrderModel newService = ServiceOrderModel(
-                                  carreta: document["carreta"],
-                                  cavalo: document["cavalo"],
-                                  data: document["data"],
-                                  descricao: document["descricao"],
-                                  docEstoquista: document["docEstoquista"],
-                                  docSupervisor: document["docSupervisor"],
-                                  esperaEst: document["esperaEst"],
-                                  estoquista: document["estoquista"],
-                                  feita: document["feita"],
-                                  igm: document["igm"],
-                                  imagem: document["imagem"],
-                                  itens: document["itens"],
-                                  mecanicos: document["mecanicos"],
-                                  titulo: document["titulo"],
-                                  id: document.id);
+                                  carreta: document1["carreta"],
+                                  cavalo: document1["cavalo"],
+                                  data: document1["data"],
+                                  descricao: document1["descricao"],
+                                  docEstoquista: document1["docEstoquista"],
+                                  docSupervisor: document1["docSupervisor"],
+                                  esperaEst: document1["esperaEst"],
+                                  estoquista: document1["estoquista"],
+                                  feita: document1["feita"],
+                                  igm: document1["igm"],
+                                  imagem: document1["imagem"],
+                                  itens: document1["itens"],
+                                  mecanicos: document1["mecanicos"],
+                                  titulo: document1["titulo"],
+                                  id: document1.id);
                                   
               
                               return Padding(
@@ -112,9 +130,37 @@ class _HistoricMecState extends State<HistoricMecPage> {
                                   horizontal: 8
                                 ),
                      
-                                child: HistoricOS(
-                                  serviceOrder: newService,
-                                ),
+                                child: FutureBuilder(
+                                   future: getTrabalhos(
+                                    document1.id, auth.usuario!.uid),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshotTrabalhos) {
+
+                                      
+                                  if (snapshotTrabalhos.connectionState ==
+                                      ConnectionState.done) {
+                                   globalCount += 1;
+                                   return HistoricOS(
+                                    serviceOrder: newService, time: dataTrabalho[globalCount],);
+                                    
+                                      }
+                                       else if (snapshotTrabalhos.hasError) { //mudei
+                                    return const Center(
+                                      child: Text(
+                                          "Houve algum erro, entre em contato com a equipe SGM."),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: CircularProgressIndicator(
+                                        color: blue,
+                                        backgroundColor: pink,
+                                      ),
+                                    );
+                                  }
+                                  }
+                                  )
+                  
+                                
                               );
                             }).toList()),
                           ),

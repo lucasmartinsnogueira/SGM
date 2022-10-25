@@ -220,7 +220,7 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                                         dataTrabalho[globalCount];
                                     globalCount += 1;
                                     return OpenOS(newOS: newOS,);
-                                  } else if (snapshotTrabalhos.hasError) { //mudei
+                                  } else if (snapshotTrabalhos.hasError) { 
                                     return const Center(
                                       child: Text(
                                           "Houve algum erro, entre em contato com a equipe SGM."),

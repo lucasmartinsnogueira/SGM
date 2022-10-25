@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:sgm/modules/service_order/models/service_order_model.dart';
-import 'package:sgm/modules/users/mechanical/pages/home_mechanical.dart';
+import 'package:sgm/modules/users/mechanical/pages/start_mechanical.dart';
 import 'package:sgm/modules/users/mechanical/pages/work_os.dart';
 import 'package:sgm/modules/users/stock/controllers/home_stock_controller.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
@@ -139,7 +139,7 @@ class _OpenOSState extends State<OpenOS> {
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const HomeMechanical()),
+                                                const StartMechanical()),
                                         (route) => false);
                                   },
                                 );
