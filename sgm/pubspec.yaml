@@ -49,13 +49,22 @@ dependencies:
   numberpicker: ^2.1.1
   url_launcher: ^6.1.5
   graphic: ^0.10.7
+  flutter_native_splash: ^2.2.12
+  
+  
 
+flutter_native_splash:
+  color: "#FFF6BD"
+  image: assets/splash.png
+  icon_background_color: "#FFF6BD"
+  branding: assets/splash.png
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_launcher_icons: ^0.9.2
   flutter_lints: ^1.0.4
+  
   
 flutter_icons:
   image_path: "assets/pricipal/icone_app.png"

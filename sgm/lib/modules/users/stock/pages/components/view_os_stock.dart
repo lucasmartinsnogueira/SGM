@@ -34,9 +34,9 @@ class _ViewOstockState extends State<ViewOstock> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Visualizar \nOS",
+                  "Histórico de \nValidação",
                   style: GoogleFonts.poppins(
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                 ),

@@ -247,14 +247,14 @@ class _DashboardSupervisorState extends State<DashboardSupervisor> {
                         AxisGuide(
                           line: StrokeStyle(color: Colors.black),
                           grid:
-                              StrokeStyle(color: Colors.black.withOpacity(0.5)),
+                              StrokeStyle(color: Colors.black.withOpacity(0.3)),
                           label: LabelStyle(
                               style: const TextStyle(
                                   fontSize: 10, color: Colors.black)),
                         ),
                         AxisGuide(
                           grid:
-                              StrokeStyle(color: Colors.black.withOpacity(0.5)),
+                              StrokeStyle(color: Colors.black.withOpacity(0.3)),
                           label: LabelStyle(
                             style: const TextStyle(
                                 fontSize: 10, color: Colors.black),

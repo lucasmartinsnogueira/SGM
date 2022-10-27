@@ -18,6 +18,7 @@ class Counter extends StatefulWidget {
 
 class _CounterState extends State<Counter> {
   late Duration duration = Duration(seconds: widget.newOS.tempoEspec!);
+
   bool isCountDown = true;
   Timer? timer;
   bool disableButtom = false;
@@ -171,6 +172,7 @@ class _CounterState extends State<Counter> {
                 width: 35,
               ),
               IconButton(
+                  tooltip: "Finalizar",
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -210,17 +212,40 @@ class _CounterState extends State<Counter> {
                                                         color: blue,
                                                         width: 3)))),
                                         onPressed: () async {
+                                          int numStatus = 0;
                                           if (endding == false) {
                                             setState(() {
                                               endding = true;
                                             });
                                             endding = true;
+                                            for (int i = 0;
+                                                i <
+                                                    widget.newOS.mecanicos!
+                                                        .length;
+                                                i++) {
+                                              await FirebaseFirestore.instance
+                                                  .collection("OSs")
+                                                  .doc(widget.newOS.id)
+                                                  .collection("trabalhos")
+                                                  .doc(widget.newOS.mecanicos![
+                                                      "mecanico${i + 1}"])
+                                                  .get()
+                                                  .then((value) {
+                                                if (value.data()!["status"] ==
+                                                    true) {
+                                                  numStatus += 1;
+                                                }
+                                              });
+                                            }
 
-                                            await FirebaseFirestore.instance
-                                                .collection("OSs")
-                                                .doc(widget.newOS.id)
-                                                .update({"feita": true});
-                                            await FirebaseFirestore.instance
+                                            if (numStatus == 0) {
+                                              FirebaseFirestore
+                                                  .instance //await não funciona
+                                                  .collection("OSs")
+                                                  .doc(widget.newOS.id)
+                                                  .update({"feita": true});
+                                            }
+                                            FirebaseFirestore.instance //await não funciona
                                                 .collection("OSs")
                                                 .doc(widget.newOS.id)
                                                 .collection("trabalhos")
