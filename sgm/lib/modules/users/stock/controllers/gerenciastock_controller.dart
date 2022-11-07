@@ -23,7 +23,7 @@ class GerenciaStockController extends ChangeNotifier {
     for (int i = 0; i < listMecanicos.length; i++) {
       await FirebaseFirestore.instance
           .collection("Usuarios")
-          .doc(listMecanicos["mecanico${0 + 1}"])
+          .doc(listMecanicos[i])
           .get()
           .then((datasnapshot) {
         dataMecanicos.add(datasnapshot.data()!["nome"]);

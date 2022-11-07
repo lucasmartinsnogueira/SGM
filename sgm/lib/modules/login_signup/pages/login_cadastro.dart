@@ -34,7 +34,7 @@ class _LoginCadastroState extends State<LoginCadastro> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.30,
+                  height: MediaQuery.of(context).size.height * 0.31,
                   decoration: BoxDecoration(
                     color: lightyellow,
                     borderRadius: const BorderRadius.only(
@@ -86,7 +86,7 @@ class _LoginCadastroState extends State<LoginCadastro> {
                           children: [
                             Expanded(
                               child: TextButton(
-                                style: TextButton.styleFrom(primary: blue),
+                                style: TextButton.styleFrom(foregroundColor: blue),
                                 onPressed: () {
                                   setState(() {
                                     clicouNomeMenu = true;
@@ -113,7 +113,7 @@ class _LoginCadastroState extends State<LoginCadastro> {
                             Expanded(
                               child: TextButton(
                                 autofocus: false,
-                                style: TextButton.styleFrom(primary: blue),
+                                style: TextButton.styleFrom(foregroundColor: blue),
                                 onPressed: () {
                                   setState(() {
                                     clicouNomeMenu = true;

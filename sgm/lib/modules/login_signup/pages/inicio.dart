@@ -73,7 +73,7 @@ class _InicioState extends State<Inicio> {
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.44,
                   child: Image.asset("assets/pricipal/tela_inicial.png")),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
@@ -107,7 +107,7 @@ class _InicioState extends State<Inicio> {
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.only(
-                    top: MediaQuery.of(context).size.height * 0.03
+                    top: MediaQuery.of(context).size.height * 0.017
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,

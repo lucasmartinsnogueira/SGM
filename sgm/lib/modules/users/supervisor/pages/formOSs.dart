@@ -354,6 +354,7 @@ class _FormOSsState extends State<FormOSs> {
                                         side: const BorderSide(
                                             color: blue, width: 3)))),
                             onPressed: () async {
+                              
                               if (mecDoc.isEmpty) {
                                 showDialog(
                                   context: context,
@@ -372,13 +373,13 @@ class _FormOSsState extends State<FormOSs> {
                                     isLoading = true;
                                   });
 
-                                  for (int i = 0; i < mecDoc.length; i++) {
+                                  /*for (int i = 0; i < mecDoc.length; i++) {
                                     firestoreMecDoc.addAll(
                                         {"mecanico${i + 1}": mecDoc[i]});
-                                  }
+                                  }*/
                                   ServiceOrder newServiceOrder = ServiceOrder(
                                       title.text,
-                                      firestoreMecDoc,
+                                      mecDoc,
                                       (horse.text == "")
                                           ? null
                                           : int.parse(horse.text),

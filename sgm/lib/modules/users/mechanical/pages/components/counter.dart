@@ -228,7 +228,7 @@ class _CounterState extends State<Counter> {
                                                   .doc(widget.newOS.id)
                                                   .collection("trabalhos")
                                                   .doc(widget.newOS.mecanicos![
-                                                      "mecanico${i + 1}"])
+                                                      i + 1])
                                                   .get()
                                                   .then((value) {
                                                 if (value.data()!["status"] ==

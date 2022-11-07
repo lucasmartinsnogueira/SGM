@@ -42,7 +42,7 @@ class _HistoricMecState extends State<HistoricMecPage> {
         .collection("OSs")
         .where("estoquista", isEqualTo: true)
         .where("mecanicos",
-            whereIn: ([
+            arrayContains: ([
               {"mecanico1": widget.uidMec},
               {"mecanico2": widget.uidMec},
               {"mecanico3": widget.uidMec},

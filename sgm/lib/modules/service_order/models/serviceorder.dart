@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ServiceOrder {
   String? title;
-  Map<String, dynamic> mechanicals = {};
+  List mechanicals = [];
   int? cavalo;
   int? carreta;
   String? description;

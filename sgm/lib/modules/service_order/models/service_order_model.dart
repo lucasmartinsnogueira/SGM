@@ -14,7 +14,7 @@ class ServiceOrderModel {
   bool? igm;
   String? imagem;
   String? itens;
-  Map<String, dynamic>? mecanicos;
+  List? mecanicos;
   String? titulo;
   String? id;
   bool? status;
@@ -53,7 +53,7 @@ class ServiceOrderModel {
       bool? igm,
       String? imagem,
       String? itens,
-      Map<String, dynamic>? mecanicos,
+      List? mecanicos,
       String? titulo,
       String? id,
       bool? status,
@@ -118,7 +118,7 @@ class ServiceOrderModel {
       imagem: map['imagem'] != null ? map['imagem'] as String : null,
       itens: map['itens'] != null ? map['itens'] as String : null,
       mecanicos: map['mecanicos'] != null
-          ? map['mecanicos'] as Map<String, dynamic>
+          ? map['mecanicos'] as List
           : null,
       titulo: map['titulo'] != null ? map['titulo'] as String : null,
       id: map['id'] != null ? map['id'] as String : null,

@@ -125,7 +125,7 @@ class _HomeSupervisorState extends State<HomeSupervisor> {
                   (snapshot.data!.docs.isNotEmpty)
                       ? SliverGrid.count(
                           crossAxisSpacing: 5,
-                          childAspectRatio: (1 / 1.4),
+                          childAspectRatio: (1 / 1.5),
                           crossAxisCount: 2,
                           children: snapshot.data!.docs.map((document) {
                             return Padding(

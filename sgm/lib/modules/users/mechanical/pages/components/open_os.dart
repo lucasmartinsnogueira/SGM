@@ -123,7 +123,7 @@ class _OpenOSState extends State<OpenOS> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: const [
-                                  Text("Iniciar"),
+                                  Text("Trabalhar", style: TextStyle(fontSize: 12),),
                                   Icon(Icons.play_arrow)
                                 ],
                               ),

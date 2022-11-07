@@ -47,11 +47,9 @@ class _HomeMechanicalState extends State<HomeMechanical> {
         .collection("OSs")
         .where("estoquista", isEqualTo: true)
         .where("mecanicos",
-            whereIn: ([
-              {"mecanico1": auth.usuario!.uid},
-              {"mecanico2": auth.usuario!.uid},
-              {"mecanico3": auth.usuario!.uid},
-              {"mecanico4": auth.usuario!.uid}
+            arrayContainsAny: ([
+              auth.usuario!.uid
+             
             ]))
         .where("feita", isEqualTo: false)
         .orderBy("data", descending: false)
@@ -184,7 +182,7 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                   (snapshot.data!.docs.isNotEmpty)
                       ? SliverGrid.count(
                           crossAxisSpacing: 5,
-                          childAspectRatio: (1 / 1.5),
+                          childAspectRatio: (1 / 1.65),
                           crossAxisCount: 2,
                           children: snapshot.data!.docs.map((document1) {
                             return FutureBuilder(
