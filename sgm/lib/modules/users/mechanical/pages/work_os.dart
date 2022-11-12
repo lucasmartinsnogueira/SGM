@@ -40,11 +40,11 @@ class _GerenciaStockState extends State<WorkOS> {
             appBar: AppBar(
               title: const Text(
                 "Controle da OS",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: blue),
               ),
               leading: IconButton(
                   icon: const Icon(Icons.arrow_back_ios_rounded),
-                  color: Colors.black,
+                  color: blue,
                   onPressed: () {
                     Navigator.pop(context);
                   }),
@@ -136,15 +136,17 @@ class _GerenciaStockState extends State<WorkOS> {
                                         style: styleform,
                                       ),
                                       TextFrame(
-                                          textdata:
-                                              widget.newOS.carreta.toString()),
+                                          textdata: widget.newOS.carreta != null
+                                              ? widget.newOS.carreta.toString()
+                                              : "Não cadastrada"),
                                       Text(
                                         "Cavalo:",
                                         style: styleform,
                                       ),
                                       TextFrame(
-                                          textdata:
-                                              widget.newOS.cavalo.toString()),
+                                          textdata: widget.newOS.cavalo != null
+                                              ? widget.newOS.cavalo.toString()
+                                              : "Não cadastrado"),
                                       Text(
                                         "Emitida pelo supervisor:",
                                         style: styleform,
@@ -188,7 +190,7 @@ class _GerenciaStockState extends State<WorkOS> {
                                                         dataMechanics[1]! +
                                                         "\nCPF: " +
                                                         dataMechanics[2]! +
-                                                        "Mecânico 2\nNome: " +
+                                                        "\nMecânico 2\nNome: " +
                                                         dataMechanics[3]! +
                                                         "\nE-mail: " +
                                                         dataMechanics[4]! +
@@ -202,13 +204,13 @@ class _GerenciaStockState extends State<WorkOS> {
                                                         dataMechanics[8]!
                                                     : ((dataMechanics.length ==
                                                             9)
-                                                        ? "Mecânico 1\nNome: " +
+                                                        ? "\nMecânico 1\nNome: " +
                                                             dataMechanics[0]! +
                                                             "\nE-mail: " +
                                                             dataMechanics[1]! +
                                                             "\nCPF: " +
                                                             dataMechanics[2]! +
-                                                            "Mecânico 2\nNome: " +
+                                                            "\nMecânico 2\nNome: " +
                                                             dataMechanics[3]! +
                                                             "\nE-mail: " +
                                                             dataMechanics[4]! +

@@ -12,32 +12,13 @@ import 'package:sgm/shared/help/profile_appbar.dart';
 import 'package:sgm/shared/widgets/custom_drawer.dart';
 
 class HomeMechanical extends StatefulWidget {
-  
-  const HomeMechanical({ Key? key}) : super(key: key);
+  const HomeMechanical({Key? key}) : super(key: key);
 
   @override
   _HomeMechanicalState createState() => _HomeMechanicalState();
 }
 
 class _HomeMechanicalState extends State<HomeMechanical> {
-  
-  int globalCount = 0;
-  List<dynamic> dataTrabalho = [];
-  Future<List<dynamic>> getTrabalhos(docid, userUid) async {
-    await FirebaseFirestore.instance
-        .collection("OSs")
-        .doc(docid)
-        .collection("trabalhos")
-        .doc(userUid)
-        .get()
-        .then((datasnapshot) {
-      dataTrabalho.add(datasnapshot.data()!["status"]);
-      dataTrabalho.add(datasnapshot.data()!["tempo"]);
-    });
-
-    return dataTrabalho;
-  }
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -46,21 +27,13 @@ class _HomeMechanicalState extends State<HomeMechanical> {
     var snapshots1 = FirebaseFirestore.instance
         .collection("OSs")
         .where("estoquista", isEqualTo: true)
-        .where("mecanicos",
-            arrayContainsAny: ([
-              auth.usuario!.uid
-             
-            ]))
+        .where("mecanicos", arrayContainsAny: ([auth.usuario!.uid]))
         .where("feita", isEqualTo: false)
         .orderBy("data", descending: false)
         .snapshots();
 
-
-    return (Scaffold(
-      drawer: const CustomDrawer(color: pink, secondaryColor: Colors.black),
-      key: scaffoldKey,
-      backgroundColor: lightyellow,
-      body: SafeArea(
+    return 
+      SafeArea(
         child: StreamBuilder(
             stream: snapshots1,
             builder: (BuildContext context,
@@ -185,53 +158,24 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                           childAspectRatio: (1 / 1.65),
                           crossAxisCount: 2,
                           children: snapshot.data!.docs.map((document1) {
-                            return FutureBuilder(
-                                future: getTrabalhos(
-                                    document1.id, auth.usuario!.uid),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<dynamic> snapshotTrabalhos) {
-                                  if (snapshotTrabalhos.connectionState ==
-                                      ConnectionState.done) {
-                                    ServiceOrderModel newOS =
-                                        ServiceOrderModel();
-                                    newOS.carreta = document1["carreta"];
-                                    newOS.cavalo = document1["cavalo"];
-                                    newOS.data = document1["data"];
-                                    newOS.descricao = document1["descricao"];
-                                    newOS.docEstoquista =
-                                        document1["docEstoquista"];
-                                    newOS.docEstoquista =
-                                        document1["descricao"];
-                                    newOS.docSupervisor =
-                                        document1["docSupervisor"];
-                                    newOS.esperaEst = document1["esperaEst"];
-                                    newOS.estoquista = document1["estoquista"];
-                                    newOS.igm = document1["igm"];
-                                    newOS.imagem = document1["imagem"];
-                                    newOS.itens = document1["itens"];
-                                    newOS.titulo = document1["titulo"];
-                                    newOS.mecanicos = document1["mecanicos"];
-                                    newOS.id = document1.id;
-                                    newOS.status = dataTrabalho[globalCount];
-                                    globalCount += 1;
-                                    newOS.tempoEspec =
-                                        dataTrabalho[globalCount];
-                                    globalCount += 1;
-                                    return OpenOS(newOS: newOS,);
-                                  } else if (snapshotTrabalhos.hasError) { 
-                                    return const Center(
-                                      child: Text(
-                                          "Houve algum erro, entre em contato com a equipe SGM."),
-                                    );
-                                  } else {
-                                    return const Center(
-                                      child: CircularProgressIndicator(
-                                        color: blue,
-                                        backgroundColor: pink,
-                                      ),
-                                    );
-                                  }
-                                });
+                            ServiceOrderModel newOS = ServiceOrderModel();
+                            newOS.carreta = document1["carreta"];
+                            newOS.cavalo = document1["cavalo"];
+                            newOS.data = document1["data"];
+                            newOS.descricao = document1["descricao"];
+                            newOS.docEstoquista = document1["docEstoquista"];
+                            newOS.docEstoquista = document1["descricao"];
+                            newOS.docSupervisor = document1["docSupervisor"];
+                            newOS.esperaEst = document1["esperaEst"];
+                            newOS.estoquista = document1["estoquista"];
+                            newOS.igm = document1["igm"];
+                            newOS.imagem = document1["imagem"];
+                            newOS.itens = document1["itens"];
+                            newOS.titulo = document1["titulo"];
+                            newOS.mecanicos = document1["mecanicos"];
+                            newOS.id = document1.id;
+
+                            return OpenOS(newOS: newOS, uid: auth.usuario!.uid);
                           }).toList())
                       : const SliverToBoxAdapter(
                           child: Center(
@@ -250,8 +194,8 @@ class _HomeMechanicalState extends State<HomeMechanical> {
                 ],
               );
             }),
-      ),
-    ));
+      );
+  
   }
 }
 

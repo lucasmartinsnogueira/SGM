@@ -20,6 +20,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return Padding(
       padding: const EdgeInsets.only(top: 50, bottom: 20),
       child: Drawer(
+        width: MediaQuery.of(context).size.width / 1.28,
           elevation: 10,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -30,6 +31,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           child: ListView(
             children: [
               DrawerHeader(
+                padding: const EdgeInsets.only(bottom: 17),
                   child: Container(
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -37,7 +39,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         color: Colors.black.withOpacity(0.5),
                         spreadRadius: 3,
                         blurRadius: 2,
-                        offset: const Offset(0, 0),
+                     
                       )
                     ],
                     shape: BoxShape.circle,
@@ -106,7 +108,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   }
                 },
                 leading:
-                    Icon(Icons.terminal_outlined, color: widget.secondaryColor),
+                    Icon(Icons.terminal_outlined, color: widget.secondaryColor,),
                 title: Text(
                   "Sofware",
                   style: GoogleFonts.poppins(
@@ -119,7 +121,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 isThreeLine: true,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                  left: 8,
+                ),
                 child: Text(
                   "Autores",
                   style: GoogleFonts.poppins(
@@ -254,10 +258,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
               ),
               Center(
-                child: Text(
-                  'Todos direitos reservados © 2022 SGM Corporation',
-                  style: TextStyle(
-                      fontFamily: 'Poppins', fontSize: 10, color: widget.secondaryColor),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 10
+                  ),
+                  child: Text(
+                    'Todos direitos reservados © 2022 SGM Corporation',
+                    style: TextStyle(
+                        fontFamily: 'Poppins', fontSize: 10, color: widget.secondaryColor),
+                  ),
                 ),
               ),
             ],

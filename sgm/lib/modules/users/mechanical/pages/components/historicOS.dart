@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sgm/shared/help/colors.dart';
@@ -6,8 +7,8 @@ import '../../../../service_order/models/service_order_model.dart';
 
 class HistoricOS extends StatefulWidget {
   final ServiceOrderModel serviceOrder;
-  final int time;
-  const HistoricOS({required this.serviceOrder, required this.time, Key? key})
+  final String uid;
+  const HistoricOS({required this.serviceOrder, required this.uid, Key? key})
       : super(key: key);
 
   @override
@@ -21,15 +22,12 @@ class _HistoricOSState extends State<HistoricOS> {
 
   @override
   Widget build(BuildContext context) {
-    Duration tempo = Duration(seconds: widget.time);
-
-    int hour = tempo.inHours;
-    int remainderMinutes = tempo.inMinutes.remainder(60);
-    int remainderSeconds = tempo.inSeconds.remainder(60);
-
-    String sHour = hour.toString();
-    String sRemainderMinutes = remainderMinutes.toString();
-    String sRemainderSeconds = remainderSeconds.toString();
+    var snapshots1 = FirebaseFirestore.instance
+        .collection("OSs")
+        .doc(widget.serviceOrder.id)
+        .collection("trabalhos")
+        .doc(widget.uid)
+        .snapshots();
 
     return Container(
         height: 180,
@@ -68,6 +66,7 @@ class _HistoricOSState extends State<HistoricOS> {
               ),
               SizedBox(
                 height: 100,
+                width: 200,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,10 +88,10 @@ class _HistoricOSState extends State<HistoricOS> {
                     ),
                     RichText(
                         text: TextSpan(
-                            style: GoogleFonts.alegreyaSc(color: blue),
+                            style: GoogleFonts.alegreyaSc(color: blue, fontSize: 10),
                             children: [
                           TextSpan(
-                            text: DateFormat("'Dia:' dd/MM/yyyy  ")
+                            text: DateFormat("'Dia:' dd/MM/yyyy  ",)
                                 .format(widget.serviceOrder.data!.toDate()),
                           ),
                           TextSpan(
@@ -100,12 +99,44 @@ class _HistoricOSState extends State<HistoricOS> {
                                 .format(widget.serviceOrder.data!.toDate()),
                           )
                         ])),
-                    Text(
-                      "Tempo na OS: "
-                      '${sHour.padLeft(2, '0')}:${sRemainderMinutes.padLeft(2, '0')}:${sRemainderSeconds.padLeft(2, '0')}',
-                      style: GoogleFonts.alegreyaSc(
-                          color: darkyellow, fontWeight: FontWeight.bold),
-                    )
+                    StreamBuilder(
+                        stream: snapshots1,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<
+                                    DocumentSnapshot<Map<String, dynamic>>>
+                                snapshot) {
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text("Error ${snapshot.error}"),
+                            );
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: blue,
+                                backgroundColor: pink,
+                              ),
+                            );
+                          }
+                          Duration tempo = Duration(seconds: snapshot.data!["tempo"]);
+
+                          int hour = tempo.inHours;
+                          int remainderMinutes = tempo.inMinutes.remainder(60);
+                          int remainderSeconds = tempo.inSeconds.remainder(60);
+
+                          String sHour = hour.toString();
+                          String sRemainderMinutes =
+                              remainderMinutes.toString();
+                          String sRemainderSeconds =
+                              remainderSeconds.toString();
+                          return Text(
+                            "Tempo na OS: "
+                            '${sHour.padLeft(2, '0')}:${sRemainderMinutes.padLeft(2, '0')}:${sRemainderSeconds.padLeft(2, '0')}',
+                            style: GoogleFonts.alegreyaSc(
+                                color: darkyellow, fontWeight: FontWeight.bold),
+                          );
+                        })
                   ],
                 ),
               )

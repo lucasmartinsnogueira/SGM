@@ -106,240 +106,273 @@ class _CounterState extends State<Counter> {
     final isRunning = timer == null ? false : timer!.isActive;
     final isCompleted = duration.inSeconds == 0;
 
-    return isRunning || !isCompleted
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  tooltip: isRunning ? "Pausar" : "Continuar",
-                  onPressed: () async {
-                    if (disableButtom == false) {
-                      setState(() {
-                        disableButtom == true;
-                      });
-                      if (isRunning) {
-                        stopTimer(resets: false);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              title: const Text("Salvando..."),
-                              backgroundColor: lightyellow,
-                              content: const SizedBox(
-                                height: 25,
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(35)),
-                                  child: LinearProgressIndicator(
-                                    color: blue,
-                                    backgroundColor: pink,
+    return (widget.newOS.status == false)
+        ? isRunning || !isCompleted
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      tooltip: isRunning ? "Pausar" : "Continuar",
+                      onPressed: () async {
+                        if (disableButtom == false) {
+                          setState(() {
+                            disableButtom == true;
+                          });
+                          if (isRunning) {
+                            stopTimer(resets: false);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        await FirebaseFirestore.instance
-                            .collection("OSs")
-                            .doc(widget.newOS.id)
-                            .collection("trabalhos")
-                            .doc(uid)
-                            .update({"tempo": duration.inSeconds});
-                        Navigator.pop(context);
-                      } else {
-                        startTimer(resets: false);
-                      }
-                    }
-                  },
-                  icon: isRunning
-                      ? const Icon(
-                          Icons.stop_circle_rounded,
-                          size: 55,
-                          color: blue,
-                        )
-                      : const Icon(
-                          Icons.play_circle_rounded,
-                          size: 55,
-                          color: blue,
-                        )),
-              const SizedBox(
-                width: 15,
-              ),
-              const SizedBox(
-                width: 35,
-              ),
-              IconButton(
-                  tooltip: "Finalizar",
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          bool endding = false;
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            title: const Text("Finalizar OS"),
-                            backgroundColor: lightyellow,
-                            content: SizedBox(
-                              height: 205,
-                              child: Column(
-                                children: [
-                                  const Text(
-                                    "Tem certeza que deseja finzalizar a OS?",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
+                                  title: const Text("Salvando..."),
+                                  backgroundColor: lightyellow,
+                                  content: const SizedBox(
                                     height: 25,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(35)),
+                                      child: LinearProgressIndicator(
+                                        color: blue,
+                                        backgroundColor: pink,
+                                      ),
+                                    ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(pink),
-                                            shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18.0),
-                                                    side: const BorderSide(
-                                                        color: blue,
-                                                        width: 3)))),
-                                        onPressed: () async {
-                                          int numStatus = 0;
-                                          if (endding == false) {
-                                            setState(() {
-                                              endding = true;
-                                            });
-                                            endding = true;
-                                            for (int i = 0;
-                                                i <
-                                                    widget.newOS.mecanicos!
-                                                        .length;
-                                                i++) {
-                                              await FirebaseFirestore.instance
-                                                  .collection("OSs")
-                                                  .doc(widget.newOS.id)
-                                                  .collection("trabalhos")
-                                                  .doc(widget.newOS.mecanicos![
-                                                      i + 1])
-                                                  .get()
-                                                  .then((value) {
-                                                if (value.data()!["status"] ==
-                                                    true) {
-                                                  numStatus += 1;
-                                                }
-                                              });
-                                            }
-
-                                            if (numStatus == 0) {
-                                              FirebaseFirestore
-                                                  .instance //await não funciona
-                                                  .collection("OSs")
-                                                  .doc(widget.newOS.id)
-                                                  .update({"feita": true});
-                                            }
-                                            FirebaseFirestore.instance //await não funciona
-                                                .collection("OSs")
-                                                .doc(widget.newOS.id)
-                                                .collection("trabalhos")
-                                                .doc(uid)
-                                                .update({"status": true});
-
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                                        "OS Finalizada!")));
-                                          }
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Text(
-                                                "Finalizar",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: blue),
-                                              ),
-                                            )),
-                                            const Expanded(
-                                                child: Icon(
-                                              Icons.send_rounded,
-                                              size: 30,
-                                              color: blue,
-                                            ))
-                                          ],
-                                        )),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                );
+                              },
+                            );
+                            await FirebaseFirestore.instance
+                                .collection("OSs")
+                                .doc(widget.newOS.id)
+                                .collection("trabalhos")
+                                .doc(uid)
+                                .update({"tempo": duration.inSeconds});
+                            Navigator.pop(context);
+                          } else {
+                            startTimer(resets: false);
+                          }
+                        }
+                      },
+                      icon: isRunning
+                          ? const Icon(
+                              Icons.stop_circle_rounded,
+                              size: 55,
+                              color: blue,
+                            )
+                          : const Icon(
+                              Icons.play_circle_rounded,
+                              size: 55,
+                              color: blue,
+                            )),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  const SizedBox(
+                    width: 35,
+                  ),
+                  IconButton(
+                      tooltip: "Finalizar",
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              bool endding = false;
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                title: const Text("Finalizar OS"),
+                                backgroundColor: lightyellow,
+                                content: SizedBox(
+                                  height: 205,
+                                  child: Column(
                                     children: [
+                                      const Text(
+                                        "Tem certeza que deseja finzalizar a OS?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              border: Border.all(
-                                                  width: 3, color: Colors.red)),
-                                          child: IconButton(
-                                              tooltip: "Cancelar",
-                                              onPressed: () {
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(pink),
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(18.0),
+                                                        side: const BorderSide(
+                                                            color: blue,
+                                                            width: 3)))),
+                                            onPressed: () async {
+                                              int numStatus = 0;
+                                              if (endding == false) {
+                                                setState(() {
+                                                  endding = true;
+                                                });
+                                                endding = true;
+
+                                                for (int i = 0;
+                                                    i <
+                                                        widget.newOS.mecanicos!
+                                                            .length;
+                                                    i++) {
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection("OSs")
+                                                      .doc(widget.newOS.id)
+                                                      .collection("trabalhos")
+                                                      .doc(widget
+                                                          .newOS.mecanicos![i])
+                                                      .get()
+                                                      .then((value) {
+                                                    if (value.data()![
+                                                            "status"] ==
+                                                        false) {
+                                                      numStatus += 1;
+                                                    }
+                                                  });
+                                                }
+
+                                                if (numStatus == 0 ||
+                                                    numStatus == 1) {
+                                                  FirebaseFirestore
+                                                      .instance //await não funciona
+                                                      .collection("OSs")
+                                                      .doc(widget.newOS.id)
+                                                      .update({"feita": true});
+                                                }
+                                                FirebaseFirestore
+                                                    .instance //await não funciona
+                                                    .collection("OSs")
+                                                    .doc(widget.newOS.id)
+                                                    .collection("trabalhos")
+                                                    .doc(uid)
+                                                    .update({"status": true});
+
                                                 Navigator.pop(context);
-                                              },
-                                              icon: const Icon(
-                                                Icons.clear,
-                                                color: Colors.red,
-                                              )),
-                                        ),
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            "OS Finalizada!")));
+                                              }
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Text(
+                                                    "Finalizar",
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: blue),
+                                                  ),
+                                                ),
+                                                const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 18),
+                                                  child: Icon(
+                                                    Icons.send_rounded,
+                                                    size: 30,
+                                                    color: blue,
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  border: Border.all(
+                                                      width: 3,
+                                                      color: Colors.red)),
+                                              child: IconButton(
+                                                  tooltip: "Cancelar",
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.clear,
+                                                    color: Colors.red,
+                                                  )),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  icon: const Icon(
-                    Icons.flag_circle_outlined,
-                    size: 55,
-                    color: Color.fromARGB(255, 134, 4, 4),
-                  )),
-            ],
-          )
-        : OutlinedButton(
-            onPressed: () {
-              startTimer();
-            },
-            child: const Text(
-              'Iniciar OS',
-              style: TextStyle(fontSize: 18),
+                                ),
+                              );
+                            });
+                      },
+                      icon: const Icon(
+                        Icons.flag_circle_outlined,
+                        size: 55,
+                        color: Color.fromARGB(255, 134, 4, 4),
+                      )),
+                ],
+              )
+            : OutlinedButton(
+                onPressed: () {
+                  startTimer();
+                },
+                child: const Text(
+                  'Iniciar OS',
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: OutlinedButton.styleFrom(
+                  shadowColor: blue,
+                  foregroundColor: blue,
+                  side: const BorderSide(width: 2, color: blue),
+                  shape: const StadiumBorder(),
+                ),
+              )
+        : Padding(
+          padding: const EdgeInsets.only(
+            top: 15
+          ),
+          child: Container(
+              width: 150,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(176, 95, 207, 101),
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  )
+                ],
+              ),
+              child: Center(child: Text("OS finalizada", style: GoogleFonts.poppins( color: blue, fontWeight: FontWeight.bold, fontSize: 16))),
             ),
-            style: OutlinedButton.styleFrom(
-              shadowColor: blue,
-              foregroundColor: blue,
-              side: const BorderSide(width: 2, color: blue),
-              shape: const StadiumBorder(),
-            ),
-          );
+        );
   }
 
   Widget buildTime() {
