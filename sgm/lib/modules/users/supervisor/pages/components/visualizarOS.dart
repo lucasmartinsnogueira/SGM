@@ -168,6 +168,7 @@ class _VisualizarOSState extends State<VisualizarOS> {
                                           ),
                                         ),
                                         SizedBox(
+                                          width: 205,
                                           height: 100,
                                           child: Column(
                                             mainAxisAlignment:

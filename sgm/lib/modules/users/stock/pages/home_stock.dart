@@ -27,122 +27,115 @@ class _HomeStockState extends State<HomeStock> {
   @override
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context);
-    return (Scaffold(
-      drawer: const CustomDrawer(
-        color: darkyellow,
-        secondaryColor: blue,
-      ),
-      key: scaffoldKey,
-      backgroundColor: lightyellow,
-      body: SafeArea(
-        child: StreamBuilder(
-            stream: snapshots,
-            builder: (BuildContext context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text("Error ${snapshot.error}"),
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: blue,
-                    backgroundColor: pink,
+    return SafeArea(
+      child: StreamBuilder(
+          stream: snapshots,
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Error ${snapshot.error}"),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: blue,
+                  backgroundColor: pink,
+                ),
+              );
+            }
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(25),
+                          bottomRight: Radius.circular(25))),
+                  backgroundColor: darkyellow,
+                  shadowColor: Colors.black,
+                  leading: IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: const Icon(
+                      Icons.density_medium_rounded,
+                      color: blue,
+                    ),
                   ),
-                );
-              }
-              return CustomScrollView(
-                slivers: <Widget>[
-                  SliverAppBar(
-                    shape: const ContinuousRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(25),
-                            bottomRight: Radius.circular(25))),
-                    backgroundColor: darkyellow,
-                    shadowColor: Colors.black,
-                    leading: IconButton(
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      icon: const Icon(
-                        Icons.density_medium_rounded,
-                        color: blue,
+                  actions: const <Widget>[
+                    ProfileAppBar(
+                      nameColor: blue,
+                    )
+                  ],
+                  pinned: true,
+                  floating: true,
+                  expandedHeight: 120.0,
+                  flexibleSpace: const Center(
+                    child: FlexibleSpaceBar(
+                      title: Text(
+                        'Estoque',
+                        style: TextStyle(color: blue),
                       ),
                     ),
-                    actions: const <Widget>[
-                      ProfileAppBar(
-                        nameColor: blue,
-                      )
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Ferramentas",
+                          style: GoogleFonts.poppins(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w600,
+                              color: blue),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 180,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ViewOSstockPage(
+                                              uidStock: auth.usuario!.uid,
+                                            )),
+                                  );
+                                },
+                                child: const ViewOstock())
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, bottom: 10, left: 10),
+                        child: Text(
+                          "OS sem validação",
+                          style: GoogleFonts.poppins(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w600,
+                              color: blue),
+                        ),
+                      ),
                     ],
-                    pinned: true,
-                    floating: true,
-                    expandedHeight: 120.0,
-                    flexibleSpace: const Center(
-                      child: FlexibleSpaceBar(
-                        title: Text(
-                          'Estoque',
-                          style: TextStyle(color: blue),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            "Ferramentas",
-                            style: GoogleFonts.poppins(
-                                fontSize: 27,
-                                fontWeight: FontWeight.w600,
-                                color: blue),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 180,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ViewOSstockPage(
-                                                uidStock: auth.usuario!.uid,
-                                              )),
-                                    );
-                                  },
-                                  child: const ViewOstock())
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20, bottom: 10, left: 10),
-                          child: Text(
-                            "OS sem validação",
-                            style: GoogleFonts.poppins(
-                                fontSize: 27,
-                                fontWeight: FontWeight.w600,
-                                color: blue),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                  (snapshot.data!.docs.isNotEmpty)
-                      ? SliverGrid.count(
-                          crossAxisSpacing: 5,
-                          childAspectRatio: (1 / 1.5),
-                          crossAxisCount: 2,
-                          children: snapshot.data!.docs.map((document) {
-                            return Oswaitwidget(
-                              carreta:  document["carreta"] ?? 00,
-                              cavalo: document["cavalo"] ?? 00,
+                  )),
+                ),
+                (snapshot.data!.docs.isNotEmpty)
+                    ? SliverGrid.count(
+                        crossAxisSpacing: 5,
+                        childAspectRatio: (1 / 1.65),
+                        crossAxisCount: 2,
+                        children: snapshot.data!.docs.map((document) {
+                          return Oswaitwidget(
+                              carreta: document["carreta"],
+                              cavalo: document["cavalo"],
                               data: document["data"],
                               descricao: document["descricao"],
                               docSupervisor: document["docSupervisor"],
@@ -151,27 +144,25 @@ class _HomeStockState extends State<HomeStock> {
                               titulo: document["titulo"],
                               itens: document["itens"],
                               docRef: document.reference.id,
-                              espeEst: document["esperaEst"]
-                            );
-                          }).toList())
-                      : const SliverToBoxAdapter(
-                          child: Center(
-                              child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 50),
-                          child: Text(
-                            "Não há OS sem validação.",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ))),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 15,
-                    ),
-                  )
-                ],
-              );
-            }),
-      ),
-    ));
+                              espeEst: document["esperaEst"]);
+                        }).toList())
+                    : const SliverToBoxAdapter(
+                        child: Center(
+                            child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 50),
+                        child: Text(
+                          "Não há OS sem validação.",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ))),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 15,
+                  ),
+                )
+              ],
+            );
+          }),
+    );
   }
 }

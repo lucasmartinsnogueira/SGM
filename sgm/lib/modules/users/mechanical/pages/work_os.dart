@@ -138,7 +138,7 @@ class _GerenciaStockState extends State<WorkOS> {
                                       TextFrame(
                                           textdata: widget.newOS.carreta != null
                                               ? widget.newOS.carreta.toString()
-                                              : "Não cadastrada"),
+                                              : "Não cadastrada."),
                                       Text(
                                         "Cavalo:",
                                         style: styleform,
@@ -146,7 +146,7 @@ class _GerenciaStockState extends State<WorkOS> {
                                       TextFrame(
                                           textdata: widget.newOS.cavalo != null
                                               ? widget.newOS.cavalo.toString()
-                                              : "Não cadastrado"),
+                                              : "Não cadastrado."),
                                       Text(
                                         "Emitida pelo supervisor:",
                                         style: styleform,

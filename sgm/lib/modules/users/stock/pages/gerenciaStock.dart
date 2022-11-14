@@ -10,13 +10,13 @@ import 'package:sgm/shared/widgets/customButtom.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
 
 class GerenciaStock extends StatefulWidget {
-  final int carreta;
-  final int cavalo;
+  final int? carreta;
+  final int? cavalo;
   final Timestamp data;
   final String descricao;
   final String docSupervisor;
   final String imagem;
-  final Map<String, dynamic> listMecanicos;
+  final List listMecanicos;
   final String titulo;
   final String itens;
   final String docRef;
@@ -165,14 +165,17 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                           style: styleform,
                                         ),
                                         TextFrame(
-                                            textdata:
-                                                widget.carreta.toString()),
+                                            textdata: widget.carreta != null
+                                                ? widget.carreta.toString()
+                                                : "Não cadastrada."),
                                         Text(
                                           "Cavalo:",
                                           style: styleform,
                                         ),
                                         TextFrame(
-                                            textdata: widget.cavalo.toString()),
+                                            textdata: widget.cavalo != null
+                                                ? widget.cavalo.toString()
+                                                : "Não cadastrado."),
                                         Text(
                                           "Emitida pelo supervisor:",
                                           style: styleform,
@@ -216,7 +219,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                                           dataMechanics[1]! +
                                                           "\nCPF: " +
                                                           dataMechanics[2]! +
-                                                          "Mecânico 2\nNome: " +
+                                                          "\nMecânico 2\nNome: " +
                                                           dataMechanics[3]! +
                                                           "\nE-mail: " +
                                                           dataMechanics[4]! +
@@ -240,7 +243,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                                               "\nCPF: " +
                                                               dataMechanics[
                                                                   2]! +
-                                                              "Mecânico 2\nNome: " +
+                                                              "\nMecânico 2\nNome: " +
                                                               dataMechanics[
                                                                   3]! +
                                                               "\nE-mail: " +
@@ -433,9 +436,9 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                               popOnCancel: true,
                                             );
                                           });
-                                          
                                     } else if (_igm == true &&
-                                        _inStock == true && _inWait == true) {
+                                        _inStock == true &&
+                                        _inWait == true) {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -446,10 +449,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                               popOnCancel: true,
                                             );
                                           });
-                                          
-                                    } 
-                                    
-                                    else {
+                                    } else {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {

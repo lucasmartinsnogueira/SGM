@@ -7,13 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:sgm/shared/widgets/custom_alert_dialog.dart';
 
 class Oswaitwidget extends StatefulWidget {
-  final int carreta;
-  final int cavalo;
+  final int? carreta;
+  final int? cavalo;
   final Timestamp data;
   final String descricao;
   final String docSupervisor;
   final String imagem;
-  final Map<String, dynamic> listMecanicos;
+  final List listMecanicos;
   final String titulo;
   final String itens;
   final String docRef;
@@ -141,7 +141,7 @@ class _OswaitwidgetState extends State<Oswaitwidget> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 5),
+                            horizontal: 20, vertical: 5),
                         child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: pink),

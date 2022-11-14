@@ -66,7 +66,7 @@ class _HistoricOSState extends State<HistoricOS> {
               ),
               SizedBox(
                 height: 100,
-                width: 200,
+                width: 205,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,11 +88,13 @@ class _HistoricOSState extends State<HistoricOS> {
                     ),
                     RichText(
                         text: TextSpan(
-                            style: GoogleFonts.alegreyaSc(color: blue, fontSize: 10),
+                            style: GoogleFonts.alegreyaSc(
+                                color: blue, fontSize: 10),
                             children: [
                           TextSpan(
-                            text: DateFormat("'Dia:' dd/MM/yyyy  ",)
-                                .format(widget.serviceOrder.data!.toDate()),
+                            text: DateFormat(
+                              "'Dia:' dd/MM/yyyy  ",
+                            ).format(widget.serviceOrder.data!.toDate()),
                           ),
                           TextSpan(
                             text: DateFormat("'Horário:' HH:mm")
@@ -119,7 +121,8 @@ class _HistoricOSState extends State<HistoricOS> {
                               ),
                             );
                           }
-                          Duration tempo = Duration(seconds: snapshot.data!["tempo"]);
+                          Duration tempo =
+                              Duration(seconds: snapshot.data!["tempo"]);
 
                           int hour = tempo.inHours;
                           int remainderMinutes = tempo.inMinutes.remainder(60);

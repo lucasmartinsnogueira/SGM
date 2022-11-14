@@ -53,6 +53,7 @@ class _CustomOSViewWidgetState extends State<CustomOSViewWidget> {
               ),
               SizedBox(
                 height: 100,
+                width: 205,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
