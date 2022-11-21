@@ -40,7 +40,7 @@ class _CadastroState extends State<Cadastro> {
               padding: const EdgeInsets.only(
                 top: 45,
                 left: 12,
-                bottom: 12
+                bottom: 6
               ),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -53,7 +53,7 @@ class _CadastroState extends State<Cadastro> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                bottom: 8
+                bottom: 4
               ),
               child: buildChoiceChips(),
             ),
@@ -215,7 +215,11 @@ class _CadastroState extends State<Cadastro> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 8,
+                right: 8
+              ),
               child: Container(
                 decoration: BoxDecoration(
                   color: pink.withOpacity(0.6),
@@ -230,7 +234,7 @@ class _CadastroState extends State<Cadastro> {
                 child: Padding(
                   padding: const EdgeInsets.only(
                     left: 10,
-                    bottom: 2
+                
                   ),
                   child: TextFormField(
                     controller: senha,
@@ -279,8 +283,8 @@ class _CadastroState extends State<Cadastro> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 15,
-                bottom: 15
+                top: 10,
+                bottom: 10
               ),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -315,9 +319,20 @@ class _CadastroState extends State<Cadastro> {
                                   registrar();
                                 } else {
                                   debugPrint("CPF inválido");
+                                   showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CustomAlertDialog(
+                                      title: "CPF inválido",
+                                      message: "O CPF inserido é inválido. Confira e insira novamente",
+                                      popOnCancel: true,
+                                    );
+                                  },
+                                );
+                              }
                                 }
                                 
-                              }
+                              
                               
                               
                             },

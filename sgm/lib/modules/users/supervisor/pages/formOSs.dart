@@ -91,7 +91,7 @@ class _FormOSsState extends State<FormOSs> {
                             padding: const EdgeInsets.only(left: 20),
                             child: Text("Criar Ordem de Serviço",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 25, fontWeight: FontWeight.w400)),
+                                    fontSize: 23, fontWeight: FontWeight.w400)),
                           )),
                           IconButton(
                               onPressed: () {

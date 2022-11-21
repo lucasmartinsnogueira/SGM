@@ -7,7 +7,6 @@ import 'package:sgm/modules/users/stock/pages/viewOSstock.dart';
 import 'package:sgm/services/auth_services.dart';
 import 'package:sgm/shared/help/colors.dart';
 import 'package:sgm/shared/help/profile_appbar.dart';
-import 'package:sgm/shared/widgets/custom_drawer.dart';
 import 'package:sgm/shared/widgets/custom_os_wait_widget.dart';
 
 class HomeStock extends StatefulWidget {

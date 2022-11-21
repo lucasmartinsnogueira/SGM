@@ -168,7 +168,7 @@ class _LoginCadastroState extends State<LoginCadastro> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height -
-                      (MediaQuery.of(context).size.height * 0.30 +
+                      (MediaQuery.of(context).size.height * 0.31 +
                           MediaQuery.of(context).padding.top),
                   child: PageView(
                     pageSnapping: false,
