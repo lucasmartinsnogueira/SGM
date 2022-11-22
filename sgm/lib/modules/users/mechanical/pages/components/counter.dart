@@ -213,57 +213,70 @@ class _CounterState extends State<Counter> {
                                                             color: blue,
                                                             width: 3)))),
                                             onPressed: () async {
-                                              int numStatus = 0;
-                                              if (endding == false) {
-                                                setState(() {
-                                                  endding = true;
-                                                });
-                                                endding = true;
-
-                                                for (int i = 0;
-                                                    i <
-                                                        widget.newOS.mecanicos!
-                                                            .length;
-                                                    i++) {
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection("OSs")
-                                                      .doc(widget.newOS.id)
-                                                      .collection("trabalhos")
-                                                      .doc(widget
-                                                          .newOS.mecanicos![i])
-                                                      .get()
-                                                      .then((value) {
-                                                    if (value.data()![
-                                                            "status"] ==
-                                                        false) {
-                                                      numStatus += 1;
-                                                    }
+                                              if (isRunning != true) {
+                                                int numStatus = 0;
+                                                if (endding == false) {
+                                                  setState(() {
+                                                    endding = true;
                                                   });
-                                                }
+                                                  endding = true;
 
-                                                if (numStatus == 0 ||
-                                                    numStatus == 1) {
+                                                  for (int i = 0;
+                                                      i <
+                                                          widget
+                                                              .newOS
+                                                              .mecanicos!
+                                                              .length;
+                                                      i++) {
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("OSs")
+                                                        .doc(widget.newOS.id)
+                                                        .collection("trabalhos")
+                                                        .doc(widget.newOS
+                                                            .mecanicos![i])
+                                                        .get()
+                                                        .then((value) {
+                                                      if (value.data()![
+                                                              "status"] ==
+                                                          false) {
+                                                        numStatus += 1;
+                                                      }
+                                                    });
+                                                  }
+
+                                                  if (numStatus == 0 ||
+                                                      numStatus == 1) {
+                                                    FirebaseFirestore
+                                                        .instance //await não funciona
+                                                        .collection("OSs")
+                                                        .doc(widget.newOS.id)
+                                                        .update(
+                                                            {"feita": true});
+                                                  }
                                                   FirebaseFirestore
                                                       .instance //await não funciona
                                                       .collection("OSs")
                                                       .doc(widget.newOS.id)
-                                                      .update({"feita": true});
+                                                      .collection("trabalhos")
+                                                      .doc(uid)
+                                                      .update({"status": true});
+                                                  if (mounted) {
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "OS Finalizada!")));
+                                                  }
                                                 }
-                                                FirebaseFirestore
-                                                    .instance //await não funciona
-                                                    .collection("OSs")
-                                                    .doc(widget.newOS.id)
-                                                    .collection("trabalhos")
-                                                    .doc(uid)
-                                                    .update({"status": true});
-
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
+                                              } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(const SnackBar(
                                                         content: Text(
-                                                            "OS Finalizada!")));
+                                                            "Pause o tempo para finalizar")));
                                               }
                                             },
                                             child: Row(
@@ -352,10 +365,8 @@ class _CounterState extends State<Counter> {
                 ),
               )
         : Padding(
-          padding: const EdgeInsets.only(
-            top: 15
-          ),
-          child: Container(
+            padding: const EdgeInsets.only(top: 15),
+            child: Container(
               width: 150,
               height: 50,
               decoration: BoxDecoration(
@@ -370,9 +381,14 @@ class _CounterState extends State<Counter> {
                   )
                 ],
               ),
-              child: Center(child: Text("OS finalizada", style: GoogleFonts.poppins( color: blue, fontWeight: FontWeight.bold, fontSize: 16))),
+              child: Center(
+                  child: Text("OS finalizada",
+                      style: GoogleFonts.poppins(
+                          color: blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16))),
             ),
-        );
+          );
   }
 
   Widget buildTime() {

@@ -12,6 +12,7 @@ buildscript {
         //Firebase
         classpath 'com.google.gms:google-services:4.3.10'
     }
+    
 }
 
 allprojects {
@@ -32,3 +33,5 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

@@ -228,7 +228,7 @@ class _GerenciaStockState extends State<WorkOS> {
                                                             dataMechanics[10]! +
                                                             "\nCPF: " +
                                                             dataMechanics[11]!
-                                                        : "Ocorre um erro"),
+                                                        : "Ocorreu um erro"),
                                       ),
                                       Text(
                                         "Data:",

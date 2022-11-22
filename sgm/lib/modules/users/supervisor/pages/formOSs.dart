@@ -336,7 +336,6 @@ class _FormOSsState extends State<FormOSs> {
                           }
                           return null;
                         }),
-                        
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       child: SizedBox(
@@ -354,8 +353,19 @@ class _FormOSsState extends State<FormOSs> {
                                         side: const BorderSide(
                                             color: blue, width: 3)))),
                             onPressed: () async {
-                              
-                              if (mecDoc.isEmpty) {
+                              if (mecDoc.length > 4) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CustomAlertDialog(
+                                      title: "Quantidade excedida",
+                                      message:
+                                          "Uma OS só pode ser endereçada para até 4 mecânicos",
+                                      popOnCancel: true,
+                                    );
+                                  },
+                                );
+                              } else if (mecDoc.isEmpty) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -373,10 +383,7 @@ class _FormOSsState extends State<FormOSs> {
                                     isLoading = true;
                                   });
 
-                                  /*for (int i = 0; i < mecDoc.length; i++) {
-                                    firestoreMecDoc.addAll(
-                                        {"mecanico${i + 1}": mecDoc[i]});
-                                  }*/
+                                  
                                   ServiceOrder newServiceOrder = ServiceOrder(
                                       title.text,
                                       mecDoc,
@@ -409,7 +416,9 @@ class _FormOSsState extends State<FormOSs> {
                                               content: Text(
                                                   "OS cadastrada com sucesso!")));
                                     });
+                                    if(mounted){
                                     Navigator.pop(context);
+                                    }
                                   } on FirebaseException catch (e) {
                                     setState(() {
                                       ScaffoldMessenger.of(context)

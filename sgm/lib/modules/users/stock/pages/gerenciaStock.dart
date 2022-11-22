@@ -269,7 +269,7 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                                                   10]! +
                                                               "\nCPF: " +
                                                               dataMechanics[11]!
-                                                          : "Ocorre um erro"),
+                                                          : "Ocorreu um erro"),
                                         ),
                                         Text(
                                           "Data:",
@@ -416,7 +416,8 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                           .update({
                                         "esperaEst": _inWait,
                                       });
-                                      Navigator.pop(context);
+                                      if(mounted){
+                                         Navigator.pop(context);
                                       _controller.navigateBack(context);
                                       Navigator.pop(context);
                                       _controller.navigateBack(context);
@@ -424,6 +425,10 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                           .showSnackBar(const SnackBar(
                                               content: Text(
                                                   "OS atualizada com sucesso!")));
+                                      }
+
+                                     
+                                      
                                     } else if (_igm != true ||
                                         _inStock != true) {
                                       showDialog(
