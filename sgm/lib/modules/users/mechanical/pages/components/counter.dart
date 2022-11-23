@@ -149,7 +149,9 @@ class _CounterState extends State<Counter> {
                                 .collection("trabalhos")
                                 .doc(uid)
                                 .update({"tempo": duration.inSeconds});
-                            Navigator.pop(context);
+                            if (mounted) {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            }
                           } else {
                             startTimer(resets: false);
                           }
@@ -198,112 +200,123 @@ class _CounterState extends State<Counter> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all<
-                                                        Color>(pink),
-                                                shape: MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                        side: const BorderSide(
-                                                            color: blue,
-                                                            width: 3)))),
-                                            onPressed: () async {
-                                              if (isRunning != true) {
-                                                int numStatus = 0;
-                                                if (endding == false) {
-                                                  setState(() {
-                                                    endding = true;
-                                                  });
-                                                  endding = true;
+                                        child: Builder(
+                                          builder: (BuildContext context2) {
+                                            return ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty.all<
+                                                            Color>(pink),
+                                                    shape: MaterialStateProperty.all<
+                                                            RoundedRectangleBorder>(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(18.0),
+                                                            side: const BorderSide(
+                                                                color: blue,
+                                                                width: 3)))),
+                                                onPressed: () async {
+                                                  if (isRunning != true) {
+                                                    int numStatus = 0;
+                                                    if (endding == false) {
+                                                      setState(() {
+                                                        endding = true;
+                                                      });
+                                                      endding = true;
 
-                                                  for (int i = 0;
-                                                      i <
-                                                          widget
-                                                              .newOS
-                                                              .mecanicos!
-                                                              .length;
-                                                      i++) {
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection("OSs")
-                                                        .doc(widget.newOS.id)
-                                                        .collection("trabalhos")
-                                                        .doc(widget.newOS
-                                                            .mecanicos![i])
-                                                        .get()
-                                                        .then((value) {
-                                                      if (value.data()![
-                                                              "status"] ==
-                                                          false) {
-                                                        numStatus += 1;
+                                                      for (int i = 0;
+                                                          i <
+                                                              widget
+                                                                  .newOS
+                                                                  .mecanicos!
+                                                                  .length;
+                                                          i++) {
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .collection("OSs")
+                                                            .doc(widget.newOS.id)
+                                                            .collection("trabalhos")
+                                                            .doc(widget.newOS
+                                                                .mecanicos![i])
+                                                            .get()
+                                                            .then((value) {
+                                                          if (value.data()![
+                                                                  "status"] ==
+                                                              false) {
+                                                            numStatus += 1;
+                                                          }
+                                                        });
                                                       }
-                                                    });
-                                                  }
 
-                                                  if (numStatus == 0 ||
-                                                      numStatus == 1) {
-                                                    FirebaseFirestore
-                                                        .instance //await não funciona
-                                                        .collection("OSs")
-                                                        .doc(widget.newOS.id)
-                                                        .update(
-                                                            {"feita": true});
+                                                      if (numStatus == 0 ||
+                                                          numStatus == 1) {
+                                                        FirebaseFirestore
+                                                            .instance //await não funciona
+                                                            .collection("OSs")
+                                                            .doc(widget.newOS.id)
+                                                            .update(
+                                                                {"feita": true});
+                                                      }
+                                                      FirebaseFirestore
+                                                          .instance //await não funciona
+                                                          .collection("OSs")
+                                                          .doc(widget.newOS.id)
+                                                          .collection("trabalhos")
+                                                          .doc(uid)
+                                                          .update({"status": true});
+                                                      if (mounted) {
+                                                        
+                                                        Navigator.of(context,
+                                                                rootNavigator: true)
+                                                            .pop();
+                                                        Navigator.of(context,
+                                                                rootNavigator: true)
+                                                            .pop();
+                                                        
+                                                            
+                                                        ScaffoldMessenger.of(
+                                                                context2)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "OS Finalizada!")));
+                                                      }
+                                                    }
+                                                  } else {
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(const SnackBar(
+                                                            content: Text(
+                                                                "Pause o tempo para finalizar")));
                                                   }
-                                                  FirebaseFirestore
-                                                      .instance //await não funciona
-                                                      .collection("OSs")
-                                                      .doc(widget.newOS.id)
-                                                      .collection("trabalhos")
-                                                      .doc(uid)
-                                                      .update({"status": true});
-                                                  if (mounted) {
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            const SnackBar(
-                                                                content: Text(
-                                                                    "OS Finalizada!")));
-                                                  }
-                                                }
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "Pause o tempo para finalizar")));
-                                              }
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Text(
-                                                    "Finalizar",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: blue),
-                                                  ),
-                                                ),
-                                                const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 18),
-                                                  child: Icon(
-                                                    Icons.send_rounded,
-                                                    size: 30,
-                                                    color: blue,
-                                                  ),
-                                                )
-                                              ],
-                                            )),
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(
+                                                          10.0),
+                                                      child: Text(
+                                                        "Finalizar",
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: blue),
+                                                      ),
+                                                    ),
+                                                    const Padding(
+                                                      padding:
+                                                          EdgeInsets.only(left: 18),
+                                                      child: Icon(
+                                                        Icons.send_rounded,
+                                                        size: 30,
+                                                        color: blue,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ));
+                                          }
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 15,

@@ -195,8 +195,11 @@ class _LoginState extends State<Login> {
       loading = true;
     });
     try{
+      
       await context.read<AuthService>().login(email.text, senha.text);
       Navigator.pop(context);
+      
+      
     } on AuthException catch(e){
      
       setState(() {
@@ -207,3 +210,4 @@ class _LoginState extends State<Login> {
     }
   }
 }
+

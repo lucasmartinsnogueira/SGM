@@ -163,10 +163,11 @@ class _OpenOSState extends State<OpenOS> {
                                       ],
                                     ),
                                     onPressed: () {
+                                      
                                       Navigator.push(
-                                          context,
+                                          context, 
                                           MaterialPageRoute(
-                                              builder: (context) => WorkOS(
+                                              builder: (context,) => WorkOS(
                                                     newOS: widget.newOS,
                                                   ))); 
                                     }))

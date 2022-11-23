@@ -416,19 +416,19 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                           .update({
                                         "esperaEst": _inWait,
                                       });
-                                      if(mounted){
-                                         Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "OS atualizada com sucesso!")));
-                                      }
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "OS atualizada com sucesso!")));
 
-                                     
-                                      
+                                        
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
+                                            
+                                           
+                                      }
                                     } else if (_igm != true ||
                                         _inStock != true) {
                                       showDialog(
@@ -491,14 +491,19 @@ class _GerenciaStockState extends State<GerenciaStock> {
                                         "estoquista": _inStock,
                                         "docEstoquista": auth.usuario!.uid
                                       });
-                                      Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      Navigator.pop(context);
-                                      _controller.navigateBack(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "OS atualizada com sucesso!")));
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "OS atualizada com sucesso!")));
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
+
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
+                                      }
                                     }
                                   })
                             ],
